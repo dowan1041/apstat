@@ -38,8 +38,18 @@ function saveProgress(p){
 }
 let PROGRESS = loadProgress();
 function chProg(id){
-  if(!PROGRESS[id]) PROGRESS[id] = { vocabKnown:[], flashKnown:[], quizBest:0, quizDone:false, fillBlankBest:0, fillBlankDone:false };
-  return PROGRESS[id];
+  if(!PROGRESS[id]) PROGRESS[id] = {};
+  const p = PROGRESS[id];
+  if(p.vocabKnown === undefined) p.vocabKnown = [];
+  if(p.flashKnown === undefined) p.flashKnown = [];
+  if(p.quizBest === undefined) p.quizBest = 0;
+  if(p.quizDone === undefined) p.quizDone = false;
+  if(p.fillBlankBest === undefined) p.fillBlankBest = 0;
+  if(p.fillBlankDone === undefined) p.fillBlankDone = false;
+  if(p.homeworkAnswers === undefined) p.homeworkAnswers = [];
+  if(p.homeworkScore === undefined) p.homeworkScore = 0;
+  if(p.homeworkDone === undefined) p.homeworkDone = false;
+  return p;
 }
 function persist(){
   saveProgress(PROGRESS);
@@ -286,11 +296,25 @@ function renderReportSections(progressObj){
     </div>`;
   }).filter(Boolean).join('');
 
+  const homeworkRows = flatChapterOrder().map(id=>{
+    const ch = CHAPTERS[id];
+    const p = (progressObj && progressObj[id]) || {};
+    if(!p.homeworkDone) return '';
+    const score = p.homeworkScore || 0;
+    return `<div class="rp-quiz-row">
+      <span class="rq-code">${ch.code.replace('Topic ','')}</span>
+      <span class="rq-title">${ch.title}</span>
+      <span class="rq-score ${score>=PASS_QUIZ_PCT?'pass':''}">${score}%</span>
+    </div>`;
+  }).filter(Boolean).join('');
+
   return `
     <div class="rp-sec-title">By unit</div>
     ${unitsHtml}
     <div class="rp-sec-title">Quiz scores</div>
-    ${quizRows || '<div class="rp-empty">No quizzes taken yet.</div>'}`;
+    ${quizRows || '<div class="rp-empty">No quizzes taken yet.</div>'}
+    <div class="rp-sec-title">Homework scores</div>
+    ${homeworkRows || '<div class="rp-empty">No homework submitted yet.</div>'}`;
 }
 
 function renderFullReport(progressObj, email){
@@ -390,12 +414,17 @@ function hubMotifSvg(){
 /* ---------------- ROUTER ---------------- */
 function goHub(){ location.hash = '#/hub'; }
 function goChapter(id){ location.hash = '#/chapter/' + id; }
+function goHomework(id){ location.hash = '#/homework/' + id; }
 function flatChapterOrder(){ return UNITS.flatMap(u=>u.chapterIds); }
 
 function navigate(){
   const hash = location.hash || '#/hub';
+  const mh = hash.match(/^#\/homework\/(.+)$/);
   const m = hash.match(/^#\/chapter\/(.+)$/);
-  if(m && CHAPTERS[m[1]]){
+  if(mh && CHAPTERS[mh[1]] && CHAPTERS[mh[1]].homework){
+    renderHomework(mh[1]);
+    showView('homeworkView');
+  } else if(m && CHAPTERS[m[1]]){
     renderChapter(m[1]);
     showView('chapterView');
   } else {
@@ -511,6 +540,15 @@ function renderChapter(id){
   ).join('');
   sel.onchange = ()=>goChapter(sel.value);
 
+  const hwActions = document.getElementById('chHwActions');
+  if(ch.homework && ch.homework.questions && ch.homework.questions.length){
+    hwActions.hidden = false;
+    document.getElementById('homeworkBtnLabel').textContent = `Homework · ${ch.homework.questions.length} questions`;
+    document.getElementById('homeworkBtn').onclick = ()=>goHomework(id);
+  } else {
+    hwActions.hidden = true;
+  }
+
   const box = document.getElementById('chapterSections');
   box.innerHTML = '';
   ch.sections.forEach(sec=>{
@@ -529,6 +567,61 @@ function renderChapter(id){
   });
 
   box.insertAdjacentHTML('beforeend', chapterFooterNav(id));
+}
+
+function renderHomework(id){
+  const ch = CHAPTERS[id];
+  const hw = ch.homework;
+  const prog = chProg(id);
+
+  document.getElementById('hwBackLink').onclick = ()=>goChapter(id);
+  document.getElementById('hwCode').textContent = ch.unitName + ' · ' + ch.code + ' · Homework';
+  document.getElementById('hwTitle').textContent = 'Homework: ' + ch.title;
+  document.getElementById('hwSub').textContent = `${hw.questions.length} practice problems covering everything in this topic. Work them out, then submit — your teacher can review your results.`;
+
+  const keyWrap = document.getElementById('hwTeacherKeyWrap');
+  keyWrap.innerHTML = '';
+  if(currentUserRole === 'teacher'){
+    keyWrap.appendChild(buildTeacherKey({ type: 'quiz', questions: hw.questions }));
+  }
+
+  const answers = prog.homeworkAnswers.slice();
+  while(answers.length < hw.questions.length) answers.push(null);
+
+  const qBox = document.getElementById('hwQuestions');
+  qBox.innerHTML = '';
+  hw.questions.forEach((q, qi)=>{
+    const card = document.createElement('div');
+    card.className = 'hw-q';
+    card.innerHTML = `
+      <div class="hw-q-head"><span class="hw-q-num">${qi+1}.</span><span class="hw-q-text">${q.q}</span></div>
+      <div class="hw-opts">${q.opts.map((o,oi)=>
+        `<button type="button" class="hw-opt${answers[qi]===oi?' selected':''}" data-qi="${qi}" data-oi="${oi}">
+           <span class="hw-opt-letter">${String.fromCharCode(65+oi)}.</span><span>${o}</span>
+         </button>`
+      ).join('')}</div>`;
+    qBox.appendChild(card);
+  });
+  qBox.querySelectorAll('.hw-opt').forEach(btn=>{
+    btn.onclick = ()=>{
+      const qi = parseInt(btn.dataset.qi);
+      const oi = parseInt(btn.dataset.oi);
+      answers[qi] = oi;
+      qBox.querySelectorAll(`.hw-opt[data-qi="${qi}"]`).forEach(b=>b.classList.toggle('selected', b === btn));
+    };
+  });
+
+  const msg = document.getElementById('hwSubmitMsg');
+  msg.textContent = prog.homeworkDone ? 'Already submitted — you can update your answers and resubmit anytime.' : '';
+  document.getElementById('hwSubmitBtn').onclick = ()=>{
+    let correct = 0;
+    hw.questions.forEach((q, qi)=>{ if(answers[qi] === q.correct) correct++; });
+    prog.homeworkAnswers = answers.slice();
+    prog.homeworkScore = Math.round(correct / hw.questions.length * 100);
+    prog.homeworkDone = true;
+    persist();
+    msg.textContent = 'Submitted ✓ — nice work. Your teacher can review your results.';
+  };
 }
 
 function chapterFooterNav(id){

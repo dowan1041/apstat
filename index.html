@@ -155,6 +155,14 @@ a:hover{text-decoration:underline; text-underline-offset:3px;}
 /* ---------------- Chapter view ---------------- */
 .chapter-hero{padding:2.4rem 0 1.6rem; border-bottom:1px solid var(--line); margin-bottom:2.2rem;}
 .chapter-hero-top{display:flex; align-items:center; justify-content:space-between; gap:1rem; flex-wrap:wrap; margin-bottom:1.2rem;}
+.chapter-hero-actions{margin-bottom:1.2rem;}
+.chapter-hero-actions[hidden]{display:none;}
+.hw-btn{
+  display:inline-flex; align-items:center; gap:.55rem; font-family:'JetBrains Mono',monospace; font-size:.8rem;
+  padding:.55rem 1.05rem; border-radius:10px; border:1px solid var(--sample); background:var(--sample-wash);
+  color:var(--sample); cursor:pointer; transition:all .15s;
+}
+.hw-btn:hover{background:var(--sample); color:#fff;}
 .back-link{display:inline-flex; align-items:center; gap:.4rem; font-family:'JetBrains Mono',monospace; font-size:.78rem; color:var(--ink-muted); cursor:pointer;}
 .back-link:hover{color:var(--sample);}
 .chapter-hero h1{margin-bottom:.7rem;}
@@ -343,6 +351,28 @@ section.sec{margin-bottom:3.4rem; scroll-margin-top:90px;}
 .quiz-result .score{font-family:'Fraunces',serif; font-size:2.6rem; color:var(--population);}
 .quiz-result .best{font-family:'JetBrains Mono',monospace; font-size:.8rem; color:var(--ink-muted); margin-top:.4rem;}
 
+/* ---------------- Homework page ---------------- */
+.hw-hero{padding:2.4rem 0 1.6rem; border-bottom:1px solid var(--line); margin-bottom:2.2rem;}
+.hw-hero h1{margin-bottom:.7rem;}
+#hwTeacherKeyWrap:empty{display:none;}
+#hwTeacherKeyWrap{margin-top:1.2rem;}
+.hw-q{background:var(--card); border:1px solid var(--line); border-radius:14px; padding:1.3rem 1.4rem; margin-bottom:1rem; box-shadow:var(--shadow-sm);}
+.hw-q-head{display:flex; gap:.8rem; margin-bottom:1rem;}
+.hw-q-num{font-family:'Fraunces',serif; font-style:italic; font-size:1.15rem; color:var(--sample); flex:none;}
+.hw-q-text{font-family:'Fraunces',serif; font-size:1.05rem; color:var(--ink);}
+.hw-opts{display:flex; flex-direction:column; gap:.55rem;}
+.hw-opt{
+  text-align:left; padding:.7rem .95rem; border-radius:10px; border:1px solid var(--line);
+  background:var(--paper); cursor:pointer; font-size:.9rem; color:var(--ink-soft);
+  transition:all .15s; display:flex; align-items:flex-start; gap:.6rem;
+}
+.hw-opt-letter{font-family:'JetBrains Mono',monospace; font-weight:600; color:var(--ink-faint); flex:none;}
+.hw-opt:hover{border-color:var(--population-line);}
+.hw-opt.selected{background:var(--population-wash); border-color:var(--population); color:var(--population); font-weight:500;}
+.hw-opt.selected .hw-opt-letter{color:var(--population);}
+.hw-submit-row{display:flex; align-items:center; gap:1rem; flex-wrap:wrap; margin:1.6rem 0 3rem;}
+.hw-submit-msg{font-family:'JetBrains Mono',monospace; font-size:.82rem; color:var(--population);}
+
 /* takeaways */
 .tk-list{display:flex; flex-direction:column; gap:.9rem;}
 .tk-item{display:flex; gap:1rem; background:var(--card); border:1px solid var(--line); border-radius:12px; padding:1rem 1.2rem; box-shadow:var(--shadow-sm);}
@@ -522,7 +552,7 @@ html.auth-pending .wrap{display:none !important;}
         <circle cx="21" cy="6" r="2.2" fill="#1f7a70" opacity=".55"/>
         <circle cx="14" cy="20" r="3" fill="#dd5b2b"/>
       </svg>
-      <span class="brand-name">Field Notes</span>
+      <span class="brand-name">AP Statistics</span>
     </div>
     <div class="topbar-right">
       <span class="topbar-progress" id="topbarProgress"></span>
@@ -608,6 +638,12 @@ html.auth-pending .wrap{display:none !important;}
           <select class="ch-select" id="chSelect"></select>
         </div>
       </div>
+      <div class="chapter-hero-actions" id="chHwActions" hidden>
+        <button type="button" class="hw-btn" id="homeworkBtn">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+          <span id="homeworkBtnLabel">Homework</span>
+        </button>
+      </div>
       <span class="eyebrow" id="chCode"></span>
       <h1 id="chTitle" style="margin-top:.4rem;"></h1>
       <p class="hub-sub" id="chSub"></p>
@@ -618,6 +654,25 @@ html.auth-pending .wrap{display:none !important;}
       <nav class="toc" id="chToc"></nav>
     </div>
     <div id="chapterSections"></div>
+  </div>
+  <footer>built for statars · data from a sample, judgments about the population</footer>
+</div>
+
+<!-- ===================== HOMEWORK VIEW ===================== -->
+<div class="view" id="homeworkView">
+  <div class="wrap">
+    <div class="hw-hero">
+      <span class="back-link" id="hwBackLink">&larr; back to chapter</span>
+      <span class="eyebrow" id="hwCode"></span>
+      <h1 id="hwTitle" style="margin-top:.4rem;"></h1>
+      <p class="hub-sub" id="hwSub"></p>
+      <div id="hwTeacherKeyWrap"></div>
+    </div>
+    <div id="hwQuestions"></div>
+    <div class="hw-submit-row">
+      <button type="button" class="btn" id="hwSubmitBtn">Submit homework</button>
+      <span class="hw-submit-msg" id="hwSubmitMsg"></span>
+    </div>
   </div>
   <footer>built for statars · data from a sample, judgments about the population</footer>
 </div>
