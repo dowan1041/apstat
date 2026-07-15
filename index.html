@@ -105,12 +105,8 @@ a:hover{text-decoration:underline; text-underline-offset:3px;}
   .brand-mark{width:22px; height:22px;}
   .brand-name{font-size:.95rem;}
   .topbar-progress{display:none;}
-  .user-chip{gap:.35rem;}
-  .user-chip-email{max-width:90px; font-size:.66rem;}
+  .user-chip{gap:.4rem;}
   .user-chip-signout{padding:.22rem .5rem; font-size:.66rem;}
-}
-@media (max-width:380px){
-  .user-chip-email{display:none;}
 }
 
 /* ---------------- Hub ---------------- */
@@ -414,12 +410,80 @@ html.auth-pending .wrap{display:none !important;}
 
 .user-chip{display:flex; align-items:center; gap:.6rem; font-family:'JetBrains Mono',monospace; font-size:.76rem; color:var(--ink-muted);}
 .user-chip[hidden]{display:none;}
-.user-chip-email{max-width:160px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;}
+.chip-icon-btn{
+  flex:none; width:30px; height:30px; border-radius:50%; border:1px solid var(--line);
+  background:var(--paper-deep); color:var(--population); cursor:pointer;
+  display:inline-flex; align-items:center; justify-content:center; transition:all .15s;
+}
+.chip-icon-btn:hover{border-color:var(--population-line); background:var(--population-wash);}
 .user-chip-signout{
   font-family:inherit; font-size:inherit; background:none; border:1px solid var(--line);
   border-radius:99px; padding:.25rem .65rem; color:var(--ink-muted); cursor:pointer; transition:all .15s;
 }
 .user-chip-signout:hover{border-color:var(--sample); color:var(--sample);}
+
+/* ---------------- Study report overlay ---------------- */
+.report-overlay{
+  position:fixed; inset:0; z-index:150; background:rgba(28,43,58,0.45);
+  display:flex; align-items:flex-start; justify-content:center; padding:4vh 1rem;
+  opacity:0; visibility:hidden; transition:opacity .2s var(--ease-out), visibility .2s; overflow-y:auto;
+}
+.report-overlay.show{opacity:1; visibility:visible;}
+.report-overlay-inner{
+  background:var(--card); border:1px solid var(--line); border-radius:18px; box-shadow:var(--shadow-lg);
+  width:min(720px,96vw); max-height:92vh; display:flex; flex-direction:column;
+}
+.report-overlay-head{display:flex; align-items:center; justify-content:space-between; gap:1rem; padding:1.2rem 1.4rem; border-bottom:1px dashed var(--line);}
+.report-overlay-head h2{font-family:'Fraunces',serif; font-size:1.25rem;}
+.report-close{
+  flex:none; border:1px solid var(--line); background:var(--card); border-radius:999px;
+  width:32px; height:32px; display:inline-flex; align-items:center; justify-content:center;
+  cursor:pointer; color:var(--ink-muted); font-size:1.1rem; line-height:1;
+}
+.report-close:hover{border-color:var(--sample); color:var(--sample);}
+.report-tabs{display:flex; gap:.5rem; padding:.9rem 1.4rem 0;}
+.report-tabs[hidden]{display:none;}
+.report-tab{
+  font-family:'JetBrains Mono',monospace; font-size:.76rem; padding:.4rem .8rem; border-radius:99px;
+  border:1px solid var(--line); background:var(--paper-deep); color:var(--ink-soft); cursor:pointer;
+}
+.report-tab.active{background:var(--ink); border-color:var(--ink); color:#fff;}
+.report-overlay-body{overflow-y:auto; padding:1.2rem 1.4rem 1.6rem;}
+
+.rp-hero{display:flex; align-items:center; gap:1.2rem; flex-wrap:wrap; padding-bottom:1.1rem; border-bottom:1px dashed var(--line); margin-bottom:1.2rem;}
+.rp-ring{flex:none; width:90px; height:90px; border-radius:50%; display:grid; place-items:center; background:conic-gradient(var(--population) calc(var(--rp,0)*1%), var(--paper-deep) 0);}
+.rp-ring-in{width:70px; height:70px; border-radius:50%; background:var(--card); display:grid; place-items:center; font-family:'Fraunces',serif; font-size:1.4rem;}
+.rp-hero-text{flex:1 1 180px; min-width:0;}
+.rp-hero-label{font-size:.85rem; color:var(--ink-soft);}
+.rp-hero-email{font-size:.78rem; color:var(--ink-muted); word-break:break-all; margin-top:.2rem;}
+.rp-cards{display:grid; grid-template-columns:repeat(auto-fit,minmax(90px,1fr)); gap:.6rem; margin-bottom:1.4rem;}
+.rp-card{background:var(--paper-deep); border:1px solid var(--line); border-radius:12px; padding:.7rem .5rem; text-align:center;}
+.rp-card b{display:block; font-family:'Fraunces',serif; font-size:1.3rem;}
+.rp-card span{font-size:.7rem; color:var(--ink-muted);}
+.rp-card.mastered b{color:var(--population);}
+.rp-card.inprog b{color:var(--gold);}
+.rp-sec-title{font-family:'Fraunces',serif; font-size:1rem; margin:1.2rem 0 .6rem;}
+.rp-sec-title:first-child{margin-top:0;}
+.rp-unit-row{display:flex; align-items:center; gap:.7rem; margin-bottom:.7rem;}
+.rp-unit-name{flex:1 1 auto; font-size:.85rem; color:var(--ink-soft); min-width:0;}
+.rp-bar{flex:0 0 110px; height:7px; border-radius:4px; background:var(--paper-deep); overflow:hidden;}
+.rp-bar>i{display:block; height:100%; background:var(--sample); border-radius:4px;}
+.rp-unit-pct{flex:0 0 44px; text-align:right; font-size:.74rem; color:var(--ink-muted); font-variant-numeric:tabular-nums;}
+.rp-quiz-row{display:flex; align-items:center; gap:.6rem; padding:.4rem 0; border-bottom:1px dashed var(--line-soft); font-size:.85rem;}
+.rp-quiz-row .rq-code{flex:none; font-weight:600; color:var(--sample); min-width:38px;}
+.rp-quiz-row .rq-title{flex:1 1 auto; color:var(--ink-soft); overflow:hidden; text-overflow:ellipsis; white-space:nowrap;}
+.rp-quiz-row .rq-score{flex:none; font-variant-numeric:tabular-nums; color:var(--ink-muted);}
+.rp-quiz-row .rq-score.pass{color:var(--population); font-weight:600;}
+.rp-student-row{
+  display:flex; align-items:center; justify-content:space-between; gap:.8rem; padding:.7rem .9rem;
+  border:1px solid var(--line); border-radius:12px; margin-bottom:.6rem; cursor:pointer; background:var(--card);
+  transition:border-color .15s;
+}
+.rp-student-row:hover{border-color:var(--population-line);}
+.rp-student-email{font-size:.85rem; color:var(--ink); overflow:hidden; text-overflow:ellipsis; white-space:nowrap;}
+.rp-student-pct{flex:none; font-family:'JetBrains Mono',monospace; font-size:.78rem; color:var(--population);}
+.rp-student-detail{padding:.2rem 0 1rem;}
+.rp-empty{font-size:.85rem; color:var(--ink-muted); padding:1rem 0;}
 
 @media (max-width:640px){
   .fc-stage{height:210px;}
@@ -443,7 +507,9 @@ html.auth-pending .wrap{display:none !important;}
     <div class="topbar-right">
       <span class="topbar-progress" id="topbarProgress"></span>
       <div class="user-chip" id="userChip" hidden>
-        <span class="user-chip-email" id="userChipEmail"></span>
+        <button type="button" class="chip-icon-btn" id="reportBtn" title="My study report" aria-label="My study report">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6.5 8-6.5s8 2.5 8 6.5"/></svg>
+        </button>
         <button type="button" class="user-chip-signout" id="signOutBtn">Sign out</button>
       </div>
     </div>
@@ -473,6 +539,21 @@ html.auth-pending .wrap{display:none !important;}
     <button type="button" class="btn block" id="codeSubmit">Register &amp; continue</button>
     <p class="auth-error" id="codeError"></p>
     <p class="code-alt"><a id="codeSignOut">Use a different account</a></p>
+  </div>
+</div>
+
+<!-- ===================== STUDY REPORT OVERLAY ===================== -->
+<div class="report-overlay" id="reportOverlay" aria-hidden="true">
+  <div class="report-overlay-inner">
+    <div class="report-overlay-head">
+      <h2 id="reportTitle">My study report</h2>
+      <button type="button" class="report-close" id="reportClose" aria-label="Close">&times;</button>
+    </div>
+    <div class="report-tabs" id="reportTabs" hidden>
+      <button type="button" class="report-tab active" data-tab="me">My report</button>
+      <button type="button" class="report-tab" data-tab="students">Students</button>
+    </div>
+    <div class="report-overlay-body" id="reportBody"></div>
   </div>
 </div>
 

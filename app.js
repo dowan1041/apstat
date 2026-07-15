@@ -24,6 +24,7 @@ const sb = CLOUD ? window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY,
 }) : null;
 
 let currentUser = null;
+let currentUserRole = null;
 let renderedForUser = null;
 
 const STORAGE_KEY = 'apstats-fieldnotes-progress-v1';
@@ -81,20 +82,18 @@ function hideGates(){
   document.getElementById('codeGate').hidden = true;
 }
 function showUserChip(){
-  const chip = document.getElementById('userChip');
-  document.getElementById('userChipEmail').textContent = (currentUser && currentUser.email) || '';
-  chip.hidden = false;
+  document.getElementById('userChip').hidden = false;
 }
 function hideUserChip(){
   document.getElementById('userChip').hidden = true;
 }
 
-async function isRegistered(uid){
+async function checkRegistration(uid){
   try{
-    const { data, error } = await sb.from('allowed_users').select('user_id').eq('user_id', uid).maybeSingle();
-    if(error){ console.warn('[auth] registration check failed:', error.message); return false; }
-    return !!data;
-  } catch(e){ console.warn('[auth] registration check error:', e); return false; }
+    const { data, error } = await sb.from('allowed_users').select('role').eq('user_id', uid).maybeSingle();
+    if(error){ console.warn('[auth] registration check failed:', error.message); return { registered:false, role:null }; }
+    return data ? { registered:true, role:data.role } : { registered:false, role:null };
+  } catch(e){ console.warn('[auth] registration check error:', e); return { registered:false, role:null }; }
 }
 
 let hashListenerBound = false;
@@ -115,8 +114,9 @@ async function handleSession(session){
   if(user){
     currentUser = user;
     if(renderedForUser === user.id) return; // ignore redundant fires (token refresh, tab focus)
-    const registered = await isRegistered(user.id);
+    const { registered, role } = await checkRegistration(user.id);
     if(registered){
+      currentUserRole = role;
       renderedForUser = user.id;
       await enterApp();
     } else {
@@ -124,6 +124,7 @@ async function handleSession(session){
     }
   } else {
     currentUser = null;
+    currentUserRole = null;
     renderedForUser = null;
     showAuthGate();
   }
@@ -168,6 +169,8 @@ async function submitAccessCode(){
       err.textContent = 'Something went wrong. Please try again.';
       console.warn('[code]', error.message);
     } else if(data === true){
+      const { role } = await checkRegistration(currentUser.id);
+      currentUserRole = role;
       renderedForUser = currentUser.id;
       await enterApp();
       return;
@@ -187,6 +190,181 @@ function wireCodeGate(){
   document.getElementById('codeSignOut').addEventListener('click', async ()=>{
     await sb.auth.signOut();
     location.reload();
+  });
+}
+
+/* ---------------- STUDY REPORT (stats helpers — pure, take progressObj as a param) ---------------- */
+const PASS_QUIZ_PCT = 80;
+
+function chapterTotals(ch){
+  let vocabTotal = 0, flashTotal = 0;
+  ch.sections.forEach(s=>{
+    if(s.type === 'vocab') vocabTotal = s.items.length;
+    if(s.type === 'flashcards') flashTotal = s.items.length;
+  });
+  return { vocabTotal, flashTotal };
+}
+
+function chapterStats(id, progressObj){
+  const ch = CHAPTERS[id];
+  const p = (progressObj && progressObj[id]) || {};
+  const vocabKnown = p.vocabKnown || [];
+  const flashKnown = p.flashKnown || [];
+  const { vocabTotal, flashTotal } = chapterTotals(ch);
+  const subDone = [
+    vocabTotal > 0 && vocabKnown.length >= vocabTotal,
+    flashTotal > 0 && flashKnown.length >= flashTotal,
+    !!p.fillBlankDone,
+    !!p.quizDone
+  ];
+  const pct = Math.round(subDone.filter(Boolean).length / 4 * 100);
+  const started = (p.quizBest || 0) > 0 || !!p.fillBlankDone || vocabKnown.length > 0 || flashKnown.length > 0;
+  return { pct, started, mastered: !!p.quizDone, quizBest: p.quizBest || 0, quizDone: !!p.quizDone };
+}
+
+function unitPct(unit, progressObj){
+  const pcts = unit.chapterIds.filter(cid=>CHAPTERS[cid]).map(cid=>chapterStats(cid, progressObj).pct);
+  return pcts.length ? Math.round(pcts.reduce((a,b)=>a+b,0) / pcts.length) : 0;
+}
+
+function overallReportStats(progressObj){
+  const ids = Object.keys(CHAPTERS);
+  let mastered = 0, started = 0, quizSum = 0, quizCount = 0;
+  ids.forEach(id=>{
+    const s = chapterStats(id, progressObj);
+    if(s.mastered) mastered++;
+    else if(s.started) started++;
+    if(s.quizDone){ quizSum += s.quizBest; quizCount++; }
+  });
+  return {
+    total: ids.length,
+    mastered,
+    started,
+    notStarted: ids.length - mastered - started,
+    avgQuiz: quizCount ? Math.round(quizSum / quizCount) : null,
+    pct: ids.length ? Math.round(mastered / ids.length * 100) : 0
+  };
+}
+
+/* ---------------- STUDY REPORT (rendering) ---------------- */
+function renderReportHero(progressObj, email){
+  const s = overallReportStats(progressObj);
+  return `
+    <div class="rp-hero">
+      <div class="rp-ring" style="--rp:${s.pct}"><div class="rp-ring-in">${s.pct}%</div></div>
+      <div class="rp-hero-text">
+        <div class="rp-hero-label">Overall progress · ${s.mastered}/${s.total} chapters mastered</div>
+        <div class="rp-hero-email">${email || ''}</div>
+      </div>
+    </div>
+    <div class="rp-cards">
+      <div class="rp-card mastered"><b>${s.mastered}</b><span>Mastered</span></div>
+      <div class="rp-card inprog"><b>${s.started}</b><span>In progress</span></div>
+      <div class="rp-card"><b>${s.notStarted}</b><span>Not started</span></div>
+      <div class="rp-card"><b>${s.avgQuiz===null ? '—' : s.avgQuiz+'%'}</b><span>Avg quiz score</span></div>
+    </div>`;
+}
+
+function renderReportSections(progressObj){
+  const unitsHtml = UNITS.map(unit=>{
+    const pct = unitPct(unit, progressObj);
+    return `<div class="rp-unit-row">
+      <div class="rp-unit-name"><b>${unit.code}</b> ${unit.name}</div>
+      <div class="rp-bar"><i style="width:${pct}%"></i></div>
+      <div class="rp-unit-pct">${pct}%</div>
+    </div>`;
+  }).join('');
+
+  const quizRows = flatChapterOrder().map(id=>{
+    const ch = CHAPTERS[id];
+    const s = chapterStats(id, progressObj);
+    if(!s.quizDone) return '';
+    return `<div class="rp-quiz-row">
+      <span class="rq-code">${ch.code.replace('Topic ','')}</span>
+      <span class="rq-title">${ch.title}</span>
+      <span class="rq-score ${s.quizBest>=PASS_QUIZ_PCT?'pass':''}">${s.quizBest}%</span>
+    </div>`;
+  }).filter(Boolean).join('');
+
+  return `
+    <div class="rp-sec-title">By unit</div>
+    ${unitsHtml}
+    <div class="rp-sec-title">Quiz scores</div>
+    ${quizRows || '<div class="rp-empty">No quizzes taken yet.</div>'}`;
+}
+
+function renderFullReport(progressObj, email){
+  return renderReportHero(progressObj, email) + renderReportSections(progressObj);
+}
+
+function renderMyReportTab(){
+  document.getElementById('reportBody').innerHTML = renderFullReport(PROGRESS, currentUser && currentUser.email);
+}
+
+async function renderStudentsTab(){
+  const body = document.getElementById('reportBody');
+  body.innerHTML = '<div class="rp-empty">Loading students…</div>';
+  try{
+    const { data, error } = await sb.rpc('get_all_student_progress');
+    if(error){ body.innerHTML = `<div class="rp-empty">Couldn't load students: ${error.message}</div>`; return; }
+    if(!data || !data.length){ body.innerHTML = '<div class="rp-empty">No students have registered yet.</div>'; return; }
+    body.innerHTML = data.map((row, i)=>{
+      const s = overallReportStats(row.progress || {});
+      return `<div>
+        <div class="rp-student-row" data-i="${i}">
+          <span class="rp-student-email">${row.email}</span>
+          <span class="rp-student-pct">${s.pct}%</span>
+        </div>
+        <div class="rp-student-detail" id="studentDetail${i}" hidden></div>
+      </div>`;
+    }).join('');
+    body.querySelectorAll('.rp-student-row').forEach(row=>{
+      row.addEventListener('click', ()=>{
+        const i = row.dataset.i;
+        const detail = document.getElementById('studentDetail'+i);
+        const opening = detail.hidden;
+        body.querySelectorAll('.rp-student-detail').forEach(d=>d.hidden = true);
+        if(opening){
+          detail.innerHTML = renderReportSections(data[i].progress || {});
+          detail.hidden = false;
+        }
+      });
+    });
+  } catch(e){
+    body.innerHTML = `<div class="rp-empty">Couldn't load students: ${(e && e.message) || e}</div>`;
+  }
+}
+
+function setReportTab(tab){
+  document.querySelectorAll('.report-tab').forEach(b=>b.classList.toggle('active', b.dataset.tab === tab));
+  if(tab === 'students') renderStudentsTab();
+  else renderMyReportTab();
+}
+
+function openReport(){
+  const ov = document.getElementById('reportOverlay');
+  document.getElementById('reportTabs').hidden = currentUserRole !== 'teacher';
+  setReportTab('me');
+  ov.classList.add('show');
+  ov.setAttribute('aria-hidden', 'false');
+}
+function closeReport(){
+  const ov = document.getElementById('reportOverlay');
+  ov.classList.remove('show');
+  ov.setAttribute('aria-hidden', 'true');
+}
+
+function wireReport(){
+  document.getElementById('reportBtn').addEventListener('click', openReport);
+  document.getElementById('reportClose').addEventListener('click', closeReport);
+  document.getElementById('reportOverlay').addEventListener('click', e=>{
+    if(e.target.id === 'reportOverlay') closeReport();
+  });
+  document.addEventListener('keydown', e=>{
+    if(e.key === 'Escape' && document.getElementById('reportOverlay').classList.contains('show')) closeReport();
+  });
+  document.querySelectorAll('.report-tab').forEach(b=>{
+    b.addEventListener('click', ()=>setReportTab(b.dataset.tab));
   });
 }
 
@@ -744,6 +922,7 @@ function boot(){
   }
   wireAuth();
   wireCodeGate();
+  wireReport();
   sb.auth.onAuthStateChange((event, session)=>{ handleSession(session); });
   sb.auth.getSession().then(({data})=>handleSession(data.session));
 }
