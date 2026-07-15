@@ -1,0 +1,22 @@
+# Secrets / credentials — never commit these
+.env
+.env.*
+*.pem
+*.key
+*.p12
+*.pfx
+*credentials*
+*secret*
+*.local.json
+.claude/settings.local.json
+
+# Dependencies / tooling
+node_modules/
+package-lock.json
+
+# OS / editor cruft
+.DS_Store
+Thumbs.db
+*.swp
+.vscode/
+.idea/
