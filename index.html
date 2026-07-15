@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="auth-pending">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -365,8 +365,48 @@ section.sec{margin-bottom:3.4rem; scroll-margin-top:90px;}
 }
 .btn.ghost{background:transparent; color:var(--ink); }
 .btn:hover{opacity:.85;}
+.btn.block{width:100%; justify-content:center;}
 
 footer{padding:3rem 0 4rem; text-align:center; font-family:'JetBrains Mono',monospace; font-size:.75rem; color:var(--ink-faint);}
+
+/* ---------------- Auth gates (Google sign-in / invite code) ---------------- */
+html.auth-pending .wrap{display:none !important;}
+.auth-gate{
+  position:fixed; inset:0; z-index:200; display:flex; align-items:center; justify-content:center;
+  padding:2rem; background:var(--paper);
+  background-image:
+    linear-gradient(var(--grid-line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
+  background-size:28px 28px;
+}
+.auth-gate[hidden]{display:none;}
+.auth-card{
+  max-width:420px; width:100%; background:var(--card); border:1px solid var(--line);
+  border-radius:20px; padding:2.4rem 2.2rem; box-shadow:var(--shadow-lg); text-align:center;
+}
+.auth-card .eyebrow{display:block; margin-bottom:.7rem;}
+.auth-card h1{font-size:1.8rem; margin-bottom:.6rem;}
+.auth-card p{font-size:.92rem; margin-bottom:1.4rem;}
+.auth-google svg{flex:none;}
+.code-input{
+  width:100%; padding:.75rem 1rem; border:1.5px solid var(--line); border-radius:10px;
+  font-family:'JetBrains Mono',monospace; font-size:.95rem; text-align:center; letter-spacing:.05em;
+  margin-bottom:1rem; background:var(--paper-deep); color:var(--ink); transition:border-color .15s;
+}
+.code-input:focus{outline:none; border-color:var(--population);}
+.auth-error{color:var(--sample); font-size:.82rem; min-height:1.2em; margin:-.5rem 0 .9rem;}
+.code-alt{margin-top:.6rem;}
+.code-alt a{color:var(--ink-muted); cursor:pointer; font-family:'JetBrains Mono',monospace; font-size:.78rem;}
+.code-alt a:hover{color:var(--sample);}
+
+.user-chip{display:flex; align-items:center; gap:.6rem; font-family:'JetBrains Mono',monospace; font-size:.76rem; color:var(--ink-muted);}
+.user-chip[hidden]{display:none;}
+.user-chip-email{max-width:160px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;}
+.user-chip-signout{
+  font-family:inherit; font-size:inherit; background:none; border:1px solid var(--line);
+  border-radius:99px; padding:.25rem .65rem; color:var(--ink-muted); cursor:pointer; transition:all .15s;
+}
+.user-chip-signout:hover{border-color:var(--sample); color:var(--sample);}
 
 @media (max-width:640px){
   .fc-stage{height:210px;}
@@ -389,7 +429,37 @@ footer{padding:3rem 0 4rem; text-align:center; font-family:'JetBrains Mono',mono
     </div>
     <div class="topbar-right">
       <span class="topbar-progress" id="topbarProgress"></span>
+      <div class="user-chip" id="userChip" hidden>
+        <span class="user-chip-email" id="userChipEmail"></span>
+        <button type="button" class="user-chip-signout" id="signOutBtn">Sign out</button>
+      </div>
     </div>
+  </div>
+</div>
+
+<!-- ===================== AUTH GATES ===================== -->
+<div class="auth-gate" id="authGate" hidden>
+  <div class="auth-card">
+    <span class="eyebrow">AP Statistics · Study Hub</span>
+    <h1>Sign in to continue</h1>
+    <p>This is a private study hub. Sign in with Google to access it.</p>
+    <button type="button" class="btn block auth-google" id="googleSignIn">
+      <svg width="18" height="18" viewBox="0 0 18 18"><path fill="#4285F4" d="M17.64 9.2c0-.64-.06-1.25-.16-1.84H9v3.48h4.84a4.14 4.14 0 0 1-1.8 2.72v2.26h2.9c1.7-1.57 2.7-3.88 2.7-6.62z"/><path fill="#34A853" d="M9 18c2.43 0 4.47-.8 5.96-2.18l-2.9-2.26c-.8.54-1.84.86-3.06.86-2.35 0-4.34-1.59-5.05-3.72H.98v2.33A9 9 0 0 0 9 18z"/><path fill="#FBBC05" d="M3.95 10.7A5.4 5.4 0 0 1 3.67 9c0-.59.1-1.17.28-1.7V4.97H.98A9 9 0 0 0 0 9c0 1.45.35 2.83.98 4.03z"/><path fill="#EA4335" d="M9 3.58c1.32 0 2.51.46 3.44 1.35l2.58-2.58C13.46.89 11.43 0 9 0A9 9 0 0 0 .98 4.97L3.95 7.3C4.66 5.17 6.65 3.58 9 3.58z"/></svg>
+      Continue with Google
+    </button>
+    <p class="auth-error" id="authError"></p>
+  </div>
+</div>
+
+<div class="auth-gate" id="codeGate" hidden>
+  <div class="auth-card">
+    <span class="eyebrow">Invite only · First-time access</span>
+    <h1>Enter your access code</h1>
+    <p>This is a private study hub. Enter the access code once to register this Google account — you won't need it again on this or any other device.</p>
+    <input type="text" id="accessCodeInput" class="code-input" placeholder="Access code" autocomplete="off" autocapitalize="off" spellcheck="false">
+    <button type="button" class="btn block" id="codeSubmit">Register &amp; continue</button>
+    <p class="auth-error" id="codeError"></p>
+    <p class="code-alt"><a id="codeSignOut">Use a different account</a></p>
   </div>
 </div>
 
@@ -450,6 +520,7 @@ const CHAPTERS = {};           // id -> chapter data object
 function registerUnit(unit){ UNITS.push(unit); }
 function registerChapters(obj){ Object.assign(CHAPTERS, obj); }
 </script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="unit1.js"></script>
 <script src="app.js"></script>
 </body>

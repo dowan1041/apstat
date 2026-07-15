@@ -6,6 +6,26 @@
    content added to it.
    ============================================ */
 
+/* ---------------- SUPABASE (auth + cloud sync) ----------------
+   The anon key below is PUBLIC-safe ONLY because Row Level Security
+   is enabled on every table it can reach (see supabase/schema.sql).
+   Never place the service_role key here.
+   Cloud mode only activates once real credentials are filled in AND
+   the page is served over http(s); opening the file directly
+   (file://), or leaving the placeholders in place, falls back to
+   plain localStorage with no sign-in wall at all.
+   ---------------------------------------------------------------- */
+const SUPABASE_URL = 'https://botykekbgjkgnucbjufb.supabase.co';
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJvdHlrZWtiZ2prZ251Y2JqdWZiIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODQwNzQ4MzIsImV4cCI6MjA5OTY1MDgzMn0.5wWWUaEAgqZ3Xb3ss-bsv6_eRWxVtCHJ23QeLG-rMyw';
+const CLOUD = (location.protocol === 'http:' || location.protocol === 'https:')
+  && !!window.supabase && SUPABASE_URL.indexOf('http') === 0 && SUPABASE_ANON_KEY.length > 20;
+const sb = CLOUD ? window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
+  auth: { flowType: 'pkce', detectSessionInUrl: true, persistSession: true, autoRefreshToken: true }
+}) : null;
+
+let currentUser = null;
+let renderedForUser = null;
+
 const STORAGE_KEY = 'apstats-fieldnotes-progress-v1';
 
 function loadProgress(){
@@ -20,7 +40,155 @@ function chProg(id){
   if(!PROGRESS[id]) PROGRESS[id] = { vocabKnown:[], flashKnown:[], quizBest:0, quizDone:false, fillBlankBest:0, fillBlankDone:false };
   return PROGRESS[id];
 }
-function persist(){ saveProgress(PROGRESS); }
+function persist(){
+  saveProgress(PROGRESS);
+  if(CLOUD && currentUser){
+    sb.from('user_state').upsert(
+      { user_id: currentUser.id, key: 'progress', value: PROGRESS, updated_at: new Date().toISOString() },
+      { onConflict: 'user_id,key' }
+    ).then(({error})=>{ if(error) console.warn('[sync] save failed:', error.message); });
+  }
+}
+async function loadCloudProgress(){
+  if(!CLOUD || !currentUser) return;
+  try{
+    const { data, error } = await sb.from('user_state').select('value').eq('user_id', currentUser.id).eq('key','progress').maybeSingle();
+    if(error){ console.warn('[sync] load failed:', error.message); return; }
+    if(data && data.value){
+      PROGRESS = data.value;
+      saveProgress(PROGRESS);
+    } else {
+      persist(); // first sign-in on this account — seed the cloud with local progress
+    }
+  } catch(e){ console.warn('[sync] load error:', e); }
+}
+
+/* ---------------- AUTH (Google sign-in / invite code) ---------------- */
+function showAuthGate(){
+  document.documentElement.classList.remove('auth-pending');
+  document.getElementById('authGate').hidden = false;
+  document.getElementById('codeGate').hidden = true;
+  hideUserChip();
+}
+function showCodeGate(){
+  document.documentElement.classList.remove('auth-pending');
+  document.getElementById('authGate').hidden = true;
+  document.getElementById('codeGate').hidden = false;
+  hideUserChip();
+}
+function hideGates(){
+  document.getElementById('authGate').hidden = true;
+  document.getElementById('codeGate').hidden = true;
+}
+function showUserChip(){
+  const chip = document.getElementById('userChip');
+  document.getElementById('userChipEmail').textContent = (currentUser && currentUser.email) || '';
+  chip.hidden = false;
+}
+function hideUserChip(){
+  document.getElementById('userChip').hidden = true;
+}
+
+async function isRegistered(uid){
+  try{
+    const { data, error } = await sb.from('allowed_users').select('user_id').eq('user_id', uid).maybeSingle();
+    if(error){ console.warn('[auth] registration check failed:', error.message); return false; }
+    return !!data;
+  } catch(e){ console.warn('[auth] registration check error:', e); return false; }
+}
+
+let hashListenerBound = false;
+async function enterApp(){
+  document.documentElement.classList.remove('auth-pending');
+  hideGates();
+  showUserChip();
+  await loadCloudProgress();
+  if(!hashListenerBound){
+    window.addEventListener('hashchange', navigate);
+    hashListenerBound = true;
+  }
+  navigate();
+}
+
+async function handleSession(session){
+  const user = session && session.user;
+  if(user){
+    currentUser = user;
+    if(renderedForUser === user.id) return; // ignore redundant fires (token refresh, tab focus)
+    const registered = await isRegistered(user.id);
+    if(registered){
+      renderedForUser = user.id;
+      await enterApp();
+    } else {
+      showCodeGate();
+    }
+  } else {
+    currentUser = null;
+    renderedForUser = null;
+    showAuthGate();
+  }
+}
+
+function readAuthUrlError(){
+  const qs = new URLSearchParams(location.search);
+  const hs = new URLSearchParams((location.hash || '').replace(/^#/, ''));
+  const desc = qs.get('error_description') || hs.get('error_description') || qs.get('error') || hs.get('error');
+  return desc ? desc.replace(/\+/g, ' ') : '';
+}
+
+function wireAuth(){
+  document.getElementById('googleSignIn').addEventListener('click', async ()=>{
+    document.getElementById('authError').textContent = '';
+    try{
+      await sb.auth.signInWithOAuth({ provider: 'google', options: { redirectTo: location.origin + location.pathname } });
+    } catch(e){
+      document.getElementById('authError').textContent = (e && e.message) || 'Sign-in failed. Please try again.';
+    }
+  });
+  document.getElementById('signOutBtn').addEventListener('click', async ()=>{
+    await sb.auth.signOut();
+    location.reload();
+  });
+  const urlErr = readAuthUrlError();
+  if(urlErr) document.getElementById('authError').textContent = urlErr;
+}
+
+async function submitAccessCode(){
+  const inp = document.getElementById('accessCodeInput');
+  const err = document.getElementById('codeError');
+  const btn = document.getElementById('codeSubmit');
+  const code = ((inp && inp.value) || '').trim();
+  err.textContent = '';
+  if(!code){ err.textContent = 'Enter your access code.'; return; }
+  if(!currentUser){ err.textContent = 'Please sign in again.'; return; }
+  btn.disabled = true; btn.textContent = 'Checking…';
+  try{
+    const { data, error } = await sb.rpc('redeem_access_code', { p_code: code });
+    if(error){
+      err.textContent = 'Something went wrong. Please try again.';
+      console.warn('[code]', error.message);
+    } else if(data === true){
+      renderedForUser = currentUser.id;
+      await enterApp();
+      return;
+    } else {
+      err.textContent = "That code isn't right. Please check and try again.";
+    }
+  } catch(e){
+    err.textContent = 'Something went wrong. Please try again.';
+    console.warn('[code]', e);
+  }
+  btn.disabled = false; btn.textContent = 'Register & continue';
+}
+
+function wireCodeGate(){
+  document.getElementById('codeSubmit').addEventListener('click', submitAccessCode);
+  document.getElementById('accessCodeInput').addEventListener('keydown', e=>{ if(e.key === 'Enter') submitAccessCode(); });
+  document.getElementById('codeSignOut').addEventListener('click', async ()=>{
+    await sb.auth.signOut();
+    location.reload();
+  });
+}
 
 /* ---------------- HUB MOTIF SVG ---------------- */
 function hubMotifSvg(){
@@ -567,5 +735,23 @@ function renderChart(sec, mount){
 }
 
 /* ---------------- BOOT ---------------- */
-window.addEventListener('hashchange', navigate);
-navigate();
+function boot(){
+  if(!CLOUD){
+    document.documentElement.classList.remove('auth-pending');
+    window.addEventListener('hashchange', navigate);
+    navigate();
+    return;
+  }
+  wireAuth();
+  wireCodeGate();
+  sb.auth.onAuthStateChange((event, session)=>{ handleSession(session); });
+  sb.auth.getSession().then(({data})=>handleSession(data.session));
+}
+try {
+  boot();
+} catch(e){
+  console.error('[boot] failed, falling back to offline mode:', e);
+  document.documentElement.classList.remove('auth-pending');
+  if(!hashListenerBound){ window.addEventListener('hashchange', navigate); hashListenerBound = true; }
+  navigate();
+}
