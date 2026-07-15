@@ -49,6 +49,7 @@ function chProg(id){
   if(p.homeworkAnswers === undefined) p.homeworkAnswers = [];
   if(p.homeworkScore === undefined) p.homeworkScore = 0;
   if(p.homeworkDone === undefined) p.homeworkDone = false;
+  if(p.homeworkFlagged === undefined) p.homeworkFlagged = [];
   return p;
 }
 function persist(){
@@ -308,13 +309,28 @@ function renderReportSections(progressObj){
     </div>`;
   }).filter(Boolean).join('');
 
+  const flaggedRows = flatChapterOrder().map(id=>{
+    const ch = CHAPTERS[id];
+    const p = (progressObj && progressObj[id]) || {};
+    const flagged = p.homeworkFlagged || [];
+    if(!flagged.length) return '';
+    const nums = flagged.slice().sort((a,b)=>a-b).map(qi=>qi+1).join(', ');
+    return `<div class="rp-quiz-row">
+      <span class="rq-code">${ch.code.replace('Topic ','')}</span>
+      <span class="rq-title">${ch.title}</span>
+      <span class="rq-score">${flagged.length} flagged — Q${nums}</span>
+    </div>`;
+  }).filter(Boolean).join('');
+
   return `
     <div class="rp-sec-title">By unit</div>
     ${unitsHtml}
     <div class="rp-sec-title">Quiz scores</div>
     ${quizRows || '<div class="rp-empty">No quizzes taken yet.</div>'}
     <div class="rp-sec-title">Homework scores</div>
-    ${homeworkRows || '<div class="rp-empty">No homework submitted yet.</div>'}`;
+    ${homeworkRows || '<div class="rp-empty">No homework submitted yet.</div>'}
+    <div class="rp-sec-title">Flagged for review</div>
+    ${flaggedRows || '<div class="rp-empty">No questions flagged yet.</div>'}`;
 }
 
 function renderFullReport(progressObj, email){
@@ -587,14 +603,25 @@ function renderHomework(id){
 
   const answers = prog.homeworkAnswers.slice();
   while(answers.length < hw.questions.length) answers.push(null);
+  const flagged = prog.homeworkFlagged.slice();
+
+  const flagSummary = document.getElementById('hwFlagSummary');
+  flagSummary.textContent = flagged.length
+    ? `🚩 ${flagged.length} question${flagged.length===1?'':'s'} flagged for review.`
+    : '';
 
   const qBox = document.getElementById('hwQuestions');
   qBox.innerHTML = '';
   hw.questions.forEach((q, qi)=>{
     const card = document.createElement('div');
-    card.className = 'hw-q';
+    card.className = 'hw-q' + (flagged.includes(qi) ? ' is-flagged' : '');
     card.innerHTML = `
-      <div class="hw-q-head"><span class="hw-q-num">${qi+1}.</span><span class="hw-q-text">${q.q}</span></div>
+      <div class="hw-q-head">
+        <span class="hw-q-num">${qi+1}.</span><span class="hw-q-text">${q.q}</span>
+        <button type="button" class="hw-flag-btn${flagged.includes(qi)?' flagged':''}" data-qi="${qi}">
+          <span class="flag-ico">🚩</span>${flagged.includes(qi) ? 'Flagged' : 'Not sure?'}
+        </button>
+      </div>
       <div class="hw-opts">${q.opts.map((o,oi)=>
         `<button type="button" class="hw-opt${answers[qi]===oi?' selected':''}" data-qi="${qi}" data-oi="${oi}">
            <span class="hw-opt-letter">${String.fromCharCode(65+oi)}.</span><span>${o}</span>
@@ -608,6 +635,24 @@ function renderHomework(id){
       const oi = parseInt(btn.dataset.oi);
       answers[qi] = oi;
       qBox.querySelectorAll(`.hw-opt[data-qi="${qi}"]`).forEach(b=>b.classList.toggle('selected', b === btn));
+    };
+  });
+  qBox.querySelectorAll('.hw-flag-btn').forEach(btn=>{
+    btn.onclick = (e)=>{
+      e.stopPropagation();
+      const qi = parseInt(btn.dataset.qi);
+      const card = btn.closest('.hw-q');
+      const i = prog.homeworkFlagged.indexOf(qi);
+      const nowFlagged = i === -1;
+      if(nowFlagged) prog.homeworkFlagged.push(qi); else prog.homeworkFlagged.splice(i,1);
+      persist();
+      // update in place — a full re-render here would wipe any answers
+      // the student has picked but not yet submitted (see hw-opt handler above)
+      card.classList.toggle('is-flagged', nowFlagged);
+      btn.classList.toggle('flagged', nowFlagged);
+      btn.innerHTML = `<span class="flag-ico">🚩</span>${nowFlagged ? 'Flagged' : 'Not sure?'}`;
+      const count = prog.homeworkFlagged.length;
+      flagSummary.textContent = count ? `🚩 ${count} question${count===1?'':'s'} flagged for review.` : '';
     };
   });
 
