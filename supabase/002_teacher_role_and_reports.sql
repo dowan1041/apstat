@@ -90,8 +90,12 @@ security definer
 set search_path = public
 as $$
 begin
+  -- aliased + fully qualified: RETURNS TABLE(user_id ...) above implicitly
+  -- declares "user_id" as an out-parameter in this function's scope, which
+  -- collides with allowed_users.user_id if left unqualified here.
   if not exists (
-    select 1 from allowed_users where user_id = auth.uid() and role = 'teacher'
+    select 1 from allowed_users au0
+    where au0.user_id = auth.uid() and au0.role = 'teacher'
   ) then
     raise exception 'not authorized';
   end if;

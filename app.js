@@ -306,7 +306,11 @@ async function renderStudentsTab(){
   body.innerHTML = '<div class="rp-empty">Loading students…</div>';
   try{
     const { data, error } = await sb.rpc('get_all_student_progress');
-    if(error){ body.innerHTML = `<div class="rp-empty">Couldn't load students: ${error.message}</div>`; return; }
+    if(error){
+      console.warn('[report] students load failed:', error.message);
+      body.innerHTML = '<div class="rp-empty">Couldn\'t load students right now. Please try again in a moment.</div>';
+      return;
+    }
     if(!data || !data.length){ body.innerHTML = '<div class="rp-empty">No students have registered yet.</div>'; return; }
     body.innerHTML = data.map((row, i)=>{
       const s = overallReportStats(row.progress || {});
@@ -331,7 +335,8 @@ async function renderStudentsTab(){
       });
     });
   } catch(e){
-    body.innerHTML = `<div class="rp-empty">Couldn't load students: ${(e && e.message) || e}</div>`;
+    console.warn('[report] students load error:', e);
+    body.innerHTML = '<div class="rp-empty">Couldn\'t load students right now. Please try again in a moment.</div>';
   }
 }
 
@@ -448,6 +453,45 @@ function renderHub(){
 }
 
 /* ---------------- CHAPTER RENDER ---------------- */
+/* ---------------- TEACHER ANSWER KEY (guided notes + quiz) ---------------- */
+function teacherKeyHtml(sec){
+  if(sec.type === 'fill-blank'){
+    return sec.items.map(item=>{
+      const text = item.segments.map(seg=>
+        typeof seg === 'string' ? seg : `<strong class="tk-answer">${seg.answer}</strong>`
+      ).join('');
+      return `<p class="tk-sentence">${text}</p>`;
+    }).join('');
+  }
+  if(sec.type === 'quiz'){
+    return sec.questions.map((q,i)=>`
+      <div class="tk-q">
+        <div class="tk-q-text"><b>Q${i+1}.</b> ${q.q}</div>
+        <div class="tk-q-answer">✓ ${String.fromCharCode(65+q.correct)}. ${q.opts[q.correct]}</div>
+      </div>`).join('');
+  }
+  return '';
+}
+function buildTeacherKey(sec){
+  const wrap = document.createElement('div');
+  wrap.className = 'teacher-key-wrap';
+  const btn = document.createElement('button');
+  btn.type = 'button';
+  btn.className = 'teacher-key-toggle';
+  btn.textContent = 'Show answer key (teacher)';
+  const panel = document.createElement('div');
+  panel.className = 'teacher-key';
+  panel.hidden = true;
+  panel.innerHTML = teacherKeyHtml(sec);
+  btn.onclick = ()=>{
+    panel.hidden = !panel.hidden;
+    btn.textContent = panel.hidden ? 'Show answer key (teacher)' : 'Hide answer key (teacher)';
+  };
+  wrap.appendChild(btn);
+  wrap.appendChild(panel);
+  return wrap;
+}
+
 function renderChapter(id){
   const ch = CHAPTERS[id];
   document.getElementById('chCode').textContent = ch.unitName + ' · ' + ch.code;
@@ -474,6 +518,9 @@ function renderChapter(id){
     el.className = 'sec';
     el.id = sec.id;
     el.innerHTML = `<div class="eyebrow sec-label">${sec.label}</div><h2>${sec.heading}</h2>` + (sec.body ? `<p class="body">${sec.body}</p>` : '');
+    if(currentUserRole === 'teacher' && (sec.type === 'fill-blank' || sec.type === 'quiz')){
+      el.appendChild(buildTeacherKey(sec));
+    }
     const content = document.createElement('div');
     content.className = 'sec-content';
     el.appendChild(content);
@@ -776,7 +823,7 @@ function renderQuiz(sec, mount, chapterId){
       <div class="quiz-progress"><span>Question ${idx+1} of ${sec.questions.length}</span><span>Best: ${prog.quizBest}%</span></div>
       <div class="quiz-bar"><div class="quiz-bar-fill" style="width:${(idx)/sec.questions.length*100}%"></div></div>
       <div class="quiz-q">${q.q}</div>
-      <div class="quiz-opts">${q.opts.map((o,i)=>`<button class="quiz-opt" data-i="${i}">${o}</button>`).join('')}</div>
+      <div class="quiz-opts">${q.opts.map((o,i)=>`<button class="quiz-opt" data-i="${i}"><span class="quiz-opt-letter">${String.fromCharCode(65+i)}.</span><span>${o}</span></button>`).join('')}</div>
       <div class="quiz-exp" id="quizExp"></div>
       <div class="quiz-nav"><button class="btn" id="quizNext" style="display:none;">${idx===sec.questions.length-1?'See results':'Next question'} &rarr;</button></div>`;
     shell.querySelectorAll('.quiz-opt').forEach(btn=>{

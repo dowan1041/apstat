@@ -202,6 +202,23 @@ section.sec{margin-bottom:3.4rem; scroll-margin-top:90px;}
 .sec h2{margin-bottom:.7rem;}
 .sec .body{max-width:700px; margin-bottom:1.4rem;}
 
+/* teacher-only answer key */
+.teacher-key-wrap{margin-bottom:1.4rem;}
+.teacher-key-toggle{
+  font-family:'JetBrains Mono',monospace; font-size:.76rem; padding:.45rem .9rem; border-radius:99px;
+  border:1px solid var(--gold); background:var(--gold-wash); color:var(--gold); cursor:pointer; transition:opacity .15s;
+}
+.teacher-key-toggle:hover{opacity:.8;}
+.teacher-key{margin-top:.9rem; padding:1rem 1.2rem; border:1px dashed var(--gold); border-radius:12px; background:var(--gold-wash);}
+.teacher-key[hidden]{display:none;}
+.tk-sentence{font-family:'Fraunces',serif; font-size:1rem; line-height:1.8; color:var(--ink); margin-bottom:.6rem;}
+.tk-sentence:last-child{margin-bottom:0;}
+.tk-answer{color:var(--gold);}
+.tk-q{padding:.5rem 0; border-bottom:1px dashed var(--line);}
+.tk-q:last-child{border-bottom:none;}
+.tk-q-text{font-size:.9rem; color:var(--ink-soft); margin-bottom:.25rem;}
+.tk-q-answer{font-size:.88rem; color:var(--gold); font-weight:600;}
+
 /* concept cards (overview / vocab) */
 .card-row{display:grid; grid-template-columns:repeat(auto-fit,minmax(230px,1fr)); gap:14px;}
 .concept-card{
@@ -310,11 +327,14 @@ section.sec{margin-bottom:3.4rem; scroll-margin-top:90px;}
 .quiz-opt{
   text-align:left; padding:.8rem 1rem; border-radius:10px; border:1px solid var(--line);
   background:var(--paper); cursor:pointer; font-size:.92rem; color:var(--ink-soft);
-  transition:all .15s;
+  transition:all .15s; display:flex; align-items:flex-start; gap:.6rem;
 }
+.quiz-opt-letter{font-family:'JetBrains Mono',monospace; font-weight:600; color:var(--ink-faint); flex:none;}
 .quiz-opt:hover{border-color:var(--population-line);}
 .quiz-opt.correct{background:var(--population-wash); border-color:var(--population); color:var(--population); font-weight:500;}
+.quiz-opt.correct .quiz-opt-letter{color:var(--population);}
 .quiz-opt.wrong{background:var(--sample-wash); border-color:var(--sample); color:var(--sample); font-weight:500;}
+.quiz-opt.wrong .quiz-opt-letter{color:var(--sample);}
 .quiz-opt.disabled{pointer-events:none;}
 .quiz-exp{background:var(--paper-deep); border-radius:10px; padding:.9rem 1.1rem; font-size:.88rem; color:var(--ink-soft); margin-bottom:1rem; display:none;}
 .quiz-exp.show{display:block;}
