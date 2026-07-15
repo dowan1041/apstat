@@ -93,12 +93,25 @@ a:hover{text-decoration:underline; text-underline-offset:3px;}
   border-bottom:1px solid var(--line);
 }
 .topbar-inner{max-width:960px; margin:0 auto; padding:14px 24px; display:flex; align-items:center; justify-content:space-between; gap:1rem;}
-.brand{display:flex; align-items:center; gap:.6rem; cursor:pointer; user-select:none;}
+.brand{display:flex; align-items:center; gap:.6rem; cursor:pointer; user-select:none; min-width:0; flex:none;}
 .brand-mark{width:26px; height:26px; flex:none;}
-.brand-name{font-family:'Fraunces', serif; font-size:1.15rem; font-weight:500;}
-.topbar-right{display:flex; align-items:center; gap:1rem;}
-.topbar-progress{ font-family:'JetBrains Mono',monospace; font-size:.78rem; color:var(--ink-muted); }
+.brand-name{font-family:'Fraunces', serif; font-size:1.15rem; font-weight:500; white-space:nowrap;}
+.topbar-right{display:flex; align-items:center; gap:1rem; min-width:0;}
+.topbar-progress{ font-family:'JetBrains Mono',monospace; font-size:.78rem; color:var(--ink-muted); white-space:nowrap; }
 .topbar-progress b{color:var(--population);}
+
+@media (max-width:640px){
+  .topbar-inner{padding:12px 16px; gap:.5rem;}
+  .brand-mark{width:22px; height:22px;}
+  .brand-name{font-size:.95rem;}
+  .topbar-progress{display:none;}
+  .user-chip{gap:.35rem;}
+  .user-chip-email{max-width:90px; font-size:.66rem;}
+  .user-chip-signout{padding:.22rem .5rem; font-size:.66rem;}
+}
+@media (max-width:380px){
+  .user-chip-email{display:none;}
+}
 
 /* ---------------- Hub ---------------- */
 .hub-hero{padding:3.2rem 0 1.6rem;}
