@@ -1039,14 +1039,172 @@ function svgPieChart(data){
     <div class="chart-legend">${legend}</div>
   </div>`;
 }
+/* ---- histogram (quantitative, flush bins — not a bar chart) ---- */
+function svgHistogram(bins, opts){
+  const mode = (opts && opts.mode) || 'count';
+  const total = bins.reduce((a,d)=>a+d.value, 0);
+  const max = mode === 'relative' ? total : Math.max(...bins.map(d=>d.value));
+  const barW = 62, pad = 12, chartH = 150, padT = 28, padB = 34;
+  const w = pad*2 + bins.length*barW;
+  const h = padT + chartH + padB;
+  const bars = bins.map((d,i)=>{
+    const frac = mode === 'relative' ? d.value/total : d.value/max;
+    const barH = Math.max(0, frac*chartH);
+    const x = pad + i*barW;
+    const y = padT + (chartH - barH);
+    const label = mode === 'relative' ? (Math.round(d.value/total*1000)/10) + '%' : d.value;
+    return `
+      ${barH > 0 ? `<text x="${x+barW/2}" y="${y-8}" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="12" fill="var(--ink)">${label}</text>` : ''}
+      <rect x="${x}" y="${y}" width="${barW}" height="${barH}" fill="var(--population)" stroke="var(--card)" stroke-width="1.5"/>
+      <text x="${x+barW/2}" y="${padT+chartH+18}" text-anchor="middle" font-family="Plus Jakarta Sans, sans-serif" font-size="10.5" fill="var(--ink-soft)">${d.label}</text>`;
+  }).join('');
+  return `<svg viewBox="0 0 ${w} ${h}" width="100%" height="${h}" style="max-width:${w}px;display:block;margin:0 auto;">
+    <line x1="${pad-2}" y1="${padT+chartH}" x2="${w-pad+2}" y2="${padT+chartH}" stroke="var(--line)" stroke-width="1.5"/>
+    ${bars}
+  </svg>`;
+}
+
+/* ---- dot plot (discrete quantitative, "salt shaker" stacking) ---- */
+function svgDotPlot(data, opts){
+  opts = opts || {};
+  const values = data.map(d=>d.value);
+  const min = opts.min !== undefined ? opts.min : Math.min(...values);
+  const max = opts.max !== undefined ? opts.max : Math.max(...values);
+  const step = opts.step || 1;
+  const decimals = opts.decimals || 0;
+  const dotR = 7, dotGap = 16;
+  const pad = 24, plotW = 440, padT = 16, padB = 34;
+  const maxStack = Math.max(...data.map(d=>d.count));
+  const chartH = Math.max(dotGap, maxStack*dotGap);
+  const axisY = padT + chartH + 4;
+  const w = pad*2 + plotW;
+  const h = axisY + padB;
+  const xScale = v => pad + (v-min)/(max-min)*plotW;
+  const ticks = [];
+  for(let t = min; t <= max + 1e-9; t += step) ticks.push(Math.round(t*1000)/1000);
+  const tickEls = ticks.map(t=>{
+    const x = xScale(t);
+    const label = decimals ? t.toFixed(decimals) : t;
+    return `<line x1="${x}" y1="${axisY}" x2="${x}" y2="${axisY+5}" stroke="var(--line)" stroke-width="1.5"/>
+      <text x="${x}" y="${axisY+18}" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="11" fill="var(--ink-soft)">${label}</text>`;
+  }).join('');
+  const dots = data.map(d=>{
+    const x = xScale(d.value);
+    let circles = '';
+    for(let i=0;i<d.count;i++){
+      const y = axisY - 4 - dotR - i*dotGap;
+      circles += `<circle cx="${x}" cy="${y}" r="${dotR}" fill="var(--population)"/>`;
+    }
+    return circles;
+  }).join('');
+  const axisLabelEl = opts.axisLabel ? `<text x="${w/2}" y="${h-4}" text-anchor="middle" font-family="Plus Jakarta Sans, sans-serif" font-size="11.5" fill="var(--ink-soft)">${opts.axisLabel}</text>` : '';
+  return `<svg viewBox="0 0 ${w} ${h}" width="100%" height="${h}" style="max-width:${w}px;display:block;margin:0 auto;">
+    <line x1="${pad}" y1="${axisY}" x2="${pad+plotW}" y2="${axisY}" stroke="var(--line)" stroke-width="1.5"/>
+    ${tickEls}
+    ${dots}
+    ${axisLabelEl}
+  </svg>`;
+}
+
+/* ---- box plot (single or parallel, from a five-number summary) ---- */
+function niceStep(range){
+  const rough = range/6;
+  const mag = Math.pow(10, Math.floor(Math.log10(rough)));
+  const norm = rough/mag;
+  let mult;
+  if(norm < 1.5) mult = 1;
+  else if(norm < 3.5) mult = 2;
+  else if(norm < 7.5) mult = 5;
+  else mult = 10;
+  return mult*mag;
+}
+function svgBoxPlot(groups, opts){
+  opts = opts || {};
+  const allVals = groups.flatMap(g=>[g.min,g.q1,g.median,g.q3,g.max,...(g.outliers||[])]);
+  const dataMin = Math.min(...allVals), dataMax = Math.max(...allVals);
+  const range = (dataMax - dataMin) || 1;
+  const axisMin = opts.axisMin !== undefined ? opts.axisMin : dataMin - range*0.08;
+  const axisMax = opts.axisMax !== undefined ? opts.axisMax : dataMax + range*0.08;
+  const hasLabels = groups.some(g=>g.label);
+  const labelW = hasLabels ? 92 : 0;
+  const plotW = 420, padR = 24, padT = 20, rowH = 56, boxH = 24, padB = 34;
+  const padL = 16 + labelW;
+  const w = padL + plotW + padR;
+  const axisY = padT + groups.length*rowH;
+  const h = axisY + padB;
+  const xScale = v => padL + (v-axisMin)/(axisMax-axisMin)*plotW;
+  const step = opts.step || niceStep(axisMax-axisMin);
+  const ticks = [];
+  for(let t = Math.ceil(axisMin/step)*step; t <= axisMax + 1e-9; t += step) ticks.push(Math.round(t*1000)/1000);
+  const tickEls = ticks.map(t=>{
+    const x = xScale(t);
+    return `<line x1="${x}" y1="${axisY}" x2="${x}" y2="${axisY+5}" stroke="var(--line)" stroke-width="1.5"/>
+      <text x="${x}" y="${axisY+18}" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="11" fill="var(--ink-soft)">${t}</text>`;
+  }).join('');
+  const rows = groups.map((g,i)=>{
+    const y = padT + i*rowH + rowH/2;
+    const color = chartColor(i);
+    const xMin = xScale(g.min), xQ1 = xScale(g.q1), xMed = xScale(g.median), xQ3 = xScale(g.q3), xMax = xScale(g.max);
+    const outliers = (g.outliers||[]).map(v=>`<circle cx="${xScale(v)}" cy="${y}" r="4.5" fill="var(--sample)" stroke="var(--card)" stroke-width="1"/>`).join('');
+    const label = g.label ? `<text x="${padL-12}" y="${y+4}" text-anchor="end" font-family="Plus Jakarta Sans, sans-serif" font-size="12" fill="var(--ink)">${g.label}</text>` : '';
+    return `
+      ${label}
+      <line x1="${xMin}" y1="${y}" x2="${xQ1}" y2="${y}" stroke="var(--ink-soft)" stroke-width="1.5"/>
+      <line x1="${xMin}" y1="${y-8}" x2="${xMin}" y2="${y+8}" stroke="var(--ink-soft)" stroke-width="1.5"/>
+      <line x1="${xQ3}" y1="${y}" x2="${xMax}" y2="${y}" stroke="var(--ink-soft)" stroke-width="1.5"/>
+      <line x1="${xMax}" y1="${y-8}" x2="${xMax}" y2="${y+8}" stroke="var(--ink-soft)" stroke-width="1.5"/>
+      <rect x="${xQ1}" y="${y-boxH/2}" width="${Math.max(2,xQ3-xQ1)}" height="${boxH}" fill="${color}" fill-opacity="0.18" stroke="${color}" stroke-width="2"/>
+      <line x1="${xMed}" y1="${y-boxH/2}" x2="${xMed}" y2="${y+boxH/2}" stroke="${color}" stroke-width="2.5"/>
+      ${outliers}`;
+  }).join('');
+  return `<svg viewBox="0 0 ${w} ${h}" width="100%" height="${h}" style="max-width:${w}px;display:block;margin:0 auto;">
+    <line x1="${padL}" y1="${axisY}" x2="${padL+plotW}" y2="${axisY}" stroke="var(--line)" stroke-width="1.5"/>
+    ${tickEls}
+    ${rows}
+  </svg>`;
+}
+
+/* ---- stem-and-leaf plot (single or back-to-back/split — a textual figure, not SVG) ---- */
+function renderStemplot(it){
+  const header = it.splitSides
+    ? `<div class="stem-row stem-header"><span class="stem-leaves left">${it.leftLabel||''}</span><span class="stem-stem"></span><span class="stem-leaves right">${it.rightLabel||''}</span></div>`
+    : '';
+  const rows = it.stems.map(row=>{
+    if(it.splitSides){
+      const leftStr = (row.left||[]).slice().reverse().join(' ');
+      const rightStr = (row.right||[]).join(' ');
+      return `<div class="stem-row">
+        <span class="stem-leaves left">${leftStr}</span>
+        <span class="stem-stem">${row.stem}</span>
+        <span class="stem-leaves right">${rightStr}</span>
+      </div>`;
+    }
+    const leafStr = (row.leaves||[]).join(' ');
+    return `<div class="stem-row">
+      <span class="stem-stem">${row.stem}</span>
+      <span class="stem-leaves right">${leafStr}</span>
+    </div>`;
+  }).join('');
+  const key = it.keyText ? `<p class="stem-key">${it.keyText}</p>` : '';
+  return `<div class="chart-stemplot-wrap"><div class="chart-stemplot">${header}${rows}</div>${key}</div>`;
+}
+
 function renderChart(sec, mount){
   const grid = document.createElement('div');
   grid.className = 'chart-grid';
   sec.items.forEach(it=>{
     const card = document.createElement('div');
     card.className = 'chart-card';
-    const svg = it.chartType === 'pie' ? svgPieChart(it.data) : svgBarChart(it.data, { mode: it.mode || 'count' });
-    card.innerHTML = `<h4>${it.title}</h4><div class="chart-svg-wrap">${svg}</div>` + (it.caption ? `<p class="chart-caption">${it.caption}</p>` : '');
+    let body;
+    switch(it.chartType){
+      case 'pie': body = svgPieChart(it.data); break;
+      case 'histogram': body = svgHistogram(it.data, { mode: it.mode || 'count' }); break;
+      case 'dotplot': body = svgDotPlot(it.data, it.opts || {}); break;
+      case 'boxplot': body = svgBoxPlot(it.groups, it.opts || {}); break;
+      case 'stemplot': body = renderStemplot(it); break;
+      default: body = svgBarChart(it.data, { mode: it.mode || 'count' });
+    }
+    card.innerHTML = `<h4>${it.title}</h4><div class="chart-svg-wrap">${body}</div>` + (it.caption ? `<p class="chart-caption">${it.caption}</p>` : '');
     grid.appendChild(card);
   });
   mount.appendChild(grid);

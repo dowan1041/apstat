@@ -8,7 +8,7 @@
 registerUnit({
   code: 'Unit 1',
   name: 'Exploring One-Variable Data',
-  chapterIds: ['1-1', '1-2', '1-3', '1-4']
+  chapterIds: ['1-1', '1-2', '1-3', '1-4', '1-5', '1-6', '1-7', '1-8']
 });
 
 registerChapters({
@@ -856,6 +856,1007 @@ registerChapters({
         { q: 'A data set\'s frequency table is used to build both a bar chart and a pie chart. Which statement is true?', opts: ['The bar chart and pie chart will show completely different information.', 'Both charts can represent the exact same underlying data, just displayed differently.', 'Only the pie chart can use relative frequency.', 'Only the bar chart can use relative frequency.'], correct: 1, exp: 'A bar chart and pie chart can both be built from the same frequency or relative frequency data — they\'re just different visual formats for the same information.' },
         { q: 'Club A (n=40) has 30 students who attend every meeting. Club B (n=500) has 100 students who attend every meeting. Which club has a higher proportion of students attending every meeting?', opts: ['They are equal', 'Cannot be determined without more information', 'Club A (30/40 = 75%)', 'Club B (100/500 = 20%)'], correct: 2, exp: '75% (Club A) is much higher than 20% (Club B), even though Club B has more such students in raw count (100 vs. 30).' },
         { q: 'A student looks at Club B\'s bar chart alone and claims "Club B has better meeting attendance than Club A" because 100 is a bigger number than 30. What is the flaw in this claim?', opts: ['Club A doesn\'t really have 30 students.', 'Bar charts cannot be used to make claims.', 'There is no flaw — 100 is bigger than 30.', 'The student compared raw counts without accounting for the very different club sizes; by proportion, Club A actually has better attendance.'], correct: 3, exp: 'Comparing raw counts alone ignores the difference in total membership — by proportion (75% vs. 20%), Club A actually has noticeably better attendance.' },
+      ]
+    }
+  }
+});
+
+/* ============================================
+   Topic 1.5 — Representing a Quantitative Variable with Graphs
+   Source: course transcript (Topic 1.5 lecture)
+   ============================================ */
+
+registerChapters({
+  '1-5': {
+    id: '1-5',
+    code: 'Topic 1.5',
+    unitName: 'Unit 1 — Exploring One-Variable Data',
+    title: 'Representing a Quantitative Variable with Graphs',
+    cardSummary: 'Dot plots, stem-and-leaf plots, and histograms for a quantitative variable — one number line, three ways to show how the values are distributed.',
+    heroTitle: 'Turn numbers<br>into a <em>shape</em>.',
+    heroSub: 'Categorical data got bars and pies. Quantitative data gets a number line — dot plots, stem-and-leaf plots, and histograms all show where your values fall and how often, just with different amounts of detail.',
+    source: 'Topic 1.5 course video',
+    estTime: '~25–35 min',
+
+    sections: [
+      /* ---------------- 1. OVERVIEW ---------------- */
+      {
+        type: 'overview', id: 'overview', label: 'Section 01 — Overview',
+        heading: 'One number line, <span class="underline teal">three graphs</span>.',
+        body: 'Dot plots, stem-and-leaf plots, and histograms all order a quantitative variable from smallest to largest and show how often values occur — they just trade off detail differently.',
+        cards: [
+          { roman: 'I.', title: 'Match the graph to the data', body: 'A <strong>dot plot</strong> stacks a dot per value — best for discrete data. A <strong>stem-and-leaf plot</strong> keeps every real value visible and in order. A <strong>histogram</strong> groups continuous data into equal-width <strong>bins</strong>.', tags: ['Dot plot','Stem-and-leaf','Histogram'] },
+          { roman: 'II.', title: 'Same skeleton, different detail', body: 'Every one of these graphs starts with an ordered number line and shows frequency or relative frequency — the real tradeoff is how much of the actual data you can still see once it’s graphed.', tags: ['Ordered number line','Frequency or relative frequency','Detail vs. simplicity'], accent: 'sample' }
+        ]
+      },
+
+      /* ---------------- 2. VOCAB ---------------- */
+      {
+        type: 'vocab', id: 'vocab', label: 'Section 02 — Vocabulary',
+        heading: 'The <span class="underline teal">six words</span> this topic runs on.',
+        body: 'Tap a term you’ve got down — your checkmarks are saved so you can see what still needs review.',
+        items: [
+          { id: 'dot-plot', term: 'Dot plot', accent: 'population', body: 'Stacks one dot per data value above its spot on a number line — best for discrete data, where values are countable and typically whole numbers.' },
+          { id: 'stem-and-leaf-plot', term: 'Stem-and-leaf plot', accent: 'population', body: 'Splits each value into a "stem" (every digit except the last) and a "leaf" (the last digit), keeping every real data value visible and in order.' },
+          { id: 'split-stem', term: 'Split stem', accent: 'sample', body: 'Gives each stem two rows instead of one — leaves 0–4 in the first row, leaves 5–9 in the second — to spread out a stemplot that would otherwise be too crowded.' },
+          { id: 'back-to-back', term: 'Back-to-back stem-and-leaf plot', accent: 'sample', body: 'Two stem-and-leaf plots sharing one middle column of stems — one group’s leaves read outward to the left, the other group’s leaves read outward to the right — used to compare two data sets.' },
+          { id: 'histogram', term: 'Histogram', accent: 'population', body: 'Groups continuous data into equal-width bins and draws a bar for each. Bars touch with no gaps — unlike a bar chart, because the variable is quantitative, not categorical.' },
+          { id: 'bin', term: 'Bin (interval)', accent: 'population', body: 'One equal-width chunk of a histogram’s number line, usually left-inclusive — a 150–200 bin includes 150 up to (but not including) 200.' }
+        ]
+      },
+
+      /* ---------------- 3. READING THE GRAPHS ---------------- */
+      {
+        type: 'chart', id: 'graphs', label: 'Section 03 — Reading the Graphs',
+        heading: 'Seven graphs, <span class="underline sample">one number line each</span>.',
+        items: [
+          {
+            title: 'Weekly video-game hours (n = 14)',
+            chartType: 'dotplot',
+            data: [{value:0,count:1},{value:1,count:1},{value:3,count:1},{value:4,count:1},{value:5,count:1},{value:6,count:2},{value:7,count:1},{value:8,count:2},{value:9,count:1},{value:10,count:1},{value:12,count:1},{value:14,count:1}],
+            opts: { min: 0, max: 14, step: 2, axisLabel: 'Hours of video games per week' },
+            caption: '14 kids reported how many hours a week they play video games — discrete, whole-number data, so a dot plot works well. Most cluster from 6 to 9 hours.'
+          },
+          {
+            title: 'Ball bearing diameters, cm (n = 16)',
+            chartType: 'dotplot',
+            data: [{value:0.94,count:1},{value:0.96,count:1},{value:0.97,count:1},{value:0.98,count:3},{value:0.99,count:2},{value:1.00,count:2},{value:1.01,count:2},{value:1.02,count:1},{value:1.03,count:1},{value:1.05,count:1},{value:1.06,count:1}],
+            opts: { min: 0.94, max: 1.06, step: 0.02, decimals: 2, axisLabel: 'Diameter (cm)' },
+            caption: 'A sample of manufactured ball bearings, measured to the nearest 0.01 cm. Even continuous data can be dot-plotted — diameters cluster from 0.98 to 1.00 cm.'
+          },
+          {
+            title: 'Amount spent per shopper, $ (n = 14)',
+            chartType: 'stemplot',
+            stems: [
+              {stem:'3', leaves:[4,4,5]}, {stem:'4', leaves:[]}, {stem:'5', leaves:[2]},
+              {stem:'6', leaves:[1,1,2,5]}, {stem:'7', leaves:[0,3,8]}, {stem:'8', leaves:[2]},
+              {stem:'9', leaves:[5]}, {stem:'10', leaves:[]}, {stem:'11', leaves:[]},
+              {stem:'12', leaves:[]}, {stem:'13', leaves:[]}, {stem:'14', leaves:[]}, {stem:'15', leaves:[0]}
+            ],
+            keyText: 'Key: 3 | 4 = $34',
+            caption: 'A stem-and-leaf plot keeps every actual value — you can read off that someone spent exactly $92, not just "somewhere in the 90s." The empty stems from $100–$149 create an obvious gap before the $150 outlier.'
+          },
+          {
+            title: 'Quiz scores, split stem (n = 18)',
+            chartType: 'stemplot',
+            stems: [
+              {stem:'6', leaves:[1,3,4]}, {stem:'6', leaves:[7,8]},
+              {stem:'7', leaves:[0,1,2,4]}, {stem:'7', leaves:[6,7,9]},
+              {stem:'8', leaves:[1,3]}, {stem:'8', leaves:[5,8]},
+              {stem:'9', leaves:[1]}, {stem:'9', leaves:[5]}
+            ],
+            keyText: 'Key: 7 | 6 = 76. Each stem gets two rows: leaves 0–4 first, then leaves 5–9.',
+            caption: 'Splitting each stem into two rows spreads the data out when a regular stemplot would bunch too many leaves onto one line — useful once a data set gets a little bigger.'
+          },
+          {
+            title: 'Commute time, minutes — urban vs. rural (n = 20 each)',
+            chartType: 'stemplot', splitSides: true, leftLabel: 'Urban', rightLabel: 'Rural',
+            stems: [
+              {stem:'1', left:[2,4,6,8], right:[]},
+              {stem:'2', left:[1,1,3,5,6,7,8,9,9], right:[]},
+              {stem:'3', left:[1,4,7], right:[0,1,2,3,4,5,7,9]},
+              {stem:'4', left:[2,5], right:[0,1,1,2,3,4,4,6,8,8,9]},
+              {stem:'5', left:[3,8], right:[1]}
+            ],
+            keyText: 'Key: 2 | 6 = 26 minutes — read outward from the shared stem in the middle.',
+            caption: 'A back-to-back stem-and-leaf plot shares one stem column so two groups can be compared directly — urban commutes cluster in the teens and twenties, while rural commutes run mostly in the 30s and 40s.'
+          },
+          {
+            title: 'Tree heights, ft — bin width 50 (n = 120)',
+            chartType: 'histogram', mode: 'count',
+            data: [{label:'100–150',value:3},{label:'150–200',value:30},{label:'200–250',value:26},{label:'250–300',value:50},{label:'300–350',value:11}],
+            caption: 'Bars touch — this is a histogram, not a bar chart, because tree height is quantitative. Each bin is left-inclusive: the 250–300 bin holds every tree from 250 up to (but not including) 300 ft.'
+          },
+          {
+            title: 'Same 120 trees — bin width 100',
+            chartType: 'histogram', mode: 'count',
+            data: [{label:'100–200',value:33},{label:'200–300',value:76},{label:'300–400',value:11}],
+            caption: 'Same data, wider bins. Fewer, taller bars mean less fine detail — the 250–300 spike disappears into one big bin — but the overall shape still comes through. Bin width is a choice, as long as it stays consistent across the whole graph.'
+          }
+        ]
+      },
+
+      /* ---------------- 4. GUIDED NOTES (fill in the blank) ---------------- */
+      {
+        type: 'fill-blank', id: 'guided-notes', label: 'Section 04 — Guided Notes',
+        heading: 'Fill in the <span class="underline sample">guided notes</span>.',
+        body: 'Same idea as the printable guided notes — but pick each answer from a dropdown. Submit to check; anything wrong turns red so you can try once more before the answer is revealed.',
+        items: [
+          { segments: [
+            'Dot plots, stem-and-leaf plots, and histograms all start with a number line ordered from ',
+            { id:'b1', answer:'smallest to largest', options:['smallest to largest','largest to smallest','a random order'] },
+            ', showing how often the quantitative variable takes on each value or falls into each interval.'
+          ]},
+          { segments: [
+            'A dot plot works best for ',
+            { id:'b2', answer:'discrete', options:['discrete','continuous','categorical'] },
+            ' data, where values are countable and typically whole numbers.'
+          ]},
+          { segments: [
+            'In a stem-and-leaf plot, the stem is every digit except the last, and the leaf is the ',
+            { id:'b3', answer:'last digit', options:['last digit','first digit','decimal point'] },
+            '; unlike a histogram, a stemplot lets you read off the ',
+            { id:'b4', answer:'exact', options:['exact','rounded','average'] },
+            ' data values.'
+          ]},
+          { segments: [
+            'A ',
+            { id:'b5', answer:'split stem', options:['split stem','back-to-back stemplot','histogram'] },
+            ' gives each stem two rows to spread out a crowded data set, while a ',
+            { id:'b6', answer:'back-to-back stemplot', options:['back-to-back stemplot','split stem','dot plot'] },
+            ' shares one column of stems to compare two different groups.'
+          ]},
+          { segments: [
+            'A histogram groups continuous data into equal-width ',
+            { id:'b7', answer:'bins', options:['bins','categories','stems'] },
+            '; the bars are drawn ',
+            { id:'b8', answer:'touching', options:['touching','with gaps','overlapping'] },
+            ' because the variable is quantitative, not categorical.'
+          ]},
+          { segments: [
+            'Histogram bins are usually ',
+            { id:'b9', answer:'left-inclusive', options:['left-inclusive','right-inclusive','symmetric'] },
+            ', meaning a 150–200 bin includes 150 but stops just short of 200.'
+          ]}
+        ]
+      },
+
+      /* ---------------- 5. WORKED EXAMPLES ---------------- */
+      {
+        type: 'examples', id: 'examples', label: 'Section 05 — Worked Examples',
+        heading: 'Read the graph. <span class="underline teal">Answer the question.</span>',
+        body: 'These reference the charts in Section 03 above. Click each one open, work it out, then check your answer.',
+        items: [
+          {
+            q: 'The video-game dot plot above shows 14 kids’ weekly hours. What proportion of kids played at least 8 hours, and what does the shape tell you about where most kids fall?',
+            fields: [
+              { k: 'At least 8 hours', v: '8, 8, 9, 10, 12, 14 — 6 of the 14 kids, so 6/14 ≈ 0.43 or about 43%' },
+              { k: 'Where most data falls', v: 'The tallest stacks are at 6 hours (2 kids) and 8 hours (2 kids); the values thin out heading toward 0 and toward 14' }
+            ]
+          },
+          {
+            q: 'The ball-bearing dot plot shows 16 diameters measured to the nearest 0.01 cm. What is the range of diameters, and roughly where do most of them fall?',
+            fields: [
+              { k: 'Range of the data', v: '0.94 cm to 1.06 cm — a spread of 0.12 cm' },
+              { k: 'Where most values fall', v: 'Most diameters cluster from about 0.98 to 1.00 cm, where the dots stack the highest' }
+            ]
+          },
+          {
+            q: 'The stem-and-leaf plot of shopper spending shows one value all the way up at $150, separated from the rest of the data by several empty stems. Using only the graph, how would you describe this?',
+            fields: [
+              { k: 'Value in question', v: '$150 — the single leaf on the "15" stem' },
+              { k: 'Why it stands out', v: 'Stems 10 through 14 ($100–$149) are completely empty — that gap is what marks $150 as a possible outlier, not just a "big" value' }
+            ]
+          },
+          {
+            q: 'Using the back-to-back stem-and-leaf plot of commute times, what proportion of the urban sample commutes at most 30 minutes, and what proportion of the rural sample commutes over 45 minutes?',
+            fields: [
+              { k: 'Urban, at most 30 min', v: 'Stems 1 and 2 (13 values total) are all ≤ 30 minutes — 13/20 = 65%' },
+              { k: 'Rural, over 45 min', v: 'The upper half of the "4" stem (46, 48, 48, 49) plus the "5" stem (51) — 5/20 = 25%' }
+            ]
+          }
+        ]
+      },
+
+      /* ---------------- 6. FLASHCARDS ---------------- */
+      {
+        type: 'flashcards', id: 'flashcards', label: 'Section 06 — Flashcards',
+        heading: 'See the clue. <span class="underline sample">Name the term.</span>',
+        body: 'Front shows a short scenario or definition clue. Flip to check yourself, then mark whether you knew it.',
+        items: [
+          { prompt: 'Countable, whole-number data stacked as dots above a number line.', term: 'Dot plot', detail: 'Best for discrete quantitative data.' },
+          { prompt: 'A graph that splits each value into a "stem" and a "leaf" so every real data value stays visible.', term: 'Stem-and-leaf plot', detail: 'Unlike a histogram, you can read the exact values back out.' },
+          { prompt: 'Giving each stem two rows — leaves 0–4, then leaves 5–9 — to spread out a crowded stemplot.', term: 'Split stem', detail: 'Same data, just more rows to work with.' },
+          { prompt: 'Two stemplots sharing one middle column of stems, one group’s leaves reading left and the other’s reading right.', term: 'Back-to-back stem-and-leaf plot', detail: 'Used to compare two data sets directly.' },
+          { prompt: 'Bars touching with no gaps, grouping a continuous variable into equal-width intervals.', term: 'Histogram', detail: 'Looks like a bar chart, but it is not one — the variable is quantitative.' },
+          { prompt: 'One equal-width chunk of a histogram’s number line, usually left-inclusive.', term: 'Bin (interval)', detail: 'A 150–200 bin holds 150 up to just under 200.' },
+          { prompt: 'You only have a histogram of a data set — no stemplot, no raw list. Can you recover the exact minimum value?', term: 'No — histograms hide individual values', detail: 'You only know how many values fell in a bin, not what they actually were.' }
+        ]
+      },
+
+      /* ---------------- 7. QUIZ ---------------- */
+      {
+        type: 'quiz', id: 'quiz', label: 'Section 07 — Quiz',
+        heading: 'Test yourself. <span class="underline">No pressure.</span>',
+        body: 'Ten questions pulled straight from the lesson’s examples. Your best score is saved.',
+        questions: [
+          { q: 'Which graph is best suited for discrete, countable, whole-number data?', opts: ['Histogram', 'Dot plot', 'Pie chart', 'Bar chart'], correct: 1, exp: 'Dot plots are built for discrete quantitative data — one dot stacked per repeated value.' },
+          { q: 'In a stem-and-leaf plot, the leaf represents:', opts: ['Every digit except the last', 'Only the last digit of the value', 'The frequency of that value', 'The bin width'], correct: 1, exp: 'The stem is every digit except the last; the leaf is just the final digit.' },
+          { q: 'What is the main purpose of splitting a stem into two rows?', opts: ['To hide outliers', 'To spread out a data set that would otherwise be too crowded on one stem', 'To combine two different variables', 'To convert it into a histogram'], correct: 1, exp: 'A split stem gives leaves 0–4 and leaves 5–9 their own rows so a crowded stemplot becomes easier to read.' },
+          { q: 'A back-to-back stem-and-leaf plot is most useful for:', opts: ['Displaying one categorical variable', 'Comparing two quantitative data sets that share the same stems', 'Finding the mean of a data set', 'Making a pie chart'], correct: 1, exp: 'Back-to-back stemplots share a stem column so two groups can be compared side-by-side.' },
+          { q: 'Why is a histogram not considered a bar chart, even though it looks similar?', opts: ['A histogram never has bars', 'A histogram displays a quantitative variable grouped into bins, not a categorical variable', 'A histogram uses only one color', 'A histogram cannot show frequency'], correct: 1, exp: 'A bar chart is for categorical data; the moment bars represent bins of a quantitative variable, it’s a histogram.' },
+          { q: 'In a histogram, what does "left-inclusive" mean for a 150–200 bin?', opts: ['It includes 200 but not 150', 'It includes both 150 and 200', 'It includes 150 up to but not including 200', 'It includes neither endpoint'], correct: 2, exp: 'Left-inclusive bins include the left edge and stop just short of the right edge.' },
+          { q: 'A dot plot shows the exact same 14 values as a jumbled list. What advantage does the dot plot have?', opts: ['It hides individual values for privacy', 'It lets you instantly see the shape and clustering of the distribution', 'It automatically calculates the mean', 'It removes any outliers'], correct: 1, exp: 'A dot plot turns a list of numbers into a visual shape you can read at a glance.' },
+          { q: 'If a stem-and-leaf plot has several completely empty stems between the bulk of the data and one extreme value, that extreme value is likely:', opts: ['A typo', 'The mode', 'A possible outlier', 'The median'], correct: 2, exp: 'A big gap separating one value from the rest is the visual signature of a possible outlier.' },
+          { q: 'Changing a histogram’s bin width from 50 to 100 while keeping the same data will:', opts: ['Change the underlying data values', 'Combine bars into fewer, wider bins, showing less fine detail', 'Always increase the total count', 'Turn it into a dot plot'], correct: 1, exp: 'Wider bins group more values together per bar, smoothing out fine detail without changing the data itself.' },
+          { q: 'Which of these is an advantage a stem-and-leaf plot has over a histogram?', opts: ['It can display more than one variable at once', 'It shows every actual data value, not just how many fell in a range', 'It never needs a key', 'It works better for very large data sets'], correct: 1, exp: 'A histogram only tells you a count per bin; a stemplot preserves every real value.' }
+        ]
+      },
+
+      /* ---------------- 8. TAKEAWAYS ---------------- */
+      {
+        type: 'takeaways', id: 'takeaways', label: 'Section 08 — Takeaways',
+        heading: 'Five things to <span class="underline gold">actually remember</span>.',
+        items: [
+          { num: 'i.', title: 'Match the graph to the data', body: 'A <strong>dot plot</strong> suits discrete data, a <strong>stem-and-leaf plot</strong> keeps every exact value, and a <strong>histogram</strong> groups continuous data into bins.' },
+          { num: 'ii.', title: 'Same number line, different detail', body: 'All three order data smallest to largest — a stemplot shows everything, a histogram trades individual values for a cleaner shape.' },
+          { num: 'iii.', title: 'A histogram is not a bar chart', body: 'Bars touch because the variable is quantitative and continuous, not categorical — spaces between bars would only appear where a bin is truly empty.' },
+          { num: 'iv.', title: 'Split and back-to-back stems add flexibility', body: 'Split stems spread out one crowded data set; back-to-back stems let you compare two data sets on shared stems.' },
+          { num: 'v.', title: 'Bin width is a choice, not the data', body: 'The same quantitative data can look different at different bin widths, but the underlying values never change — empty bins or stems are what reveal gaps and possible outliers.' }
+        ]
+      }
+    ],
+
+    homework: {
+      estTime: '~25 min',
+      questions: [
+        { q: 'A dot plot is best suited for which type of data?', opts: ['Categorical data', 'Discrete, countable quantitative data', 'Data with no numeric value', 'Data that must be continuous and never whole numbers'], correct: 1, exp: 'Dot plots stack a dot per repeated whole-number value — ideal for discrete quantitative data.' },
+        { q: 'In a stem-and-leaf plot showing exam scores, the stem represents the tens digit. A leaf of "7" on the "8" stem represents the value:', opts: ['87', '78', '8.7', '780'], correct: 0, exp: 'Stem 8 (tens digit) plus leaf 7 (ones digit) makes 87.' },
+        { q: 'Why might a data set use a split stem instead of a regular stem-and-leaf plot?', opts: ['The data is categorical', 'There are too many leaves piling up onto a single stem', 'To make the graph shorter', 'Split stems are required by AP Statistics rules'], correct: 1, exp: 'Splitting a stem into two rows spreads out leaves that would otherwise be crowded onto one line.' },
+        { q: 'A back-to-back stem-and-leaf plot is designed to:', opts: ['Show one variable at four different times', 'Compare two data sets side-by-side using shared stems', 'Replace the need for a key', 'Only work with categorical data'], correct: 1, exp: 'Back-to-back stemplots share a middle stem column so two groups can be read and compared directly.' },
+        { q: 'A histogram’s bars are drawn touching with no gaps because:', opts: ['It saves ink', 'The variable is quantitative, and the bins represent a continuous, ordered number line', 'It is a rule with no real reason', 'It is actually a bar chart in disguise'], correct: 1, exp: 'Touching bars reflect that the bins tile a continuous number line — a gap would only appear if a bin held zero data.' },
+        { q: 'A histogram bin is labeled "50–100." Using the left-inclusive convention, a value of exactly 100 would fall into:', opts: ['The 50–100 bin', 'The next bin up (100–150)', 'Neither bin', 'Both bins'], correct: 1, exp: 'Left-inclusive bins stop just short of their right edge, so exactly 100 belongs to the next bin.' },
+        { q: 'A histogram of family-room sizes has bins 100–150 ft² (3 houses), 150–200 ft² (6 houses), 200–250 ft² (1 house), 250–300 ft² (7 houses), and 300–350 ft² (3 houses). How many houses have a family room between 250 and 300 ft²?', opts: ['3', '6', '7', '1'], correct: 2, exp: 'Read the bar directly: the 250–300 ft² bin holds 7 houses.' },
+        { q: 'Using that same family-room histogram (n = 20 total), what proportion of houses have a family room between 150 and 200 ft²?', opts: ['3/20 = 15%', '6/20 = 30%', '7/20 = 35%', '1/20 = 5%'], correct: 1, exp: '6 houses fall in the 150–200 ft² bin, and 6/20 = 30%.' },
+        { q: 'In that family-room histogram, how many houses have a family room of 250 ft² or more?', opts: ['7', '3', '10', '1'], correct: 2, exp: '7 (250–300 ft²) plus 3 (300–350 ft²) makes 10 houses.' },
+        { q: 'A histogram of tip amounts has bins $0–$2.50 (25 tips), $2.50–$5 (22 tips), $5–$7.50 (10 tips), and $7.50–$10 (3 tips). How many tips were less than $5?', opts: ['25', '22', '47', '60'], correct: 2, exp: '25 + 22 = 47 tips fell below $5.' },
+        { q: 'Using that same tips histogram (n = 60 total), what proportion of tips were $5 or more?', opts: ['13/60 ≈ 21.7%', '47/60 ≈ 78.3%', '10/60 ≈ 16.7%', '3/60 = 5%'], correct: 0, exp: '60 − 47 = 13 tips were $5 or more, and 13/60 ≈ 21.7%.' },
+        { q: 'What is the width of each bin in that tips histogram?', opts: ['$1', '$2.50', '$5', '$10'], correct: 1, exp: 'Each bin spans $2.50 (e.g. $0–$2.50, $2.50–$5, and so on).' },
+        { q: 'A stem-and-leaf plot has several completely empty stems between the bulk of the values and one extreme value far above them. This pattern most likely signals:', opts: ['A typo in the data', 'A possible outlier', 'That the data is categorical', 'That a histogram would be impossible to build'], correct: 1, exp: 'A gap separating one value from the rest of the data is the visual sign of a possible outlier.' },
+        { q: 'Which of the following is true about dot plots?', opts: ['They can only be used for categorical data', 'Each dot represents one data value, stacked when values repeat', 'They never show repeated values', 'They require a stem and a leaf'], correct: 1, exp: 'Repeated values stack as multiple dots directly above that point on the number line.' },
+        { q: 'A researcher has the same data set graphed two ways: once as a stem-and-leaf plot, once as a histogram. Which graph lets you recover every original data value exactly?', opts: ['The histogram', 'The stem-and-leaf plot', 'Neither', 'Both equally'], correct: 1, exp: 'A stem-and-leaf plot preserves every real data value; a histogram only shows counts per bin.' },
+        { q: 'Changing a histogram’s bin width from 20 to 50 will typically:', opts: ['Delete data from the sample', 'Result in fewer, wider bars that show less fine detail', 'Always double the total count', 'Convert the histogram into a pie chart'], correct: 1, exp: 'Wider bins combine more values per bar, trading detail for a simpler shape — the data itself is unchanged.' },
+        { q: 'A data set of shoe sizes (whole and half sizes only) and a data set of exact race times (measured to the hundredth of a second) — which graph pairing makes the most sense?', opts: ['Race times as a dot plot, shoe sizes as a histogram', 'Shoe sizes as a dot plot (few repeated discrete values), race times as a histogram (many unique continuous values)', 'Both should be pie charts', 'Neither can be graphed'], correct: 1, exp: 'Shoe sizes repeat often and are discrete, suiting a dot plot; race times are continuous with few exact repeats, suiting a histogram.' },
+        { q: 'In a back-to-back stem-and-leaf plot comparing two towns’ commute times, Town A’s leaves (on the left) are read right-to-left toward the shared stem. Why?', opts: ['It is a typo', 'So both sides read outward from the shared stem in increasing order, keeping the plot legible', 'Because Town A’s data is backwards', 'Because Town A has fewer observations'], correct: 1, exp: 'Reading outward from the shared stem keeps both sides in increasing order and the plot easy to read.' },
+        { q: 'What single feature do dot plots, stem-and-leaf plots, and histograms all share?', opts: ['They all require a key', 'They all group data into exactly five bins', 'They are all built on a number line ordered from smallest to largest', 'They can only be used for categorical variables'], correct: 2, exp: 'Every one of these graphs is built on an ordered quantitative number line.' },
+        { q: 'A histogram has a tall bar from 0–10 minutes, a shorter bar from 10–20, an even shorter one from 20–30, and bars that keep shrinking as you move right. What would a stem-and-leaf plot or dot plot of the same data most likely show?', opts: ['A shape with most data concentrated near the low end and a tail stretching toward higher values', 'A perfectly uniform shape', 'No data at all near zero', 'Only categorical labels'], correct: 0, exp: 'Bars shrinking as values increase describes data piled up low with a tail extending to the right — the same shape would show up as clustering near the low end in a dot plot or stemplot.' }
+      ]
+    }
+  }
+});
+
+/* ============================================
+   Topic 1.6 — Describing Distributions of a Quantitative Variable
+   Source: course transcript (Topic 1.6 lecture)
+   ============================================ */
+
+registerChapters({
+  '1-6': {
+    id: '1-6',
+    code: 'Topic 1.6',
+    unitName: 'Unit 1 — Exploring One-Variable Data',
+    title: 'Describing Distributions of a Quantitative Variable',
+    cardSummary: 'Shape, center, spread, and outliers — turning a dot plot, stem-and-leaf plot, or histogram into a full, in-context sentence.',
+    heroTitle: 'Give the shape<br>a <em>sentence</em>.',
+    heroSub: 'Symmetric, skewed, uniform, unimodal, bimodal — learn the shape vocabulary, then practice writing full-sentence descriptions of center and spread without ever starting with a bare "it."',
+    source: 'Topic 1.6 course video',
+    estTime: '~25–35 min',
+
+    sections: [
+      /* ---------------- 1. OVERVIEW ---------------- */
+      {
+        type: 'overview', id: 'overview', label: 'Section 01 — Overview',
+        heading: '<span class="underline teal">Four things</span>, every single time.',
+        body: 'Describing a quantitative distribution means addressing its shape, center, and variability — and calling out anything unusual like outliers, gaps, or clusters — always in full sentences, in context.',
+        cards: [
+          { roman: 'I.', title: 'Shape, center, spread, unusual features', body: 'Every description touches <strong>shape</strong> (symmetric, skewed, uniform, unimodal, bimodal), a rough <strong>center</strong>, a rough <strong>spread</strong>, and any <strong>outliers, gaps, or clusters</strong> you notice.', tags: ['Shape','Center','Spread','Outliers'] },
+          { roman: 'II.', title: 'Rough numbers, real sentences', body: 'Right now, just eyeball it — one number for center, an interval for spread. Precise formulas come next topic. But never start a sentence with a bare "it" — name the variable and context immediately.', tags: ['Rough estimate','Full sentences','Never start with "it"'], accent: 'sample' }
+        ]
+      },
+
+      /* ---------------- 2. VOCAB ---------------- */
+      {
+        type: 'vocab', id: 'vocab', label: 'Section 02 — Vocabulary',
+        heading: 'The <span class="underline teal">eight words</span> this topic runs on.',
+        body: 'Tap a term you’ve got down — your checkmarks are saved so you can see what still needs review.',
+        items: [
+          { id: 'symmetric', term: 'Symmetric', accent: 'population', body: 'The left half of the distribution is approximately a mirror image of the right half — also called bell-shaped or mound-shaped when it peaks in the middle.' },
+          { id: 'skewed-right', term: 'Skewed right (positively skewed)', accent: 'sample', body: 'A longer tail stretches toward the higher values; most of the data bunches up on the left.' },
+          { id: 'skewed-left', term: 'Skewed left (negatively skewed)', accent: 'sample', body: 'A longer tail stretches toward the lower values; most of the data bunches up on the right.' },
+          { id: 'uniform', term: 'Uniform', accent: 'population', body: 'Every interval holds roughly the same amount of data — no strong peak, and no real tail on either side.' },
+          { id: 'unimodal', term: 'Unimodal', accent: 'population', body: 'One general area where the data peaks — even if that peak spans two or three adjacent bins, as long as they’re connected.' },
+          { id: 'bimodal', term: 'Bimodal', accent: 'sample', body: 'Two clearly separated peaks, usually with a dip or gap between them — often a sign that two different sub-groups got mixed into one data set.' },
+          { id: 'gap-cluster', term: 'Gap and cluster', accent: 'sample', body: 'A gap is a complete absence of data across an interval; a gap naturally splits the rest of the data into clusters on either side of it.' },
+          { id: 'outlier-rough', term: 'Outlier (visual)', accent: 'population', body: 'A value clearly separated from the rest of the data by a gap. For now, this is a rough, by-eye judgment — formal rules come next topic.' }
+        ]
+      },
+
+      /* ---------------- 3. SEEING THE SHAPES ---------------- */
+      {
+        type: 'chart', id: 'graphs', label: 'Section 03 — Seeing the Shapes',
+        heading: 'Seven shapes, <span class="underline sample">seven vocabularies</span>.',
+        items: [
+          {
+            title: 'A textbook symmetric, unimodal shape',
+            chartType: 'dotplot',
+            data: [{value:20,count:1},{value:22,count:2},{value:24,count:3},{value:26,count:4},{value:28,count:5},{value:30,count:6},{value:32,count:5},{value:34,count:4},{value:36,count:3},{value:38,count:2},{value:40,count:1}],
+            opts: { min: 20, max: 40, step: 2 },
+            caption: 'The tallest stack sits at the center (30), and both sides thin out at about the same rate — roughly symmetric and unimodal.'
+          },
+          {
+            title: 'Skewed right (n = 95)',
+            chartType: 'histogram', mode: 'count',
+            data: [{label:'0–10',value:35},{label:'10–20',value:25},{label:'20–30',value:15},{label:'30–40',value:10},{label:'40–50',value:6},{label:'50–60',value:3},{label:'60–70',value:1}],
+            caption: 'The tallest bar is on the left, and the bars get steadily shorter to the right — a long tail stretching toward the higher values means skewed right.'
+          },
+          {
+            title: 'Skewed left (n = 95)',
+            chartType: 'histogram', mode: 'count',
+            data: [{label:'0–10',value:1},{label:'10–20',value:3},{label:'20–30',value:6},{label:'30–40',value:10},{label:'40–50',value:15},{label:'50–60',value:25},{label:'60–70',value:35}],
+            caption: 'The mirror image of skewed right — the tallest bar is on the right, with a long tail stretching toward the lower values.'
+          },
+          {
+            title: 'Bimodal, with a gap',
+            chartType: 'dotplot',
+            data: [{value:5,count:2},{value:6,count:3},{value:7,count:2},{value:20,count:2},{value:21,count:3},{value:22,count:2}],
+            opts: { min: 5, max: 22, step: 1 },
+            caption: 'Two clearly separated peaks (around 6 and around 21) with a complete gap from 8 to 19 in between — bimodal, with a low cluster and a high cluster.'
+          },
+          {
+            title: 'Heights of a random sample of buildings, ft (n = 28)',
+            chartType: 'stemplot',
+            stems: [
+              {stem:'6', leaves:[8]}, {stem:'7', leaves:[]}, {stem:'8', leaves:[5]},
+              {stem:'9', leaves:[2,6]}, {stem:'10', leaves:[1,4,8]}, {stem:'11', leaves:[0,3,5,7,9]},
+              {stem:'12', leaves:[1,2,3,4,6,8,9]}, {stem:'13', leaves:[0,2,5,7]},
+              {stem:'14', leaves:[1,4,8]}, {stem:'15', leaves:[3]}, {stem:'16', leaves:[8]}
+            ],
+            keyText: 'Key: 9 | 2 = 92 ft',
+            caption: 'Roughly symmetric and unimodal, peaking around 110–140 ft — but the building at 68 ft sits behind a completely empty stem, making it a possible low outlier and pulling this slightly toward skewed left.'
+          },
+          {
+            title: 'Largemouth bass lengths, in. (n = 44)',
+            chartType: 'histogram', mode: 'count',
+            data: [{label:'5–10',value:2},{label:'10–15',value:5},{label:'15–20',value:9},{label:'20–25',value:12},{label:'25–30',value:9},{label:'30–35',value:5},{label:'35–40',value:2}],
+            caption: 'A clean, roughly symmetric, unimodal shape peaking at 20–25 inches — no gaps, no separated values, no apparent outliers.'
+          },
+          {
+            title: 'Grocery store spending, $ (n = 65)',
+            chartType: 'histogram', mode: 'count',
+            data: [{label:'0–50',value:40},{label:'50–100',value:15},{label:'100–150',value:5},{label:'150–200',value:2},{label:'200–250',value:1},{label:'250–300',value:0},{label:'300–350',value:0},{label:'350–400',value:0},{label:'400–450',value:0},{label:'450–500',value:2}],
+            caption: 'Strongly skewed right — most shoppers spent under $100, and the $450–$500 group sits behind four completely empty bins, marking it as likely high outliers.'
+          }
+        ]
+      },
+
+      /* ---------------- 4. GUIDED NOTES (fill in the blank) ---------------- */
+      {
+        type: 'fill-blank', id: 'guided-notes', label: 'Section 04 — Guided Notes',
+        heading: 'Fill in the <span class="underline sample">guided notes</span>.',
+        body: 'Same idea as the printable guided notes — but pick each answer from a dropdown. Submit to check; anything wrong turns red so you can try once more before the answer is revealed.',
+        items: [
+          { segments: [
+            'A complete description of a quantitative distribution addresses its ',
+            { id:'b1', answer:'shape, center, and variability', options:['shape, center, and variability','mean and standard deviation only','sample size and population'] },
+            ', along with any unusual features like outliers, gaps, or clusters.'
+          ]},
+          { segments: [
+            'When a distribution’s left half is roughly a mirror image of its right half, it is called ',
+            { id:'b2', answer:'symmetric', options:['symmetric','skewed','uniform'] },
+            '.'
+          ]},
+          { segments: [
+            'A distribution with a long tail stretching toward the higher values, and most of the data bunched on the left, is ',
+            { id:'b3', answer:'skewed right', options:['skewed right','skewed left','bimodal'] },
+            '.'
+          ]},
+          { segments: [
+            'A distribution with one clear peak is ',
+            { id:'b4', answer:'unimodal', options:['unimodal','bimodal','uniform'] },
+            ', while one with two clearly separated peaks is ',
+            { id:'b5', answer:'bimodal', options:['bimodal','unimodal','skewed'] },
+            '.'
+          ]},
+          { segments: [
+            'A complete absence of data across an interval is called a ',
+            { id:'b6', answer:'gap', options:['gap','cluster','outlier'] },
+            ', and it naturally splits the data into ',
+            { id:'b7', answer:'clusters', options:['clusters','gaps','bins'] },
+            ' on either side.'
+          ]},
+          { segments: [
+            'When describing a distribution in a full sentence, you should never start with the pronoun "it" — instead, name the ',
+            { id:'b8', answer:'variable and context', options:['variable and context','sample size','mean'] },
+            ' right away, e.g. "The distribution of heights in feet of this sample of buildings is..."'
+          ]}
+        ]
+      },
+
+      /* ---------------- 5. WORKED EXAMPLES ---------------- */
+      {
+        type: 'examples', id: 'examples', label: 'Section 05 — Worked Examples',
+        heading: 'Read the graph. <span class="underline teal">Write the sentence.</span>',
+        body: 'These reference the charts in Section 03 above. Click each one open, write your own description first, then check the answer.',
+        items: [
+          {
+            q: 'Describe the distribution of building heights shown in the stem-and-leaf plot above (heights of a random sample of buildings, in feet).',
+            fields: [
+              { k: 'Shape', v: 'Roughly symmetric and unimodal, though slightly skewed left due to a low outlier' },
+              { k: 'Center', v: 'Approximately 125–128 feet' },
+              { k: 'Spread', v: 'Heights spread from 68 to 168 feet, but the majority of buildings are 110 to 140 feet tall' },
+              { k: 'Outliers', v: 'The building at 68 feet is a possible low outlier — it’s separated from the rest of the data by a completely empty stem' }
+            ]
+          },
+          {
+            q: 'Describe the distribution of largemouth bass lengths (inches) shown in the histogram above.',
+            fields: [
+              { k: 'Shape', v: 'Roughly symmetric and unimodal' },
+              { k: 'Center', v: 'Approximately 22 inches' },
+              { k: 'Spread', v: 'Lengths spread from about 5 to 40 inches, but the majority of fish are 15 to 30 inches' },
+              { k: 'Outliers', v: 'There do not appear to be any outliers' }
+            ]
+          },
+          {
+            q: 'Describe the distribution of grocery spending shown in the histogram above.',
+            fields: [
+              { k: 'Shape', v: 'Strongly skewed right and unimodal' },
+              { k: 'Center', v: 'Approximately $50' },
+              { k: 'Spread', v: 'Spending ranges from $0 to $500, but the vast majority of shoppers spent under $100' },
+              { k: 'Outliers', v: 'The $450–$500 group is separated from the rest by several empty bins — likely one or more high outliers' }
+            ]
+          },
+          {
+            q: 'Two catapults each launched 40 ping-pong balls; both distance dot plots are roughly symmetric and unimodal, but Catapult A’s distances range from about 120 to 150 cm while Catapult B’s range from about 133 to 144 cm. Compare their centers and their spread.',
+            fields: [
+              { k: 'Centers', v: 'Both are close, roughly 137–138 cm — neither catapult is dramatically more accurate on average' },
+              { k: 'Spread', v: 'Catapult A is far more spread out (120–150 cm, a 30 cm range) than Catapult B (133–144 cm, an 11 cm range)' },
+              { k: 'Takeaway', v: 'A similar center but very different consistency — always compare shape, center, AND spread, not just one of the three' }
+            ]
+          }
+        ]
+      },
+
+      /* ---------------- 6. FLASHCARDS ---------------- */
+      {
+        type: 'flashcards', id: 'flashcards', label: 'Section 06 — Flashcards',
+        heading: 'See the clue. <span class="underline sample">Name the term.</span>',
+        body: 'Front shows a short scenario or definition clue. Flip to check yourself, then mark whether you knew it.',
+        items: [
+          { prompt: 'Left half is roughly a mirror image of the right half.', term: 'Symmetric', detail: 'Also called bell-shaped or mound-shaped.' },
+          { prompt: 'Long tail toward the higher values, most data bunched on the left.', term: 'Skewed right', detail: 'Also called positively skewed.' },
+          { prompt: 'Long tail toward the lower values, most data bunched on the right.', term: 'Skewed left', detail: 'Also called negatively skewed.' },
+          { prompt: 'Every interval holds roughly the same amount of data.', term: 'Uniform', detail: 'No strong peak, no real tail either direction.' },
+          { prompt: 'One general peak, even if it spans two or three connected bins.', term: 'Unimodal', detail: 'The most common shape description.' },
+          { prompt: 'Two clearly separated peaks, usually with a dip in between.', term: 'Bimodal', detail: 'Often hints at two different sub-groups mixed together.' },
+          { prompt: 'A value cut off from the rest of the data by a complete gap.', term: 'Outlier (visual)', detail: 'For now, just a by-eye judgment call — formal rules come next topic.' }
+        ]
+      },
+
+      /* ---------------- 7. QUIZ ---------------- */
+      {
+        type: 'quiz', id: 'quiz', label: 'Section 07 — Quiz',
+        heading: 'Test yourself. <span class="underline">No pressure.</span>',
+        body: 'Ten questions pulled straight from the lesson’s examples. Your best score is saved.',
+        questions: [
+          { q: 'A distribution’s left half is roughly a mirror image of its right half. This shape is called:', opts: ['Skewed', 'Symmetric', 'Uniform', 'Bimodal'], correct: 1, exp: 'A mirror-image left and right half is the definition of a symmetric shape.' },
+          { q: 'A distribution with most data bunched on the left and a long tail stretching toward higher values is:', opts: ['Skewed left', 'Symmetric', 'Skewed right', 'Uniform'], correct: 2, exp: 'A tail toward the higher values means skewed right, even though the bulk of the data sits on the left.' },
+          { q: 'A distribution with two clearly separated peaks is described as:', opts: ['Unimodal', 'Bimodal', 'Uniform', 'Symmetric'], correct: 1, exp: 'Two clearly separated peaks is the definition of bimodal.' },
+          { q: 'A distribution where every interval holds roughly the same amount of data, with no real peak or tail, is:', opts: ['Skewed', 'Uniform', 'Bimodal', 'Symmetric only'], correct: 1, exp: 'Roughly equal amounts across every interval, with no strong peak, describes a uniform distribution.' },
+          { q: 'A complete absence of data across an interval is called a:', opts: ['Cluster', 'Outlier', 'Gap', 'Mode'], correct: 2, exp: 'A gap is a stretch of the number line with zero data in it.' },
+          { q: 'When describing a distribution’s center at this stage in the course, you should:', opts: ['Give an exact formula-based value', 'Give one rough number that best represents the middle of the data', 'Always say the center is exactly the mean', 'Avoid mentioning a center at all'], correct: 1, exp: 'This topic keeps things general — one reasonable, rough number for the center is enough; exact methods come next.' },
+          { q: 'When describing spread at this stage, a good sentence mentions:', opts: ['Only the single highest value', 'The interval where the data ranges, plus where the majority falls', 'Only the standard deviation', 'Nothing — spread is described in the next topic only'], correct: 1, exp: 'A solid spread description gives the overall range and also calls out where most of the data actually sits.' },
+          { q: 'Why shouldn’t a distribution description start with the word "it"?', opts: ['"It" is grammatically incorrect in all cases', 'The pronoun has nothing defined yet — you should name the variable and context first', 'Descriptions must be exactly one word long', 'AP Statistics forbids pronouns entirely'], correct: 1, exp: 'Starting with "it" leaves the reader guessing what "it" refers to — name the variable and context up front instead.' },
+          { q: 'A stem-and-leaf plot shows the bulk of the data from 100–140, then several completely empty stems, then one value at 250. This value is best described as:', opts: ['The median', 'A possible outlier', 'Proof the data is uniform', 'The mode'], correct: 1, exp: 'A value separated from the rest of the data by several empty stems is exactly the visual signature of a possible outlier.' },
+          { q: 'Two dot plots have almost the same center, but Data Set A ranges from 10–90 while Data Set B ranges from 45–55. Which statement is correct?', opts: ['They have the same spread', 'Data Set A is far more spread out than Data Set B, even though their centers are similar', 'Data Set B must be skewed', 'Centers cannot be compared if spreads differ'], correct: 1, exp: 'Center and spread are separate ideas — two data sets can share a similar center while having very different amounts of spread.' }
+        ]
+      },
+
+      /* ---------------- 8. TAKEAWAYS ---------------- */
+      {
+        type: 'takeaways', id: 'takeaways', label: 'Section 08 — Takeaways',
+        heading: 'Five things to <span class="underline gold">actually remember</span>.',
+        items: [
+          { num: 'i.', title: 'Four things, every description', body: 'Shape, center, spread, and any unusual features like outliers, gaps, or clusters — always in context.' },
+          { num: 'ii.', title: 'Shape has a vocabulary', body: 'Symmetric, skewed left, skewed right, uniform, unimodal, bimodal — learn to recognize each of these by eye.' },
+          { num: 'iii.', title: 'Center and spread are still rough here', body: 'One number for center, an interval (plus a "majority" interval) for spread — exact numerical methods arrive next topic.' },
+          { num: 'iv.', title: 'Gaps create clusters, and hint at outliers', body: 'A complete absence of data splits the distribution and often flags an extreme value sitting just past the gap.' },
+          { num: 'v.', title: 'Never start with "it"', body: 'Name the variable and its context immediately — a bare pronoun has nothing to refer to yet.' }
+        ]
+      }
+    ],
+
+    homework: {
+      estTime: '~25 min',
+      questions: [
+        { q: 'A distribution’s shape shows one clear peak with roughly equal tails on both sides. This is best described as:', opts: ['Skewed and bimodal', 'Roughly symmetric and unimodal', 'Uniform and skewed', 'Bimodal and uniform'], correct: 1, exp: 'One clear peak with roughly equal tails on both sides is the picture of a symmetric, unimodal shape.' },
+        { q: 'A histogram of commute times has a tall bar near 10–20 minutes, and each bar gets shorter as commute time increases, with a long thin bar all the way out at 80–90 minutes. This distribution is:', opts: ['Skewed left', 'Uniform', 'Skewed right', 'Bimodal'], correct: 2, exp: 'The bulk of the data is low, with a tail stretching toward the higher commute times — that is skewed right.' },
+        { q: 'In that same commute-time histogram, where would you expect the "long thin bar" description to apply?', opts: ['The tail, toward the higher values', 'The peak, near the center', 'Every bar equally', 'Only the very first bar'], correct: 0, exp: 'A long thin bar describes the tail of a skewed distribution — few observations stretching far from the bulk of the data.' },
+        { q: 'A dot plot shows two separate clusters of dots — one from 2 to 5, and another from 20 to 23 — with a complete gap from 6 to 19. This shape is:', opts: ['Uniform', 'Unimodal', 'Bimodal', 'Symmetric only'], correct: 2, exp: 'Two clearly separated clusters of data is the definition of bimodal.' },
+        { q: 'In that same dot plot, the empty interval from 6 to 19 is called a:', opts: ['Cluster', 'Mode', 'Gap', 'Center'], correct: 2, exp: 'A stretch of the number line with zero data is a gap.' },
+        { q: 'A distribution has bars of roughly equal height across every interval, with no real peak. This is:', opts: ['Skewed right', 'Uniform', 'Bimodal', 'Skewed left'], correct: 1, exp: 'Roughly equal amounts of data in every interval, with no dominant peak, describes a uniform distribution.' },
+        { q: 'For a roughly symmetric, unimodal distribution centered around 50, with data ranging from 20 to 80, which of these is the most reasonable description of the center?', opts: ['Approximately 50', 'Approximately 20', 'Approximately 80', 'There is no way to estimate a center'], correct: 0, exp: 'For a symmetric distribution, the center sits near the middle of the range — here, about 50.' },
+        { q: 'A histogram of test scores has most of its data clustered tightly from 80–100, with a few completely empty bars, then one isolated bar at 20–30. How should this be described?', opts: ['Uniform, with no unusual features', 'Roughly symmetric for the bulk of the data, with a possible low outlier', 'Bimodal, with two equal peaks', 'Skewed right, because outliers always create skew'], correct: 1, exp: 'The main cluster (80–100) is fairly tight and roughly symmetric on its own; the single isolated low bar is best called a possible outlier, not a sign of overall skew.' },
+        { q: 'A student says "It is skewed right" as their entire description of a distribution. What is the issue with starting this way?', opts: ['Nothing, it is fine to start this way', 'The pronoun "it" has not been defined yet — the variable and context should be named first', 'Skewed right descriptions are always wrong', 'Sentences about shape cannot use the word "right"'], correct: 1, exp: 'A description should name the variable and context immediately, rather than opening with an undefined "it."' },
+        { q: 'Which of the following is an example of correctly describing a distribution in context?', opts: ['"It is skewed."', '"Skewed."', '"The distribution of exam scores for this class is skewed right."', '"Skewed right, definitely."'], correct: 2, exp: 'Only this option names the actual variable (exam scores) and context (this class) along with the shape.' },
+        { q: 'A distribution of house prices is described as: center around $250,000, prices range from $120,000 to $900,000, but the majority fall between $200,000 and $300,000, with one home at $900,000 separated by a gap. What shape best fits this description?', opts: ['Uniform', 'Skewed right with a possible high outlier', 'Skewed left', 'Bimodal'], correct: 1, exp: 'Most data bunched at the lower end with one extreme high value separated by a gap describes skewed right with a possible high outlier.' },
+        { q: 'Why is it useful to mention BOTH the full range of a distribution AND where the majority of the data falls?', opts: ['It is not useful — only the full range matters', 'The full range alone can be misleading if it is stretched by an outlier; the "majority" interval shows where the data is really concentrated', 'The majority interval is always required by the AP formula sheet', 'Only one of the two can ever be reported'], correct: 1, exp: 'A single outlier can stretch the full range far beyond where most of the data actually sits, so reporting both paints a much clearer picture.' },
+        { q: 'A dot plot has one peak, and the data trails off gradually and roughly equally in both directions from that peak. This shape is best called:', opts: ['Bimodal', 'Roughly symmetric and unimodal', 'Skewed right', 'Uniform'], correct: 1, exp: 'One peak with roughly equal tails on both sides is a symmetric, unimodal shape.' },
+        { q: 'A histogram has two separate humps of roughly equal height, with a clear dip between them. This shape most likely reflects:', opts: ['A single homogeneous group', 'Two different sub-groups mixed into one data set', 'A data-entry error that should be ignored', 'A uniform distribution'], correct: 1, exp: 'A bimodal shape often signals that two distinct sub-groups got combined into a single data set.' },
+        { q: 'A stem-and-leaf plot’s tallest cluster of leaves is on stems 12 and 13, with the data thinning out steadily on stems below 12 and above 13. What is the shape?', opts: ['Bimodal', 'Roughly symmetric and unimodal, peaking around 120–139', 'Uniform', 'Impossible to determine shape from a stemplot'], correct: 1, exp: 'A single connected peak with data thinning out on both sides is roughly symmetric and unimodal — stemplots absolutely can show shape.' },
+        { q: 'A weather app shows daily high temperatures for a month, roughly evenly split among "cool," "mild," and "hot" days with about the same count in each range. This distribution is best described as:', opts: ['Skewed right', 'Uniform', 'Bimodal', 'Symmetric with a sharp peak'], correct: 1, exp: 'Roughly equal counts across the ranges, with no dominant peak, describes a uniform distribution.' },
+        { q: 'A distribution described as "spreads from 10 to 90, but the majority of data is from 40 to 50" is most likely:', opts: ['Uniform', 'Skewed, with a longer tail on at least one side', 'Perfectly symmetric with no tail on either side', 'Bimodal with two equal peaks'], correct: 1, exp: 'A tight majority interval with a much wider overall range usually signals a tail stretching off to one side — skew, not uniform or perfect symmetry.' },
+        { q: 'Two data sets have the same center of about 30. Data Set X ranges from 25 to 35; Data Set Y ranges from 0 to 60. Which statement is correct?', opts: ['They have identical spread since centers match', 'Data Set Y is far more spread out than Data Set X, despite the similar center', 'Data Set X must be skewed', 'Center and spread always match'], correct: 1, exp: 'Center and spread describe different things — two data sets can share a center while having very different amounts of variability.' },
+        { q: 'A distribution’s stem-and-leaf plot has a value completely isolated by several empty stems from the rest of a tightly clustered data set. The best description mentions:', opts: ['Only the center, nothing else', 'The overall shape, center, and spread, plus a note about the possible outlier', 'Only that the data is symmetric', 'Nothing, isolated values should be deleted before describing the data'], correct: 1, exp: 'A complete description always covers shape, center, and spread, and calls out any possible outliers rather than ignoring or deleting them.' },
+        { q: 'Which of these is the most complete, properly-in-context description of a distribution?', opts: ['"Skewed right, center 50."', '"The distribution of weekly grocery spending for this sample is skewed right, centered around $50, spreading from $0 to $500 with the majority under $100, and a possible high outlier near $475."', '"It spreads out a lot."', '"$50 is the answer."'], correct: 1, exp: 'This is the only option that names the variable and context, and covers shape, center, spread, and a possible outlier in full sentences.' }
+      ]
+    }
+  }
+});
+
+/* ============================================
+   Topic 1.7 — Summary Statistics for a Quantitative Variable
+   Source: course transcript (Topic 1.7 lecture)
+   ============================================ */
+
+registerChapters({
+  '1-7': {
+    id: '1-7',
+    code: 'Topic 1.7',
+    unitName: 'Unit 1 — Exploring One-Variable Data',
+    title: 'Summary Statistics for a Quantitative Variable',
+    cardSummary: 'Mean, median, five-number summary, percentiles, range, IQR, and standard deviation — plus two ways to flag an outlier by the numbers, not just by eye.',
+    heroTitle: 'Put a <em>number</em><br>on the shape.',
+    heroSub: 'Topic 1.6 eyeballed shape, center, and spread. Now it gets exact — mean vs. median, the five-number summary, percentiles, range vs. IQR vs. standard deviation, and two formulas for spotting an outlier.',
+    source: 'Topic 1.7 course video',
+    estTime: '~30–40 min',
+
+    sections: [
+      /* ---------------- 1. OVERVIEW ---------------- */
+      {
+        type: 'overview', id: 'overview', label: 'Section 01 — Overview',
+        heading: 'Center: <span class="underline teal">mean vs. median</span>.',
+        body: 'Statistics turn "roughly symmetric, centered around 50" into exact numbers — but which number you should trust depends entirely on shape and outliers.',
+        cards: [
+          { roman: 'I.', title: 'Two centers, two personalities', body: 'The <strong>mean</strong> (x̄ / μ) balances every deviation but gets pulled by outliers. The <strong>median</strong> splits the data exactly in half and doesn’t care what the extreme values actually are.', tags: ['Mean — balancing point','Median — resistant'] },
+          { roman: 'II.', title: 'Position and spread get exact too', body: 'The five-number summary and percentiles mark <strong>position</strong>; range, IQR, and standard deviation measure <strong>spread</strong> — and two formulas let you flag outliers without eyeballing a gap.', tags: ['Five-number summary','IQR & standard deviation','Fence method'], accent: 'sample' }
+        ]
+      },
+
+      /* ---------------- 2. VOCAB ---------------- */
+      {
+        type: 'vocab', id: 'vocab', label: 'Section 02 — Vocabulary',
+        heading: 'The <span class="underline teal">ten words</span> this topic runs on.',
+        body: 'Tap a term you’ve got down — your checkmarks are saved so you can see what still needs review.',
+        items: [
+          { id: 'statistic-parameter', term: 'Statistic vs. parameter', accent: 'sample', body: 'A statistic (x̄, s) describes a sample; a parameter (μ, σ) describes a population. We use sample statistics to estimate population parameters.' },
+          { id: 'mean', term: 'Mean (x̄ or μ)', accent: 'population', body: 'The balancing point of the data — sum every value and divide by how many there are. Uses every data value, but is sensitive to outliers; best for symmetric data with no major outliers.' },
+          { id: 'median', term: 'Median', accent: 'sample', body: 'The middle value once data is ordered smallest to largest — its location (not its value) comes from (n+1)/2. Resistant to outliers; best for skewed data or data with major outliers.' },
+          { id: 'five-number-summary', term: 'Five-number summary', accent: 'population', body: 'Min, Q1, median, Q3, max — five values that break an ordered data set into four 25% chunks.' },
+          { id: 'percentile', term: 'Percentile', accent: 'sample', body: 'The pth percentile is the value with p% of the data at or below it. Q1 is the 25th percentile, the median is the 50th, and Q3 is the 75th.' },
+          { id: 'range', term: 'Range', accent: 'population', body: 'Max minus min — the simplest measure of spread, but easily thrown off by a single outlier.' },
+          { id: 'iqr', term: 'Interquartile range (IQR)', accent: 'sample', body: 'Q3 minus Q1 — the spread of the middle 50% of the data. Resistant to outliers, and paired with the median.' },
+          { id: 'standard-deviation', term: 'Standard deviation (s or σ)', accent: 'population', body: 'Roughly, the typical distance a data value sits from the mean. Paired with the mean; a bigger standard deviation means more spread-out data.' },
+          { id: 'variance', term: 'Variance', accent: 'population', body: 'Standard deviation squared — another measure of spread, used less often on its own than standard deviation.' },
+          { id: 'fence-method', term: 'Outlier fences', accent: 'sample', body: 'Lower fence = Q1 − 1.5×IQR; upper fence = Q3 + 1.5×IQR. Any value beyond either fence counts as an outlier.' }
+        ]
+      },
+
+      /* ---------------- 3. THE DATA IN QUESTION ---------------- */
+      {
+        type: 'chart', id: 'graphs', label: 'Section 03 — The Data in Question',
+        heading: 'Two data sets, <span class="underline sample">every example below</span>.',
+        items: [
+          {
+            title: 'A 9-value data set (with one extreme value)',
+            chartType: 'dotplot',
+            data: [{value:18,count:1},{value:22,count:1},{value:25,count:1},{value:28,count:1},{value:30,count:1},{value:33,count:1},{value:35,count:1},{value:42,count:1},{value:97,count:1}],
+            opts: { min: 15, max: 100, step: 5 },
+            caption: '18, 22, 25, 28, 30, 33, 35, 42, 97 — eight values bunched together, and one value way out at 97. Every worked example in this topic uses these nine numbers.'
+          },
+          {
+            title: 'Gas mileage, mpg — 53 cars',
+            chartType: 'histogram', mode: 'count',
+            data: [{label:'10–15',value:6},{label:'15–20',value:10},{label:'20–25',value:12},{label:'25–30',value:10},{label:'30–35',value:6},{label:'35–40',value:4},{label:'40–45',value:2},{label:'45–50',value:1},{label:'50–55',value:2}],
+            caption: 'Five-number summary: min = 12, Q1 = 18, median = 24, Q3 = 30, max = 55. That max sits well past the bulk of the data — this histogram comes back in the worked examples below.'
+          }
+        ]
+      },
+
+      /* ---------------- 4. GUIDED NOTES (fill in the blank) ---------------- */
+      {
+        type: 'fill-blank', id: 'guided-notes', label: 'Section 04 — Guided Notes',
+        heading: 'Fill in the <span class="underline sample">guided notes</span>.',
+        body: 'Same idea as the printable guided notes — but pick each answer from a dropdown. Submit to check; anything wrong turns red so you can try once more before the answer is revealed.',
+        items: [
+          { segments: [
+            'A number that describes a sample is called a ',
+            { id:'b1', answer:'statistic', options:['statistic','parameter','percentile'] },
+            ', while a number that describes a population is called a ',
+            { id:'b2', answer:'parameter', options:['parameter','statistic','variance'] },
+            '.'
+          ]},
+          { segments: [
+            'The mean is the ',
+            { id:'b3', answer:'balancing point', options:['balancing point','middle value','most common value'] },
+            ' of the data, but it is heavily influenced by ',
+            { id:'b4', answer:'outliers', options:['outliers','the sample size','percentiles'] },
+            '.'
+          ]},
+          { segments: [
+            'The formula (n + 1) / 2 gives the ',
+            { id:'b5', answer:'location', options:['location','value','average'] },
+            ' of the median once the data is in order — not the median’s value itself.'
+          ]},
+          { segments: [
+            'The five-number summary — min, Q1, median, Q3, max — breaks an ordered data set into four chunks of ',
+            { id:'b6', answer:'25%', options:['25%','50%','10%'] },
+            ' each.'
+          ]},
+          { segments: [
+            'The interquartile range is calculated as ',
+            { id:'b7', answer:'Q3 minus Q1', options:['Q3 minus Q1','max minus min','Q1 minus Q3'] },
+            ', and — paired with the ',
+            { id:'b8', answer:'median', options:['median','mean','mode'] },
+            ' — it is the preferred measure of spread when data is skewed or has major outliers.'
+          ]},
+          { segments: [
+            'Using the fence method, a value is a possible outlier if it falls below Q1 − 1.5×IQR, or above ',
+            { id:'b9', answer:'Q3 + 1.5×IQR', options:['Q3 + 1.5×IQR','Q3 − 1.5×IQR','the mean plus IQR'] },
+            '.'
+          ]}
+        ]
+      },
+
+      /* ---------------- 5. WORKED EXAMPLES ---------------- */
+      {
+        type: 'examples', id: 'examples', label: 'Section 05 — Worked Examples',
+        heading: 'Do the math. <span class="underline teal">Trust the right statistic.</span>',
+        body: 'These reference the data sets in Section 03 above. Click each one open, work it out, then check your answer.',
+        items: [
+          {
+            q: 'Using the 9-value data set above (18, 22, 25, 28, 30, 33, 35, 42, 97), find the mean and the median. Which one moved more because of the 97, and why?',
+            fields: [
+              { k: 'Median', v: '30 — the 5th of 9 ordered values; it does not care what 97 actually is' },
+              { k: 'Mean with 97 included', v: '(18+22+25+28+30+33+35+42+97) / 9 = 330 / 9 ≈ 36.67' },
+              { k: 'Mean without 97', v: '(18+22+25+28+30+33+35+42) / 8 = 233 / 8 ≈ 29.13' },
+              { k: 'Why', v: 'The mean shifted by more than 7, while the median barely moved (30 vs. 29) — the mean is sensitive to outliers, the median is resistant' }
+            ]
+          },
+          {
+            q: 'Using the same 9 values, find the five-number summary, the IQR, and use the fence method to check for outliers.',
+            fields: [
+              { k: 'Five-number summary', v: 'Min = 18, Q1 = 23.5, Median = 30, Q3 = 38.5, Max = 97' },
+              { k: 'IQR', v: 'Q3 − Q1 = 38.5 − 23.5 = 15' },
+              { k: 'Fences', v: 'Lower fence = 23.5 − 1.5(15) = 1; Upper fence = 38.5 + 1.5(15) = 61' },
+              { k: 'Outliers', v: '97 is above the upper fence of 61, so it is an outlier by the fence method; nothing falls below the lower fence of 1' }
+            ]
+          },
+          {
+            q: 'The gas-mileage histogram above (53 cars) has five-number summary min = 12, Q1 = 18, median = 24, Q3 = 30, max = 55. Use the fence method to check for outliers, and say which measures of center and spread you would report.',
+            fields: [
+              { k: 'IQR', v: '30 − 18 = 12' },
+              { k: 'Fences', v: 'Lower fence = 18 − 1.5(12) = 0; Upper fence = 30 + 1.5(12) = 48' },
+              { k: 'Outliers', v: 'The max of 55 is above the upper fence of 48, so it is an outlier — and the histogram shows it isn’t the only car up there' },
+              { k: 'Preferred statistics', v: 'Because of the high outliers, report the median and IQR instead of the mean and standard deviation' }
+            ]
+          },
+          {
+            q: 'A distribution is strongly skewed right with several high outliers. Without calculating anything, would you expect the mean to be greater than, less than, or about equal to the median? Which measures of center and spread should be reported?',
+            fields: [
+              { k: 'Mean vs. median', v: 'Mean > median — the mean gets pulled toward the long right tail and the high outliers, while the median stays put' },
+              { k: 'Preferred statistics', v: 'Median and IQR, since both resist the influence of skew and outliers' }
+            ]
+          }
+        ]
+      },
+
+      /* ---------------- 6. FLASHCARDS ---------------- */
+      {
+        type: 'flashcards', id: 'flashcards', label: 'Section 06 — Flashcards',
+        heading: 'See the clue. <span class="underline sample">Name the term.</span>',
+        body: 'Front shows a short scenario or definition clue. Flip to check yourself, then mark whether you knew it.',
+        items: [
+          { prompt: 'S for sample, S for ___.', term: 'Statistic', detail: 'Describes a sample; used to estimate a population parameter.' },
+          { prompt: 'A number that describes a population, like μ or σ.', term: 'Parameter', detail: 'P for population, P for parameter.' },
+          { prompt: 'The balancing point of the data — sensitive to outliers, best for symmetric data.', term: 'Mean (x̄ / μ)', detail: 'Uses every data value in its calculation.' },
+          { prompt: '(n + 1) / 2 finds this — but only the location, not the value itself.', term: 'Median (location formula)', detail: 'Resistant to outliers; best for skewed data.' },
+          { prompt: 'Min, Q1, median, Q3, max.', term: 'Five-number summary', detail: 'Splits ordered data into four 25% chunks.' },
+          { prompt: 'Q3 minus Q1 — the spread of the middle 50%.', term: 'Interquartile range (IQR)', detail: 'Resistant to outliers; pairs with the median.' },
+          { prompt: 'Roughly, the typical distance a value sits from the mean.', term: 'Standard deviation (s / σ)', detail: 'Pairs with the mean; a bigger value means more spread out.' },
+          { prompt: 'Q1 − 1.5×IQR and Q3 + 1.5×IQR.', term: 'Outlier fences', detail: 'Anything beyond either fence counts as an outlier.' }
+        ]
+      },
+
+      /* ---------------- 7. QUIZ ---------------- */
+      {
+        type: 'quiz', id: 'quiz', label: 'Section 07 — Quiz',
+        heading: 'Test yourself. <span class="underline">No pressure.</span>',
+        body: 'Ten questions pulled straight from the lesson’s examples. Your best score is saved.',
+        questions: [
+          { q: 'A number that summarizes a sample is called a:', opts: ['Parameter', 'Statistic', 'Population', 'Percentile'], correct: 1, exp: 'Statistics describe samples; parameters describe populations.' },
+          { q: 'Which symbol represents the mean of a population?', opts: ['x̄', 's', 'μ', 'σ'], correct: 2, exp: 'μ (mu) is the population mean; x̄ is the sample mean.' },
+          { q: 'The formula (n + 1) / 2 gives you:', opts: ['The median itself', 'The location of the median once data is ordered', 'The mean', 'The IQR'], correct: 1, exp: 'This formula only tells you which position to look at — you still have to find the value at that position.' },
+          { q: 'Which measure of center is resistant to outliers?', opts: ['Mean', 'Median', 'Standard deviation', 'Range'], correct: 1, exp: 'The median only cares about the middle position, not how extreme the other values are.' },
+          { q: 'The interquartile range is calculated as:', opts: ['Max − Min', 'Q3 − Q1', 'Mean − Median', 'Q1 − Q3'], correct: 1, exp: 'IQR = Q3 − Q1, the spread of the middle 50% of the data.' },
+          { q: 'A data set is strongly skewed right with major outliers. Which pair of statistics should be reported?', opts: ['Mean and standard deviation', 'Median and IQR', 'Mode and range', 'Q1 and Q3 only'], correct: 1, exp: 'Median and IQR resist the pull of skew and outliers, unlike mean and standard deviation.' },
+          { q: 'The upper fence in the fence method for outliers is calculated as:', opts: ['Q3 + 1.5×IQR', 'Q1 − 1.5×IQR', 'Mean + 2×SD', 'Max + IQR'], correct: 0, exp: 'Upper fence = Q3 + 1.5×IQR; anything beyond it is a possible outlier.' },
+          { q: 'If a value is more than two standard deviations from the mean, the two-standard-deviation method would call it:', opts: ['The median', 'An outlier', 'The mode', 'A parameter'], correct: 1, exp: 'The 2-SD method flags anything more than two standard deviations above or below the mean as a possible outlier.' },
+          { q: 'Which measure of spread uses every single data value in its calculation?', opts: ['Range', 'IQR', 'Standard deviation', 'The five-number summary'], correct: 2, exp: 'Standard deviation is built from every value’s deviation from the mean; range and IQR only use two values each.' },
+          { q: 'A distribution is roughly symmetric with no major outliers. Which pair of statistics is preferred?', opts: ['Median and IQR', 'Mean and standard deviation', 'Range and mode', 'Q1 and Q3 only'], correct: 1, exp: 'With no skew or outliers to worry about, mean and standard deviation are the standard, most informative pair.' }
+        ]
+      },
+
+      /* ---------------- 8. TAKEAWAYS ---------------- */
+      {
+        type: 'takeaways', id: 'takeaways', label: 'Section 08 — Takeaways',
+        heading: 'Five things to <span class="underline gold">actually remember</span>.',
+        items: [
+          { num: 'i.', title: 'Statistic vs. parameter', body: 'A sample gives you a statistic (x̄, s); a population gives you a parameter (μ, σ) — statistics estimate parameters.' },
+          { num: 'ii.', title: 'Two ways to measure center', body: 'The mean balances every value but is outlier-sensitive; the median splits the data in half and resists outliers.' },
+          { num: 'iii.', title: 'Five-number summary marks position', body: 'Min, Q1, median, Q3, max cut ordered data into four 25% chunks — percentiles generalize the same idea.' },
+          { num: 'iv.', title: 'Three ways to measure spread', body: 'Range is crude and outlier-sensitive; IQR is resistant and pairs with the median; standard deviation pairs with the mean.' },
+          { num: 'v.', title: 'Match the pair to the shape', body: 'Symmetric with no outliers → mean & standard deviation. Skewed or major outliers → median & IQR. Check outliers with the 1.5×IQR fence method or the 2-standard-deviation method.' }
+        ]
+      }
+    ],
+
+    homework: {
+      estTime: '~30 min',
+      questions: [
+        { q: 'A number that describes a population is called a:', opts: ['Statistic', 'Parameter', 'Sample', 'Percentile'], correct: 1, exp: 'Parameters describe populations; statistics describe samples.' },
+        { q: 'Which symbol represents the standard deviation of a sample?', opts: ['σ', 's', 'μ', 'x̄'], correct: 1, exp: 's is the sample standard deviation; σ (sigma) is reserved for the population.' },
+        { q: 'For the data set 5, 8, 10, 12, 14, 16, 50, what is the median?', opts: ['12', '10.5', '14', '50'], correct: 0, exp: '(7+1)/2 = 4th value once ordered = 12.' },
+        { q: 'For that same data set, is the mean greater than, less than, or about equal to the median?', opts: ['Greater than, because 50 pulls the mean up', 'Less than, because 50 pulls the mean down', 'About equal, since the data is symmetric', 'Cannot be determined'], correct: 0, exp: 'Mean = (5+8+10+12+14+16+50)/7 = 115/7 ≈ 16.43, noticeably greater than the median of 12 — the high value pulls the mean up.' },
+        { q: 'For the data set 5, 8, 10, 12, 14, 16, 50, find Q1 (the median of the lower half, not including the overall median).', opts: ['8', '7', '9', '10'], correct: 0, exp: 'The lower half is 5, 8, 10 — its median is 8.' },
+        { q: 'Find Q3 for that same data set (the median of the upper half, not including the overall median).', opts: ['14', '16', '50', '15'], correct: 1, exp: 'The upper half is 14, 16, 50 — its median is 16.' },
+        { q: 'What is the IQR for that data set?', opts: ['8', '42', '24', '16'], correct: 0, exp: 'IQR = Q3 − Q1 = 16 − 8 = 8.' },
+        { q: 'Using the fence method, is 50 an outlier in that data set?', opts: ['Yes, 50 is above the upper fence of 28', 'No, 50 is within the fences', 'Cannot be determined without the mean', 'Only if using the 2-SD method'], correct: 0, exp: 'Upper fence = 16 + 1.5(8) = 28. Since 50 > 28, it is an outlier.' },
+        { q: 'Which measure of center and spread would be most appropriate for this data set?', opts: ['Mean and standard deviation, since 50 is not unusual', 'Median and IQR, since 50 is an outlier that skews the data', 'Range only', 'Q1 and Q3 only, ignoring center entirely'], correct: 1, exp: 'With a confirmed outlier, median and IQR give a more accurate picture than mean and standard deviation.' },
+        { q: 'A histogram of gas mileage for 53 cars has five-number summary min = 12, Q1 = 18, median = 24, Q3 = 30, max = 55. What is the IQR?', opts: ['12', '30', '18', '43'], correct: 0, exp: 'IQR = Q3 − Q1 = 30 − 18 = 12.' },
+        { q: 'Using that IQR, what is the upper fence?', opts: ['48', '42', '36', '54'], correct: 0, exp: 'Upper fence = Q3 + 1.5×IQR = 30 + 1.5(12) = 48.' },
+        { q: 'Is the maximum of 55 an outlier by the fence method?', opts: ['Yes, 55 is above the upper fence of 48', 'No, 55 is below the upper fence', 'Cannot be determined', 'Only the minimum can ever be an outlier'], correct: 0, exp: '55 exceeds the upper fence of 48, so it is an outlier.' },
+        { q: 'Given that this gas-mileage data has upper outliers, which statistics should be reported for center and spread?', opts: ['Mean and standard deviation', 'Median and IQR', 'Mode and range', 'Mean and IQR'], correct: 1, exp: 'Outliers call for median and IQR, since mean and standard deviation would be distorted by the extreme values.' },
+        { q: 'The two-standard-deviation method flags a value as an outlier when it is:', opts: ['More than 1.5×IQR from a quartile', 'More than two standard deviations from the mean', 'Exactly equal to the median', 'Below the minimum'], correct: 1, exp: 'The 2-SD method uses mean ± 2×(standard deviation) as its cutoff, rather than quartiles.' },
+        { q: 'Two data sets both have a mean of 42. Data Set A has a standard deviation of 5; Data Set B has a standard deviation of 15. Which statement is true?', opts: ['Data Set A’s values typically sit closer to 42 than Data Set B’s do', 'Data Set B’s values typically sit closer to 42', 'Both data sets are equally spread out', 'Standard deviation does not relate to spread'], correct: 0, exp: 'A smaller standard deviation means the data typically sits closer to the mean — Data Set A is less spread out.' },
+        { q: 'Variance is best described as:', opts: ['The square root of the standard deviation', 'The standard deviation squared', 'The same thing as the range', 'Another name for the mean'], correct: 1, exp: 'Variance is standard deviation squared — another measure of spread, used less often on its own.' },
+        { q: 'Why does the median only require the position of data values, not a calculation involving their exact size?', opts: ['Because the median is always the smallest value', 'Because the median’s definition is just "the middle value once ordered" — nothing gets added or averaged except when two middle values must be combined', 'Because the median is a parameter, not a statistic', 'Because medians only exist for even-sized data sets'], correct: 1, exp: 'The median is purely positional — it is the value (or average of two values) sitting in the exact middle once the data is ordered.' },
+        { q: 'A distribution is roughly symmetric with no major outliers. Which pair of statistics is most appropriate to report?', opts: ['Median and IQR', 'Mean and standard deviation', 'Range and mode', 'Min and max only'], correct: 1, exp: 'With no skew or outliers, mean and standard deviation are the preferred, more informative pair.' },
+        { q: 'Percentile is best defined as:', opts: ['The value with a given percentage of the data at or below it', 'Always the same as the mean', 'A measure of spread, not position', 'Only usable for exam scores'], correct: 0, exp: 'The pth percentile is the value with p% of the data at or below it.' },
+        { q: 'A student scores at the 92nd percentile on an exam. What does this mean?', opts: ['The student got a 92% on the exam', '92% of students scored at or below the student’s score', 'Only 8% of students took the exam', 'The student’s score is exactly the mean'], correct: 1, exp: 'A percentile describes position relative to other scores, not the raw percent score itself.' }
+      ]
+    }
+  }
+});
+
+/* ============================================
+   Topic 1.8 — Graphical Representations of Summary Statistics
+   Source: course transcript (Topic 1.8 lecture)
+   ============================================ */
+
+registerChapters({
+  '1-8': {
+    id: '1-8',
+    code: 'Topic 1.8',
+    unitName: 'Unit 1 — Exploring One-Variable Data',
+    title: 'Graphical Representations of Summary Statistics',
+    cardSummary: 'Box plots built from the five-number summary — reading spread and shape, comparing groups side-by-side, and the proportion-vs-count trap.',
+    heroTitle: 'Draw the<br><em>five numbers</em>.',
+    heroSub: 'A box plot is just the five-number summary, drawn. Read spread and shape off it, compare two groups with parallel box plots, and watch for the classic trap: a bigger proportion doesn’t always mean a bigger count.',
+    source: 'Topic 1.8 course video',
+    estTime: '~20–30 min',
+
+    sections: [
+      /* ---------------- 1. OVERVIEW ---------------- */
+      {
+        type: 'overview', id: 'overview', label: 'Section 01 — Overview',
+        heading: 'A box plot is <span class="underline teal">the five-number summary</span>, drawn.',
+        body: 'A box from Q1 to Q3, a line at the median, and whiskers reaching out to the extremes — every box plot is built the exact same way.',
+        cards: [
+          { roman: 'I.', title: 'Box, line, whiskers, outliers', body: 'The <strong>box</strong> spans Q1 to Q3 with a line at the <strong>median</strong>. <strong>Whiskers</strong> extend to the min and max — or to the last value that isn’t an outlier, if there are any.', tags: ['Box = Q1 to Q3','Median line','Whiskers','Outliers marked separately'] },
+          { roman: 'II.', title: 'Wider ≠ more data', body: 'Every section of a box plot — no matter how wide — represents exactly 25% of the data. A wider section just means that quarter is more spread out, and it hints at skew.', tags: ['Each section = 25%','Spread, not count','Parallel box plots'], accent: 'sample' }
+        ]
+      },
+
+      /* ---------------- 2. VOCAB ---------------- */
+      {
+        type: 'vocab', id: 'vocab', label: 'Section 02 — Vocabulary',
+        heading: 'The <span class="underline teal">five words</span> this topic runs on.',
+        body: 'Tap a term you’ve got down — your checkmarks are saved so you can see what still needs review.',
+        items: [
+          { id: 'box-plot', term: 'Box plot', accent: 'population', body: 'A graph of the five-number summary — a box from Q1 to Q3 with a line at the median, and whiskers extending out to the min and max (or the last non-outlier value).' },
+          { id: 'whisker', term: 'Whisker', accent: 'population', body: 'The line extending from the box out to the most extreme value that is not an outlier. If there are outliers, they get their own mark beyond the whisker instead of being folded into it.' },
+          { id: 'parallel-box-plots', term: 'Parallel box plots', accent: 'sample', body: 'Two or more box plots drawn on the same scale, stacked so their five-number summaries can be compared directly.' },
+          { id: 'wider-not-more', term: '"Wider" means more spread, not more data', accent: 'sample', body: 'Each of the four sections of a box plot — min to Q1, Q1 to median, median to Q3, Q3 to max — always represents exactly 25% of the data. A wider section is more spread out, not more populated.' },
+          { id: 'shape-from-boxplot', term: 'Reading shape from a box plot', accent: 'sample', body: 'A box plot can’t show gaps or multiple modes, but a longer section on one side signals skew in that direction — and the mean moves toward whichever side is more spread out.' }
+        ]
+      },
+
+      /* ---------------- 3. READING THE BOX PLOTS ---------------- */
+      {
+        type: 'chart', id: 'graphs', label: 'Section 03 — Reading the Box Plots',
+        heading: 'One box plot, <span class="underline sample">then two side-by-side</span>.',
+        items: [
+          {
+            title: 'Exam scores, n = 135',
+            chartType: 'boxplot',
+            groups: [{ label: 'Score', min: 20, q1: 30, median: 62, q3: 70, max: 92, outliers: [] }],
+            caption: 'Five-number summary: min 20, Q1 30, median 62, Q3 70, max 92 — no outliers, so both whiskers reach all the way to the min and max.'
+          },
+          {
+            title: 'Commute time, minutes — Ohio vs. New York',
+            chartType: 'boxplot',
+            groups: [
+              { label: 'Ohio', min: 5, q1: 10, median: 20, q3: 30, max: 50, outliers: [] },
+              { label: 'New York', min: 8, q1: 15, median: 30, q3: 50, max: 70, outliers: [85] }
+            ],
+            caption: 'Parallel box plots on the same scale. New York’s box is noticeably wider (more spread in the middle 50%), and one commuter at 85 minutes is marked separately as an outlier rather than stretching the whisker.'
+          }
+        ]
+      },
+
+      /* ---------------- 4. GUIDED NOTES (fill in the blank) ---------------- */
+      {
+        type: 'fill-blank', id: 'guided-notes', label: 'Section 04 — Guided Notes',
+        heading: 'Fill in the <span class="underline sample">guided notes</span>.',
+        body: 'Same idea as the printable guided notes — but pick each answer from a dropdown. Submit to check; anything wrong turns red so you can try once more before the answer is revealed.',
+        items: [
+          { segments: [
+            'A box plot graphs the five-number summary: a box from ',
+            { id:'b1', answer:'Q1 to Q3', options:['Q1 to Q3','min to max','the mean to the median'] },
+            ' with a line at the ',
+            { id:'b2', answer:'median', options:['median','mean','mode'] },
+            ', and whiskers extending toward the min and max.'
+          ]},
+          { segments: [
+            'If a data set has outliers, the whisker instead extends only to the most extreme value that is ',
+            { id:'b3', answer:'not an outlier', options:['not an outlier','exactly the mean','equal to Q1'] },
+            ', and the outlier itself gets its own separate mark.'
+          ]},
+          { segments: [
+            'Each of the four sections of a box plot — min to Q1, Q1 to median, median to Q3, and Q3 to max — always represents ',
+            { id:'b4', answer:'25%', options:['25%','50%','10%'] },
+            ' of the data, no matter how wide or narrow that section looks.'
+          ]},
+          { segments: [
+            'A wider section of a box plot means that part of the data is more ',
+            { id:'b5', answer:'spread out', options:['spread out','densely packed','likely to contain outliers'] },
+            ', not that it contains more data.'
+          ]},
+          { segments: [
+            'If the section above the median is noticeably wider than the section below it, the distribution is likely skewed ',
+            { id:'b6', answer:'right', options:['right','left','uniformly'] },
+            ', and the mean would sit ',
+            { id:'b7', answer:'above', options:['above','below','exactly on'] },
+            ' the median.'
+          ]},
+          { segments: [
+            'Parallel box plots let you compare two groups’ five-number summaries directly, but without knowing each group’s sample size, a bigger proportion above some value does not necessarily mean a bigger raw ',
+            { id:'b8', answer:'count', options:['count','median','box width'] },
+            '.'
+          ]}
+        ]
+      },
+
+      /* ---------------- 5. WORKED EXAMPLES ---------------- */
+      {
+        type: 'examples', id: 'examples', label: 'Section 05 — Worked Examples',
+        heading: 'Read the box plot. <span class="underline teal">Watch the trap.</span>',
+        body: 'These reference the charts in Section 03 above. Click each one open, work it out, then check your answer.',
+        items: [
+          {
+            q: 'The box plot above shows exam scores for a professor’s 135 students (five-number summary: min 20, Q1 30, median 62, Q3 70, max 92, no outliers). About how many students scored above 70, and did more students score above 70 or below 30?',
+            fields: [
+              { k: 'Above 70', v: 'Q3 = 70, so 25% of the class scored above it — 0.25 × 135 ≈ 34 students' },
+              { k: 'Below 30', v: 'Q1 = 30, so 25% scored below it too — also ≈ 34 students' },
+              { k: 'Comparison', v: 'About the same number scored above 70 as below 30 — both are exactly the "outer 25%" on their side, regardless of how long each whisker looks' }
+            ]
+          },
+          {
+            q: 'Using the parallel box plots of Ohio vs. New York commute times, is it true that more adults from the New York sample travel over 30 minutes than adults in the Ohio sample?',
+            fields: [
+              { k: 'New York', v: '30 is New York’s median, so 50% of the New York sample travels over 30 minutes' },
+              { k: 'Ohio', v: '30 is Ohio’s Q3, so only 25% of the Ohio sample travels over 30 minutes' },
+              { k: 'Verdict', v: 'False as stated — a larger proportion of New York travels over 30 minutes, but without knowing each sample’s size, we can’t say more people (a raw count) do' }
+            ]
+          },
+          {
+            q: 'Compare the interquartile ranges of the Ohio and New York commute-time distributions, and describe what a wider box means (and doesn’t mean).',
+            fields: [
+              { k: 'Ohio IQR', v: 'Q3 − Q1 = 30 − 10 = 20 minutes' },
+              { k: 'New York IQR', v: 'Q3 − Q1 = 50 − 15 = 35 minutes' },
+              { k: 'What "wider" means', v: 'New York’s box is wider, so its middle 50% of commute times is more spread out — it does not mean New York has more commuters, just more variability in that range' }
+            ]
+          },
+          {
+            q: 'What can you say about the shape of the Ohio commute-time distribution just from its box plot?',
+            fields: [
+              { k: 'Reading the box', v: 'Min to Q1 is 5 minutes wide (5–10); Q1 to median is 10 wide (10–20); median to Q3 is 10 wide (20–30); Q3 to max is 20 wide (30–50)' },
+              { k: 'Shape', v: 'The upper half (above the median) is noticeably more spread out than the lower half — this points toward a distribution skewed right, where the mean would sit a bit above the median' }
+            ]
+          }
+        ]
+      },
+
+      /* ---------------- 6. FLASHCARDS ---------------- */
+      {
+        type: 'flashcards', id: 'flashcards', label: 'Section 06 — Flashcards',
+        heading: 'See the clue. <span class="underline sample">Name the term.</span>',
+        body: 'Front shows a short scenario or definition clue. Flip to check yourself, then mark whether you knew it.',
+        items: [
+          { prompt: 'A box from Q1 to Q3, a line at the median, and whiskers to the extremes.', term: 'Box plot', detail: 'A direct graph of the five-number summary.' },
+          { prompt: 'The line from the box out to the most extreme non-outlier value.', term: 'Whisker', detail: 'Outliers get their own separate mark instead of stretching the whisker.' },
+          { prompt: 'Two or more box plots stacked on the same scale to compare groups.', term: 'Parallel box plots', detail: 'Lets you compare five-number summaries directly.' },
+          { prompt: 'A box plot section is unusually wide. Does that mean it holds more data?', term: 'No — "wider" means more spread, not more data', detail: 'Every section is always exactly 25% of the data.' },
+          { prompt: 'The section above the median is much wider than the section below it.', term: 'Skewed right (mean above the median)', detail: 'A longer section on one side signals skew in that direction.' }
+        ]
+      },
+
+      /* ---------------- 7. QUIZ ---------------- */
+      {
+        type: 'quiz', id: 'quiz', label: 'Section 07 — Quiz',
+        heading: 'Test yourself. <span class="underline">No pressure.</span>',
+        body: 'Ten questions pulled straight from the lesson’s examples. Your best score is saved.',
+        questions: [
+          { q: 'A box plot’s box stretches from:', opts: ['Min to max', 'Q1 to Q3', 'Mean minus SD to mean plus SD', 'The 10th to 90th percentile'], correct: 1, exp: 'The box always spans Q1 to Q3 — the middle 50% of the data.' },
+          { q: 'The line inside the box represents the:', opts: ['Mean', 'Mode', 'Median', 'Standard deviation'], correct: 2, exp: 'The line inside the box marks the median.' },
+          { q: 'If a data set has an outlier, the whisker on that side extends to:', opts: ['The outlier itself', 'The most extreme value that is not an outlier', 'The mean', 'Exactly 1.5×IQR past the box, always'], correct: 1, exp: 'Outliers are marked separately; the whisker stops at the last non-outlier value.' },
+          { q: 'Each of the four sections of a box plot represents:', opts: ['A different, unequal share of the data', 'Exactly 25% of the data, regardless of width', 'Only the outliers', 'The mode of that section'], correct: 1, exp: 'By definition, min–Q1, Q1–median, median–Q3, and Q3–max each hold 25% of the data.' },
+          { q: 'A box plot’s upper section (median to Q3 to max) is much wider than its lower section. This suggests:', opts: ['Skewed left, mean below the median', 'Skewed right, mean above the median', 'Perfectly uniform data', 'Bimodal data with two peaks'], correct: 1, exp: 'More spread above the median points toward skewed right, pulling the mean above the median.' },
+          { q: 'Parallel box plots are used to:', opts: ['Show a single group’s shape only', 'Compare two or more groups’ five-number summaries on the same scale', 'Replace the need for a five-number summary', 'Show individual data values exactly'], correct: 1, exp: 'Parallel box plots stack multiple groups on a shared scale for direct comparison.' },
+          { q: 'Box Plot A shows 50% of its data above 40 minutes (its median). Box Plot B shows 25% of its data above 40 minutes (its Q3). Without knowing sample sizes, can you say more people in Group A traveled over 40 minutes than in Group B?', opts: ['Yes, since 50% > 25%', 'No — a bigger proportion doesn’t guarantee a bigger raw count unless sample sizes are known', 'Yes, because box plots always have equal sample sizes', 'No, because box plots cannot show percentages'], correct: 1, exp: 'A higher proportion only guarantees a higher raw count once you know both groups’ sample sizes.' },
+          { q: 'Which of the following can a box plot NOT show directly?', opts: ['The median', 'Gaps or multiple modes in the data', 'The interquartile range', 'Roughly where the middle 50% of data falls'], correct: 1, exp: 'Box plots compress the data into five numbers, so gaps and multiple modes are invisible — a dot plot or histogram would be needed for those.' },
+          { q: 'A box plot has a very short whisker on the left and a very long whisker on the right, and a median that sits closer to the left edge of the box. Overall shape?', opts: ['Skewed left', 'Roughly uniform', 'Skewed right', 'Cannot say anything about shape from a box plot ever'], correct: 2, exp: 'A long right whisker plus a median pulled toward the left of the box both point to skewed right.' },
+          { q: 'If a distribution is roughly symmetric, its box plot will typically show:', opts: ['A median far from the center of the box, with very unequal whiskers', 'A median roughly in the middle of the box, with roughly equal whiskers', 'No box at all', 'Only one whisker'], correct: 1, exp: 'Symmetric data tends to produce a centered median and whiskers of similar length on both sides.' }
+        ]
+      },
+
+      /* ---------------- 8. TAKEAWAYS ---------------- */
+      {
+        type: 'takeaways', id: 'takeaways', label: 'Section 08 — Takeaways',
+        heading: 'Five things to <span class="underline gold">actually remember</span>.',
+        items: [
+          { num: 'i.', title: 'A box plot is the five-number summary, drawn', body: 'Box from Q1 to Q3, a line at the median, whiskers to the non-outlier extremes, and outliers marked separately.' },
+          { num: 'ii.', title: 'Every section is 25%', body: 'A wider section always means more spread, never more data — each of the four chunks holds exactly a quarter of the data set.' },
+          { num: 'iii.', title: 'Box plots hint at shape, but not everything', body: 'A longer section on one side signals skew in that direction and pulls the mean that way too — but gaps and multiple modes stay invisible.' },
+          { num: 'iv.', title: 'Parallel box plots compare fairly', body: 'The same scale, side-by-side, makes five-number summaries directly comparable across groups.' },
+          { num: 'v.', title: 'Proportion isn’t count', body: 'A bigger percentage above some value doesn’t mean a bigger number of people — not unless you also know both groups’ sample sizes.' }
+        ]
+      }
+    ],
+
+    homework: {
+      estTime: '~25 min',
+      questions: [
+        { q: 'A box plot’s box represents:', opts: ['The full range of the data', 'The middle 50% of the data (Q1 to Q3)', 'Only the outliers', 'The mean and standard deviation'], correct: 1, exp: 'The box always spans the middle 50% of the data, from Q1 to Q3.' },
+        { q: 'The line drawn inside the box marks the:', opts: ['Mode', 'Mean', 'Median', 'Range'], correct: 2, exp: 'The line inside the box is the median.' },
+        { q: 'Using the exam-score box plot (five-number summary: min 20, Q1 30, median 62, Q3 70, max 92, n = 135), about how many students scored below 30?', opts: ['≈ 34 students (25% of 135)', '≈ 68 students (50% of 135)', 'Exactly 30 students', 'Exactly 20 students'], correct: 0, exp: '30 is Q1, so 25% of 135 ≈ 34 students scored below it.' },
+        { q: 'In that same class, did more students score above 70 or below 30?', opts: ['More scored above 70', 'More scored below 30', 'About the same number scored in each group', 'Cannot be determined from a box plot'], correct: 2, exp: 'Both 70 (Q3) and 30 (Q1) mark off exactly 25% of the class on their respective side — about the same count.' },
+        { q: 'Using the Ohio/New York parallel box plots (Ohio: min 5, Q1 10, median 20, Q3 30, max 50; New York: min 8, Q1 15, median 30, Q3 50, max 70, one outlier at 85), what is the IQR for New York?', opts: ['35 minutes', '50 minutes', '15 minutes', '62 minutes'], correct: 0, exp: 'New York’s IQR = Q3 − Q1 = 50 − 15 = 35 minutes.' },
+        { q: 'What is the IQR for Ohio?', opts: ['20 minutes', '30 minutes', '10 minutes', '45 minutes'], correct: 0, exp: 'Ohio’s IQR = Q3 − Q1 = 30 − 10 = 20 minutes.' },
+        { q: 'Which sample has the larger interquartile range?', opts: ['Ohio', 'New York', 'They are equal', 'Cannot be determined'], correct: 1, exp: 'New York’s IQR (35) is larger than Ohio’s (20).' },
+        { q: 'What proportion of the Ohio sample travels 30 minutes or less?', opts: ['25%', '50%', '75%', '100%'], correct: 2, exp: '30 is Ohio’s Q3, so 75% of the sample is at or below it.' },
+        { q: 'What proportion of the New York sample travels more than 30 minutes?', opts: ['25%', '50%', '75%', '10%'], correct: 1, exp: '30 is New York’s median, so 50% of the sample travels more than 30 minutes.' },
+        { q: 'Is it true that more adults from the New York sample travel over 30 minutes than adults from the Ohio sample, in raw count?', opts: ['Yes, definitely, since 50% > 25%', 'Cannot be determined — sample sizes for each group aren’t given', 'No, it is definitely false', 'Yes, because New York always has more commuters'], correct: 1, exp: 'A higher proportion doesn’t guarantee a higher raw count unless both sample sizes are known.' },
+        { q: 'New York’s box plot shows one point drawn separately beyond the right whisker, at 85 minutes. What does this represent?', opts: ['The median', 'An outlier', 'The mean', 'A data-entry requirement, not real data'], correct: 1, exp: 'A point marked separately beyond the whisker is an outlier.' },
+        { q: 'Why does New York’s whisker stop at 70 instead of extending to the outlier at 85?', opts: ['It is a drawing error', 'Whiskers extend only to the most extreme value that is not an outlier; outliers get their own separate mark', 'Whiskers always stop at exactly Q3 + 10', 'Because 85 was deleted from the data set'], correct: 1, exp: 'The whisker reaches the last non-outlier value; the outlier itself is marked separately rather than stretching the whisker.' },
+        { q: 'A box plot’s section from the median to Q3 is much wider than the section from Q1 to the median. What does this suggest about shape?', opts: ['Skewed left, mean likely below the median', 'Skewed right, mean likely above the median', 'The data must be bimodal', 'Nothing — box plots never show shape'], correct: 1, exp: 'More spread just above the median (in the median-to-Q3 section) points toward skewed right.' },
+        { q: 'A box plot cannot show which of the following?', opts: ['The median', 'The interquartile range', 'Whether there are two separate peaks (bimodal) in the data', 'Roughly where the middle 50% of the data falls'], correct: 2, exp: 'Box plots compress the data into five summary numbers, so multiple peaks or gaps are invisible.' },
+        { q: 'Class A’s test-score box plot has a median of 78 and a fairly narrow box. Class B’s box plot has the same median of 78 but a much wider box. What does this tell you?', opts: ['Class A and Class B have identical spread', 'Class B’s scores are more spread out around the same central value', 'Class A must have more students', 'Class B’s median is actually higher'], correct: 1, exp: 'A wider box means more spread in the middle 50%, even with the same median — sample size can’t be inferred from box width.' },
+        { q: 'Parallel box plots are most useful for:', opts: ['Displaying a single variable in isolation', 'Comparing the five-number summaries of two or more groups on the same scale', 'Replacing histograms entirely', 'Showing individual raw data values'], correct: 1, exp: 'Parallel box plots exist specifically to compare groups directly on a shared scale.' },
+        { q: 'A distribution’s box plot has a median positioned almost exactly in the middle of the box, with two whiskers of roughly equal length. This is most consistent with:', opts: ['A strongly skewed distribution', 'A roughly symmetric distribution', 'A bimodal distribution', 'An outlier-heavy distribution'], correct: 1, exp: 'A centered median with roughly equal whiskers is the box-plot signature of a roughly symmetric distribution.' },
+        { q: 'Why is a wider section of a box plot NOT evidence of "more data" in that section?', opts: ['Because box plots do not use real data', 'Because every section — wide or narrow — always represents exactly 25% of the data by definition', 'Because wider sections actually mean less data', 'Because only the box itself contains any data'], correct: 1, exp: 'Each of the four sections is defined to hold exactly 25% of the data, so width only reflects spread, never count.' },
+        { q: 'Two box plots have very different sample sizes, but Group A shows a higher proportion above a certain time cutoff than Group B. Which is guaranteed to be true?', opts: ['Group A definitely has more people above the cutoff, in raw count', 'Group A has a higher percentage above the cutoff, but not necessarily a higher count', 'Group A and Group B must have the same sample size', 'Nothing can be said about proportions from a box plot'], correct: 1, exp: 'Only the proportion comparison is guaranteed; raw count depends on the (unknown) sample sizes.' },
+        { q: 'Which single graph type most directly displays a five-number summary?', opts: ['Histogram', 'Bar chart', 'Box plot', 'Pie chart'], correct: 2, exp: 'A box plot is built directly from the five-number summary — min, Q1, median, Q3, and max.' }
       ]
     }
   }

@@ -391,6 +391,17 @@ section.sec{margin-bottom:3.4rem; scroll-margin-top:90px;}
 .chart-legend-item{display:inline-flex; align-items:center; gap:.35rem; margin:.2rem .5rem .2rem 0; font-family:'JetBrains Mono',monospace; font-size:.72rem; color:var(--ink-soft);}
 .chart-legend-swatch{width:9px; height:9px; border-radius:2px; display:inline-block; flex:none;}
 
+/* stem-and-leaf plot (single or back-to-back) */
+.chart-stemplot-wrap{display:flex; flex-direction:column; align-items:center; gap:.6rem; max-width:100%;}
+.chart-stemplot{display:flex; flex-direction:column; gap:3px; font-family:'JetBrains Mono',monospace; font-size:.85rem;}
+.stem-row{display:flex; align-items:center; gap:.6rem;}
+.stem-row.stem-header{font-family:'Plus Jakarta Sans',sans-serif; font-size:.7rem; font-weight:600; text-transform:uppercase; letter-spacing:.05em; color:var(--ink-soft); margin-bottom:.2rem;}
+.stem-stem{min-width:1.9rem; text-align:center; font-weight:700; color:var(--population); background:var(--population-wash); border-radius:5px; padding:.1rem .3rem; flex:none;}
+.stem-leaves{min-width:8rem; letter-spacing:.18em; color:var(--ink);}
+.stem-leaves.left{text-align:right;}
+.stem-leaves.right{text-align:left;}
+.stem-key{font-size:.8rem; color:var(--ink-muted); font-family:'JetBrains Mono',monospace;}
+
 /* fill-in-the-blank */
 .fb-shell{background:var(--card); border:1px solid var(--line); border-radius:16px; padding:1.7rem 1.9rem; box-shadow:var(--shadow-sm);}
 .fb-passage{display:flex; flex-direction:column; gap:1.1rem; margin-bottom:1.5rem;}
