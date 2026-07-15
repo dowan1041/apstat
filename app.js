@@ -1052,6 +1052,16 @@ function renderChart(sec, mount){
   mount.appendChild(grid);
 }
 
+/* ---------------- BACK TO TOP ---------------- */
+function wireToTop(){
+  const btn = document.getElementById('toTopBtn');
+  window.addEventListener('scroll', ()=>{
+    btn.classList.toggle('show', window.scrollY > 400);
+  }, { passive: true });
+  btn.addEventListener('click', ()=>window.scrollTo({ top: 0, behavior: 'smooth' }));
+}
+wireToTop();
+
 /* ---------------- BOOT ---------------- */
 function boot(){
   if(!CLOUD){
