@@ -37,6 +37,19 @@ function saveProgress(p){
   try { localStorage.setItem(STORAGE_KEY, JSON.stringify(p)); } catch(e){}
 }
 let PROGRESS = loadProgress();
+
+/* Hub view mode (cards / list) — a local UI preference, not study
+   progress, so it's kept out of PROGRESS/Supabase sync entirely. */
+const HUB_VIEW_KEY = 'apstats-hub-view-mode';
+let hubViewMode = (function(){
+  try { return localStorage.getItem(HUB_VIEW_KEY) || 'cards'; }
+  catch(e){ return 'cards'; }
+})();
+function setHubView(mode){
+  hubViewMode = mode;
+  try { localStorage.setItem(HUB_VIEW_KEY, mode); } catch(e){}
+  renderHub();
+}
 function chProg(id){
   if(!PROGRESS[id]) PROGRESS[id] = {};
   const p = PROGRESS[id];
@@ -467,6 +480,18 @@ function renderHub(){
   document.getElementById('hubBarLabel').textContent = `${done} / ${total} chapters complete`;
   document.getElementById('topbarProgress').innerHTML = `<b>${done}</b> / ${total} complete`;
 
+  document.getElementById('hubToolbar').innerHTML = `
+    <div class="view-toggle">
+      <button type="button" class="${hubViewMode==='cards'?'active':''}" onclick="setHubView('cards')">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+        Cards
+      </button>
+      <button type="button" class="${hubViewMode==='list'?'active':''}" onclick="setHubView('list')">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
+        List
+      </button>
+    </div>`;
+
   const container = document.getElementById('unitsContainer');
   container.innerHTML = '';
   UNITS.forEach(unit=>{
@@ -476,23 +501,34 @@ function renderHub(){
     head.className = 'unit-head';
     head.innerHTML = `<span class="code">${unit.code}</span><h3>${unit.name}</h3>`;
     block.appendChild(head);
-    const grid = document.createElement('div');
-    grid.className = 'chapter-grid';
+    const chWrap = document.createElement('div');
+    chWrap.className = hubViewMode === 'list' ? 'chapter-list' : 'chapter-grid';
     unit.chapterIds.forEach(cid=>{
       const ch = CHAPTERS[cid];
       if(!ch) return;
       const prog = chProg(cid);
-      const card = document.createElement('div');
-      card.className = 'chapter-card' + (prog.quizDone ? ' done' : '');
-      card.onclick = ()=>goChapter(cid);
-      card.innerHTML = `
-        <span class="code">${ch.code}</span>
-        <h4>${ch.title}</h4>
-        <p>${ch.cardSummary}</p>
-        <div class="cc-status"><span class="cc-dot"></span>${prog.quizDone ? 'quiz complete · best '+prog.quizBest+'%' : 'not started'}</div>`;
-      grid.appendChild(card);
+      if(hubViewMode === 'list'){
+        const row = document.createElement('div');
+        row.className = 'chapter-row' + (prog.quizDone ? ' done' : '');
+        row.onclick = ()=>goChapter(cid);
+        row.innerHTML = `
+          <span class="row-code">${ch.code}</span>
+          <span class="row-title">${ch.title}</span>
+          <span class="row-status"><span class="cc-dot"></span>${prog.quizDone ? 'best '+prog.quizBest+'%' : 'not started'}</span>`;
+        chWrap.appendChild(row);
+      } else {
+        const card = document.createElement('div');
+        card.className = 'chapter-card' + (prog.quizDone ? ' done' : '');
+        card.onclick = ()=>goChapter(cid);
+        card.innerHTML = `
+          <span class="code">${ch.code}</span>
+          <h4>${ch.title}</h4>
+          <p>${ch.cardSummary}</p>
+          <div class="cc-status"><span class="cc-dot"></span>${prog.quizDone ? 'quiz complete · best '+prog.quizBest+'%' : 'not started'}</div>`;
+        chWrap.appendChild(card);
+      }
     });
-    block.appendChild(grid);
+    block.appendChild(chWrap);
     container.appendChild(block);
   });
 }

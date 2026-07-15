@@ -152,6 +152,40 @@ a:hover{text-decoration:underline; text-underline-offset:3px;}
 .chapter-card.locked{opacity:.5; cursor:default;}
 .chapter-card.locked:hover{transform:none; box-shadow:var(--shadow-sm);}
 
+/* ---------------- Hub view toggle (cards / list) ---------------- */
+.hub-toolbar{display:flex; justify-content:flex-end; margin-bottom:1rem;}
+.view-toggle{display:inline-flex; border:1px solid var(--line); border-radius:999px; overflow:hidden; background:var(--card);}
+.view-toggle button{
+  border:none; background:transparent; padding:.45rem 1rem; font:inherit;
+  font-family:'Plus Jakarta Sans',sans-serif; font-size:.8rem; font-weight:600;
+  cursor:pointer; color:var(--ink-muted); display:inline-flex; align-items:center; gap:.4rem;
+  transition:all .15s var(--ease-out);
+}
+.view-toggle button.active{background:var(--population); color:#fff;}
+.view-toggle button:not(.active):hover{color:var(--ink); background:var(--paper-deep);}
+
+.chapter-list{display:flex; flex-direction:column; gap:6px;}
+.chapter-row{
+  display:flex; align-items:center; gap:.9rem; padding:.75rem 1.1rem;
+  background:var(--card); border:1px solid var(--line); border-radius:10px;
+  cursor:pointer; transition:all .15s var(--ease-out);
+}
+.chapter-row:hover{border-color:var(--population-line); background:var(--population-wash);}
+.chapter-row .row-code{font-family:'JetBrains Mono',monospace; font-size:.75rem; color:var(--sample); font-weight:500; flex:none; min-width:4.6rem;}
+.chapter-row .row-title{font-family:'Fraunces',serif; font-size:1rem; color:var(--ink); flex:1;}
+.chapter-row .row-status{
+  font-family:'JetBrains Mono',monospace; font-size:.7rem; letter-spacing:.05em; text-transform:uppercase;
+  color:var(--ink-faint); flex:none; display:flex; align-items:center; gap:.4rem; white-space:nowrap;
+}
+.chapter-row .cc-dot{width:7px;height:7px;border-radius:50%; background:var(--ink-faint); flex:none;}
+.chapter-row.done .row-status{color:var(--population);}
+.chapter-row.done .cc-dot{background:var(--population);}
+
+@media (max-width:640px){
+  .chapter-row .row-title{font-size:.92rem;}
+  .chapter-row .row-code{min-width:3.8rem;}
+}
+
 /* ---------------- Chapter view ---------------- */
 .chapter-hero{padding:2.4rem 0 1.6rem; border-bottom:1px solid var(--line); margin-bottom:2.2rem;}
 .chapter-hero-top{display:flex; align-items:center; justify-content:space-between; gap:1rem; flex-wrap:wrap; margin-bottom:1.2rem;}
@@ -663,6 +697,7 @@ html.auth-pending .wrap{display:none !important;}
       <div class="label" id="hubBarLabel">0 / 0 chapters complete</div>
     </div>
 
+    <div class="hub-toolbar" id="hubToolbar"></div>
     <div id="unitsContainer"></div>
   </div>
   <footer>built for statars · data from a sample, judgments about the population</footer>
