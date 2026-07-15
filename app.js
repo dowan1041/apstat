@@ -42,8 +42,8 @@ let PROGRESS = loadProgress();
    progress, so it's kept out of PROGRESS/Supabase sync entirely. */
 const HUB_VIEW_KEY = 'apstats-hub-view-mode';
 let hubViewMode = (function(){
-  try { return localStorage.getItem(HUB_VIEW_KEY) || 'cards'; }
-  catch(e){ return 'cards'; }
+  try { return localStorage.getItem(HUB_VIEW_KEY) || 'list'; }
+  catch(e){ return 'list'; }
 })();
 function setHubView(mode){
   hubViewMode = mode;
