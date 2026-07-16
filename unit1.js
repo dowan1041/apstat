@@ -8,7 +8,7 @@
 registerUnit({
   code: 'Unit 1',
   name: 'Exploring One-Variable Data',
-  chapterIds: ['1-1', '1-2', '1-3', '1-4', '1-5', '1-6', '1-7', '1-8']
+  chapterIds: ['1-1', '1-2', '1-3', '1-4', '1-5', '1-6', '1-7', '1-8', '1-9', '1-10', '1-11', '1-12', '1-13']
 });
 
 registerChapters({
@@ -1857,6 +1857,1369 @@ registerChapters({
         { q: 'Why is a wider section of a box plot NOT evidence of "more data" in that section?', opts: ['Because box plots do not use real data', 'Because every section — wide or narrow — always represents exactly 25% of the data by definition', 'Because wider sections actually mean less data', 'Because only the box itself contains any data'], correct: 1, exp: 'Each of the four sections is defined to hold exactly 25% of the data, so width only reflects spread, never count.' },
         { q: 'Two box plots have very different sample sizes, but Group A shows a higher proportion above a certain time cutoff than Group B. Which is guaranteed to be true?', opts: ['Group A definitely has more people above the cutoff, in raw count', 'Group A has a higher percentage above the cutoff, but not necessarily a higher count', 'Group A and Group B must have the same sample size', 'Nothing can be said about proportions from a box plot'], correct: 1, exp: 'Only the proportion comparison is guaranteed; raw count depends on the (unknown) sample sizes.' },
         { q: 'Which single graph type most directly displays a five-number summary?', opts: ['Histogram', 'Bar chart', 'Box plot', 'Pie chart'], correct: 2, exp: 'A box plot is built directly from the five-number summary — min, Q1, median, Q3, and max.' }
+      ]
+    }
+  }
+});
+
+/* ============================================
+   Topic 1.9 — Comparing Distributions of a Quantitative Variable
+   Source: course transcript (Topic 1.9 lecture)
+   ============================================ */
+
+registerChapters({
+  '1-9': {
+    id: '1-9',
+    code: 'Topic 1.9',
+    unitName: 'Unit 1 — Exploring One-Variable Data',
+    title: 'Comparing Distributions of a Quantitative Variable',
+    cardSummary: 'Comparing two distributions side by side, then standardizing individual values into z-scores so you can compare across completely different variables.',
+    heroTitle: 'Same score. <em>Different</em><br>meaning.',
+    heroSub: 'A 78 can be a great score or a terrible one — it depends entirely on the mean and spread around it. Compare two distributions graphically, then standardize with a z-score to compare anything to anything.',
+    source: 'Topic 1.9 course video',
+    estTime: '~25–35 min',
+
+    sections: [
+      /* ---------------- 1. OVERVIEW ---------------- */
+      {
+        type: 'overview', id: 'overview', label: 'Section 01 — Overview',
+        heading: 'Compare <span class="underline teal">two distributions</span>. Standardize <span class="underline sample">one value</span>.',
+        body: 'This topic has two halves: putting two distributions side by side to compare them, and standardizing a single value into a z-score so it can be compared against a distribution — or against a value from a completely different distribution.',
+        cards: [
+          { roman: 'I.', title: 'Compare graphically', body: 'Histograms, back-to-back stem-and-leaf plots, dot plots, and parallel box plots can all compare <strong>center, spread, shape, and outliers</strong> between two groups. Only box plots can’t reveal <strong>clusters or gaps</strong>.', tags: ['Center · spread · shape', 'Outliers', 'Box plots hide gaps'] },
+          { roman: 'II.', title: 'Standardize with z-scores', body: 'A <strong>z-score</strong> measures how many standard deviations a value sits from the mean. It has no units, which is exactly what lets you compare values from two totally different variables on one common scale.', tags: ['z = (x − mean) / sd', 'No units', 'Compares anything to anything'], accent: 'sample' }
+        ]
+      },
+
+      /* ---------------- 2. VOCAB ---------------- */
+      {
+        type: 'vocab', id: 'vocab', label: 'Section 02 — Vocabulary',
+        heading: 'The <span class="underline teal">eight words</span> this topic runs on.',
+        body: 'Tap a term you’ve got down — your checkmarks are saved so you can see what still needs review.',
+        items: [
+          { id: 'comparing-distributions', term: 'Comparing distributions', accent: 'population', body: 'Describing two or more distributions using the same categories — center, spread (variability), shape, outliers, clusters, and gaps — so they can be judged side by side.' },
+          { id: 'back-to-back-stemplot', term: 'Back-to-back stem-and-leaf plot', accent: 'population', body: 'A stem-and-leaf plot for two groups that share one column of stems in the middle, with one group’s leaves running left and the other’s running right.' },
+          { id: 'boxplot-blind-spot', term: 'Box plots can’t show gaps', accent: 'sample', body: 'Box plots compare center, variability, outliers, and skew well, but — unlike a histogram or dot plot — they can hide clusters and gaps in the data.' },
+          { id: 'z-score', term: 'Standardized score (z-score)', sym: 'z', accent: 'population', body: 'Measures the number of standard deviations a data value falls above or below the mean: z = (x − mean) / (standard deviation).' },
+          { id: 'z-no-units', term: 'Z-scores have no units', accent: 'sample', body: 'A z-score is a pure count of standard deviations — stripped of units, it lets you compare values from two entirely different variables on the same scale.' },
+          { id: 'z-sign', term: 'Sign of a z-score', accent: 'sample', body: 'A negative z-score means the value is below the mean; a positive z-score means it’s above the mean. The size tells you how far.' },
+          { id: 'empirical-guideline', term: 'The 1 / 2 / 3 standard-deviation guideline', accent: 'population', body: 'Roughly: the majority of data sits within 1 standard deviation of the mean, a large majority within 2, and virtually all of it within 3.' },
+          { id: 'z-comparison', term: 'Comparing with z-scores', accent: 'sample', body: 'Because z-scores strip away units, they let you compare an individual’s relative position across two completely different distributions — like a dog’s weight against other dogs vs. a cat’s weight against other cats.' }
+        ]
+      },
+
+      /* ---------------- 3. THE DISTRIBUTIONS WE'LL COMPARE ---------------- */
+      {
+        type: 'chart', id: 'graphs', label: 'Section 03 — The Distributions We’ll Compare',
+        heading: 'Two razors. <span class="underline sample">Two data sets.</span>',
+        items: [
+          {
+            title: 'Shaves until dull — generic vs. name-brand razors',
+            chartType: 'stemplot',
+            splitSides: true, leftLabel: 'Generic', rightLabel: 'Name Brand',
+            stems: [
+              { stem: '8', left: [0], right: [] },
+              { stem: '9', left: [6,7,9], right: [] },
+              { stem: '10', left: [5], right: [3,6,8] },
+              { stem: '11', left: [0,8], right: [0,1,4,8] },
+              { stem: '12', left: [], right: [3] },
+              { stem: '13', left: [2,8], right: [0] }
+            ],
+            keyText: 'Key: 8 | 0 = 80 shaves (generic); 10 | 3 = 103 shaves (name brand).',
+            caption: 'Name brand has a higher center (median 111) and is less spread out (103–130). Generic has a lower center (median 105) but is much more spread out (80–138) — and its two longest-lasting razors (132, 138) beat every name-brand razor.'
+          },
+          {
+            title: 'Two data sets, same units — summary stats only',
+            chartType: 'boxplot',
+            groups: [
+              { label: 'Data Set 1', min: 4, q1: 12, median: 17, q3: 29, max: 48, outliers: [] },
+              { label: 'Data Set 2', min: 10, q1: 19, median: 24, q3: 31, max: 40, outliers: [] }
+            ],
+            caption: 'Data Set 1: mean 22.4, median 17, sd 12.8 — the mean sits well above the median (the gap from Q1 to the median is only 5, but median to Q3 is 12), pointing to a right skew. Data Set 2: mean 24.3, median 24, sd 4.1 — mean and median are almost identical and the box is close to symmetric, with a higher, tighter center overall.'
+          }
+        ]
+      },
+
+      /* ---------------- 4. SEEING A Z-SCORE ---------------- */
+      {
+        type: 'chart', id: 'zscores', label: 'Section 04 — Seeing a Z-Score',
+        heading: 'The <span class="underline teal">same 78</span>, four different contexts.',
+        body: 'Each number line below shades ±1σ, ±2σ, and ±3σ around the mean, and marks one value against it. Same raw score, wildly different z-score.',
+        items: [
+          { title: 'Test score 78 — mean 80, sd 5', chartType: 'zscoreline', spec: { mean: 80, sd: 5, value: 78, label: 'Score', decimals: 0 }, caption: 'z = −0.4 — just a bit below the mean, nothing dramatic.' },
+          { title: 'Test score 78 — mean 80, sd 0.5', chartType: 'zscoreline', spec: { mean: 80, sd: 0.5, value: 78, label: 'Score', decimals: 1 }, caption: 'z = −4 — with sd this tiny, this is an unbelievably bad score relative to everyone else.' },
+          { title: 'Test score 78 — mean 95, sd 12', chartType: 'zscoreline', spec: { mean: 95, sd: 12, value: 78, label: 'Score', decimals: 0 }, caption: 'z ≈ −1.42 — meaningfully below average, beyond the "most students" ±1σ zone.' },
+          { title: 'Test score 78 — mean 70, sd 12', chartType: 'zscoreline', spec: { mean: 70, sd: 12, value: 78, label: 'Score', decimals: 0 }, caption: 'z ≈ +0.67 — above the mean, and still solidly inside the ±1σ zone most students land in.' },
+          { title: 'Dog weight — 54 lb', chartType: 'zscoreline', spec: { mean: 45, sd: 5.4, value: 54, label: 'Dog', unit: ' lb', decimals: 1 }, caption: 'z ≈ +1.67 — noticeably heavier than a typical dog.' },
+          { title: 'Cat weight — 22 lb', chartType: 'zscoreline', spec: { mean: 16, sd: 2.4, value: 22, label: 'Cat', unit: ' lb', decimals: 1 }, caption: 'z = +2.5 — even though 22 lb is far less than the dog’s 54 lb, this cat is much bigger relative to other cats than that dog is relative to other dogs.' }
+        ]
+      },
+
+      /* ---------------- 5. GUIDED NOTES (fill in the blank) ---------------- */
+      {
+        type: 'fill-blank', id: 'guided-notes', label: 'Section 05 — Guided Notes',
+        heading: 'Fill in the <span class="underline sample">guided notes</span>.',
+        body: 'Same idea as the printable guided notes — but pick each answer from a dropdown. Submit to check; anything wrong turns red so you can try once more before the answer is revealed.',
+        items: [
+          { segments: [
+            'When comparing two distributions, describe their center, spread, shape, outliers, and ',
+            { id:'b1', answer:'clusters and gaps', options:['clusters and gaps','sample size','population'] },
+            ' — although ',
+            { id:'b2', answer:'box plots', options:['box plots','dot plots','stem-and-leaf plots'] },
+            ' cannot reveal clusters or gaps the way the other graphs can.'
+          ]},
+          { segments: [
+            'A standardized score, or ',
+            { id:'b3', answer:'z-score', options:['z-score','percentile','parameter'] },
+            ', measures the number of standard deviations a data value falls above or below the mean.'
+          ]},
+          { segments: [
+            'The formula for a z-score is z = (x − mean) divided by the ',
+            { id:'b4', answer:'standard deviation', options:['standard deviation','sample size','IQR'] },
+            ', and a z-score has ',
+            { id:'b5', answer:'no units', options:['no units','the same units as x','squared units'] },
+            ' — which is exactly what lets it compare values from two completely different distributions.'
+          ]},
+          { segments: [
+            'A ',
+            { id:'b6', answer:'negative', options:['negative','positive','zero'] },
+            ' z-score means the value is below the mean, while a ',
+            { id:'b7', answer:'positive', options:['positive','negative','zero'] },
+            ' z-score means it is above the mean.'
+          ]},
+          { segments: [
+            'As a rough guideline, the majority of data falls within 1 standard deviation of the mean, a large majority within ',
+            { id:'b8', answer:'2', options:['2','3','0.5'] },
+            ' standard deviations, and virtually all of it within ',
+            { id:'b9', answer:'3', options:['3','2','1'] },
+            ' standard deviations.'
+          ]},
+          { segments: [
+            'Changing the units a variable is measured in (feet to inches, dollars to cents) does not change a data value’s ',
+            { id:'b10', answer:'z-score', options:['z-score','raw value','mean'] },
+            ', because its position relative to the mean and standard deviation stays exactly the same.'
+          ]}
+        ]
+      },
+
+      /* ---------------- 6. WORKED EXAMPLES ---------------- */
+      {
+        type: 'examples', id: 'examples', label: 'Section 06 — Worked Examples',
+        heading: 'Read the distributions. <span class="underline teal">Do the standardizing.</span>',
+        body: 'These reference the charts in Sections 03–04 above. Click each one open, work it out, then check your answer.',
+        items: [
+          {
+            q: 'Using the back-to-back stem-and-leaf plot above, compare the generic and name-brand razors in terms of center, spread, and shape. Can you conclude the name brand is definitively better?',
+            fields: [
+              { k: 'Center', v: 'Name brand has a higher center (median 111 shaves) than generic (median 105) — name brand razors tend to last a bit longer before going dull' },
+              { k: 'Spread', v: 'Generic is far more spread out (80 to 138) than name brand (103 to 130) — name brand is more consistent' },
+              { k: 'Shape', v: 'Both are slightly skewed right, with more data bunched at the low end and a longer tail toward the higher values' },
+              { k: 'Verdict', v: 'Not conclusively — the two longest-lasting razors in the entire data set (132 and 138 shaves) were both generic, even though the name brand’s overall center is higher' }
+            ]
+          },
+          {
+            q: 'Data Set 1 has mean 22.4, median 17, sd 12.8 (Q1 12, Q3 29). Data Set 2 has mean 24.3, median 24, sd 4.1 (Q1 19, Q3 31). Compare their shape and spread.',
+            fields: [
+              { k: 'Data Set 1 shape', v: 'Mean (22.4) sits well above the median (17), and Q1-to-median (5) is smaller than median-to-Q3 (12) — both point to a right skew' },
+              { k: 'Data Set 2 shape', v: 'Mean (24.3) and median (24) are almost identical, and Q1-to-median (5) is close to median-to-Q3 (7) — a roughly symmetric distribution' },
+              { k: 'Spread comparison', v: 'Data Set 1’s standard deviation (12.8) is much larger than Data Set 2’s (4.1) — Data Set 1 is far more spread out' }
+            ]
+          },
+          {
+            q: 'A student scores 78 on four different exams: (a) mean 80, sd 5; (b) mean 80, sd 0.5; (c) mean 95, sd 12; (d) mean 70, sd 12. Find each z-score and rank the four performances from best to worst.',
+            fields: [
+              { k: '(a)', v: 'z = (78 − 80) / 5 = −0.4 — slightly below average' },
+              { k: '(b)', v: 'z = (78 − 80) / 0.5 = −4 — catastrophically bad; almost no one scores this many sd below the mean' },
+              { k: '(c)', v: 'z = (78 − 95) / 12 ≈ −1.42 — meaningfully below average' },
+              { k: '(d)', v: 'z = (78 − 70) / 12 ≈ +0.67 — above average' },
+              { k: 'Ranking (best → worst)', v: '(d) +0.67  >  (a) −0.4  >  (c) −1.42  >  (b) −4' }
+            ]
+          },
+          {
+            q: 'A dog weighs 54 lb (mean 45 lb, sd 5.4 among dogs). A cat weighs 22 lb (mean 16 lb, sd 2.4 among cats). Which animal is bigger relative to its own species?',
+            fields: [
+              { k: 'Dog z-score', v: 'z = (54 − 45) / 5.4 ≈ 1.67' },
+              { k: 'Cat z-score', v: 'z = (22 − 16) / 2.4 = 2.5' },
+              { k: 'Verdict', v: 'The cat — even though it weighs far less in raw pounds, 2.5 sd above the mean beats 1.67 sd above the mean' }
+            ]
+          },
+          {
+            q: 'A box of crackers has mean weight 16.5 oz, sd 0.4 oz. One box has a z-score of −1.24. What does that box actually weigh?',
+            fields: [
+              { k: 'Setup', v: 'Solve the z-score formula for x: x = z · sd + mean' },
+              { k: 'Work', v: 'x = (−1.24)(0.4) + 16.5 = −0.496 + 16.5' },
+              { k: 'Answer', v: 'x ≈ 16.0 oz' }
+            ]
+          },
+          {
+            q: 'The mean height of boys is 54 in, sd 2.7 in. A boy has a z-score of +0.58. How tall is he?',
+            fields: [
+              { k: 'Work', v: 'x = (0.58)(2.7) + 54 = 1.566 + 54' },
+              { k: 'Answer', v: 'x ≈ 55.57 in — just a bit above average, consistent with a z-score under 1' }
+            ]
+          }
+        ]
+      },
+
+      /* ---------------- 7. FLASHCARDS ---------------- */
+      {
+        type: 'flashcards', id: 'flashcards', label: 'Section 07 — Flashcards',
+        heading: 'See the clue. <span class="underline sample">Name the term.</span>',
+        body: 'Front shows a short scenario or definition clue. Flip to check yourself, then mark whether you knew it.',
+        items: [
+          { prompt: 'Two histograms sit side by side. What five things should you compare between them?', term: 'Center, spread, shape, outliers, clusters/gaps', detail: 'Box plots are the one graph that can’t show clusters or gaps.' },
+          { prompt: 'Two stem-and-leaf plots share one stem column, with leaves running in opposite directions.', term: 'Back-to-back stem-and-leaf plot', detail: 'A quick way to compare two distributions leaf-by-leaf.' },
+          { prompt: 'Measures how many standard deviations a value sits above or below the mean.', term: 'Z-score (standardized score)', detail: 'z = (x − mean) / (standard deviation).' },
+          { prompt: 'This measure of position has no units at all.', term: 'Z-score', detail: 'That’s exactly what lets it compare completely different variables.' },
+          { prompt: 'A negative z-score means the value is...', term: 'Below the mean', detail: 'Positive means above; zero means exactly at the mean.' },
+          { prompt: 'Roughly how much data falls within 2 standard deviations of the mean?', term: 'A large majority — almost all of it', detail: '1 sd = the majority, 2 sd = a large majority, 3 sd = virtually all.' },
+          { prompt: 'A dog weighs less than a cat in raw pounds, but has a bigger z-score. Which is bigger relative to its own species?', term: 'The dog', detail: 'Z-scores compare position within a distribution, not raw size.' },
+          { prompt: 'Converting a variable from feet to inches — does a value’s z-score change?', term: 'No — z-scores don’t change when you change units', detail: 'Position relative to the mean, in standard-deviation units, stays identical.' }
+        ]
+      },
+
+      /* ---------------- 8. QUIZ ---------------- */
+      {
+        type: 'quiz', id: 'quiz', label: 'Section 08 — Quiz',
+        heading: 'Test yourself. <span class="underline">No pressure.</span>',
+        body: 'Ten questions pulled straight from the lesson’s examples. Your best score is saved.',
+        questions: [
+          { q: 'Which graph type cannot easily show gaps or clusters in the data?', opts: ['Dot plot', 'Histogram', 'Stem-and-leaf plot', 'Box plot'], correct: 3, exp: 'Box plots compress data into five numbers, hiding gaps and clusters that a dot plot, histogram, or stem plot would reveal.' },
+          { q: 'A back-to-back stem-and-leaf plot compares two distributions by:', opts: ['Sharing one column of stems, with leaves running opposite directions', 'Showing only the outliers of each group', 'Calculating each group’s mean automatically', 'Replacing the need for a five-number summary'], correct: 0, exp: 'One shared stem column, leaves going left for one group and right for the other.' },
+          { q: 'The z-score formula is:', opts: ['(mean − x) / sd', '(x − mean) / sd', 'x · sd + mean', '(x − median) / IQR'], correct: 1, exp: 'z = (x − mean) / (standard deviation).' },
+          { q: 'Z-scores are expressed in which units?', opts: ['Squared units of x', 'Percent', 'No units at all', 'The same units as x'], correct: 2, exp: 'A z-score is a pure count of standard deviations — no units, which is what lets it compare different variables.' },
+          { q: 'A value with z = −2.3 is:', opts: ['2.3 standard deviations above the mean', 'Impossible', 'Exactly at the 2.3rd percentile', '2.3 standard deviations below the mean'], correct: 3, exp: 'Negative means below the mean; the magnitude (2.3) is the distance in standard deviations.' },
+          { q: 'Roughly what portion of data falls within 1 standard deviation of the mean?', opts: ['The majority of it', 'None of it', 'Virtually all of it', 'Exactly half'], correct: 0, exp: 'The 1/2/3-sd guideline: majority within 1 sd, a large majority within 2, virtually all within 3.' },
+          { q: 'A student scores 78 on an exam with mean 80 and sd 0.5, giving z = −4. This tells you the score was:', opts: ['An average performance', 'An excellent performance', 'Impossible to interpret', 'An extremely poor performance relative to everyone else'], correct: 3, exp: 'Virtually all data sits within 3 sd of the mean, so z = −4 is dramatically far below.' },
+          { q: 'A dog has z = 1.67 for weight; a cat has z = 2.5 for weight. Relative to its own species, which animal is bigger?', opts: ['The dog', 'The cat', 'Both equally', 'Cannot be compared'], correct: 1, exp: 'The cat’s z-score is farther from its mean, even though it weighs less in raw pounds than the dog.' },
+          { q: 'If you convert a variable’s units (e.g. feet to inches), a specific data value’s z-score:', opts: ['Doubles', 'Becomes zero', 'Stays exactly the same', 'Cannot be calculated anymore'], correct: 2, exp: 'Z-scores measure relative position, which does not change when the units change.' },
+          { q: 'Distribution A and Distribution B share the same mean, but A has a smaller standard deviation than B. Which is true?', opts: ['A’s values typically sit closer to the mean than B’s do', 'B’s values typically sit closer to the mean', 'A and B are identically spread', 'Nothing can be said about spread'], correct: 0, exp: 'A smaller standard deviation means values typically sit closer to the mean.' }
+        ]
+      },
+
+      /* ---------------- 9. TAKEAWAYS ---------------- */
+      {
+        type: 'takeaways', id: 'takeaways', label: 'Section 09 — Takeaways',
+        heading: 'Five things to <span class="underline gold">actually remember</span>.',
+        items: [
+          { num: 'i.', title: 'Compare with the same graph, twice', body: 'Center, spread, shape, and outliers all compare directly — but box plots are the one graph that can’t reveal clusters or gaps.' },
+          { num: 'ii.', title: 'z = (x − mean) / sd', body: 'A z-score is the number of standard deviations a value sits from the mean — and it carries no units at all.' },
+          { num: 'iii.', title: 'Sign tells the side, size tells the distance', body: 'Negative is below the mean, positive is above — and the further from 0, the more unusual the value.' },
+          { num: 'iv.', title: '1 / 2 / 3 is a rough compass', body: 'Majority of data within 1 sd, a large majority within 2, virtually all within 3 — anything past 2 or 3 starts looking like an outlier.' },
+          { num: 'v.', title: 'Z-scores compare apples to oranges', body: 'Stripped of units, a z-score lets you compare a test score to a test score, a dog to a cat, or a value in one distribution to a value in a totally different one.' }
+        ]
+      }
+    ],
+
+    homework: {
+      estTime: '~25 min',
+      questions: [
+        { q: 'A distribution has mean 50 and sd 4. What is the z-score of a value of 42?', opts: ['-2', '-8', '2', '-1.5'], correct: 0, exp: 'z = (42 − 50) / 4 = −2.' },
+        { q: 'A distribution has mean 100 and sd 15. What is the z-score of a value of 130?', opts: ['1.33', '2', '-2', '30'], correct: 1, exp: 'z = (130 − 100) / 15 = 2.' },
+        { q: 'Which graph type cannot directly show gaps or clusters in a data set?', opts: ['Histogram', 'Dot plot', 'Box plot', 'Stem-and-leaf plot'], correct: 2, exp: 'A box plot only shows five summary numbers, so gaps and clusters are invisible.' },
+        { q: 'In a back-to-back stem-and-leaf plot, what is shared between the two sides?', opts: ['The leaves', 'The stems', 'The mean', 'The sample size'], correct: 1, exp: 'Both groups share one middle column of stems, with leaves running in opposite directions.' },
+        { q: 'A distribution has mean 68 and sd 3. A value has z = +1.5. What is that value?', opts: ['72.5', '63.5', '70', '66.5'], correct: 0, exp: 'x = z·sd + mean = 1.5(3) + 68 = 72.5.' },
+        { q: 'Using that same distribution (mean 68, sd 3), what value has z = −2?', opts: ['65', '62', '74', '71'], correct: 1, exp: 'x = −2(3) + 68 = 62.' },
+        { q: 'A z-score of exactly 0 means:', opts: ['The value equals the median', 'The value is the maximum', 'The value equals the mean', 'This can never occur'], correct: 2, exp: 'z = 0 happens exactly when x equals the mean.' },
+        { q: 'Which of these has no units at all?', opts: ['The mean', 'The standard deviation', 'The median', 'The z-score'], correct: 3, exp: 'A z-score is a pure count of standard deviations, so it carries no units.' },
+        { q: 'In Distribution A (mean 10, sd 2), a value of 14 has z = 2. In Distribution B (mean 50, sd 10), a value of 70 has z = 2. Which value is relatively higher?', opts: ['They are equally high relative to their own distribution', 'The value in A is relatively higher', 'The value in B is relatively higher', 'Cannot be compared'], correct: 0, exp: 'Both have the same z-score, so both sit an identical distance (in sd) above their own mean.' },
+        { q: 'In Distribution A (mean 10, sd 2), a value of 6 has z = −2. In Distribution B (mean 50, sd 10), a value of 40 has z = −1. Which value is relatively lower?', opts: ['The value in B is relatively lower', 'The value in A is relatively lower', 'They are equally low', 'Cannot be determined'], correct: 1, exp: 'z = −2 is farther below the mean than z = −1, so the value in Distribution A is relatively lower.' },
+        { q: 'Roughly what proportion of data falls within 3 standard deviations of the mean?', opts: ['About 50%', 'About 68%', 'Virtually all of it', 'Exactly 100%, with no exceptions'], correct: 2, exp: 'Virtually all data sits within 3 sd of the mean, though rare exceptions are possible.' },
+        { q: 'A value has z = +3.8. This value is:', opts: ['A typical value', 'Exactly average', 'Impossible', 'An extremely rare, unusual value'], correct: 3, exp: 'Values beyond 3 sd from the mean are extremely uncommon.' },
+        { q: 'The mean weight of hens is 4 lb, sd 0.5 lb. One hen weighs 5.5 lb. What is her z-score?', opts: ['3', '-3', '1.5', '0.375'], correct: 0, exp: 'z = (5.5 − 4) / 0.5 = 3.' },
+        { q: 'A back-to-back stem plot compares apartment rents in City A and City B. City A’s leaves stay close to the stem; City B’s leaves stretch far from the stem. What does this suggest?', opts: ['City A is more spread out', 'City B is more spread out', 'Both cities have equal spread', 'Spread cannot be read from a stem plot'], correct: 1, exp: 'Leaves stretching farther from the stem indicate more spread-out data.' },
+        { q: 'Which measure of position gives a value’s exact standardized distance from the mean, unlike the median?', opts: ['Percentile', 'Five-number summary', 'Z-score', 'Interquartile range'], correct: 2, exp: 'A z-score directly measures distance from the mean in standard-deviation units.' },
+        { q: 'A class has mean test score 82, sd 4. A student scores 88. What is that student’s z-score?', opts: ['6', '0.67', '-1.5', '1.5'], correct: 3, exp: 'z = (88 − 82) / 4 = 1.5.' },
+        { q: 'In that same class (mean 82, sd 4), a student scores 78. What is that z-score?', opts: ['-1', '1', '-4', '4'], correct: 0, exp: 'z = (78 − 82) / 4 = −1.' },
+        { q: 'Between the score of 88 (z = 1.5) and the score of 78 (z = −1), which is farther from the mean?', opts: ['78', '88', 'They are equally far', 'Cannot be determined'], correct: 1, exp: '|1.5| is greater than |−1|, so 88 is farther from the mean in standard-deviation terms.' },
+        { q: 'A data set is converted from dollars to cents. What happens to each value’s z-score?', opts: ['It multiplies by 100', 'It divides by 100', 'It stays exactly the same', 'It becomes 0'], correct: 2, exp: 'Both the value and the mean/sd scale by the same factor, so the ratio — the z-score — is unchanged.' },
+        { q: 'Why might you avoid reporting z-scores for individual values in a skewed, outlier-heavy data set?', opts: ['Z-scores cannot be computed without outliers present', 'Z-scores only work for categorical data', 'Z-scores only work for normal populations by definition', 'Z-scores are built from the mean and standard deviation, which are misleading for skewed or outlier-heavy data'], correct: 3, exp: 'Since the mean and sd themselves get distorted by skew and outliers, a z-score built from them inherits that distortion.' }
+      ]
+    }
+  }
+});
+
+/* ============================================
+   Topic 1.10 — The Investigative Question & Collecting Data
+   Source: course transcript (Topic 1.10 lecture)
+   ============================================ */
+
+registerChapters({
+  '1-10': {
+    id: '1-10',
+    code: 'Topic 1.10',
+    unitName: 'Unit 1 — Exploring One-Variable Data',
+    title: 'The Investigative Question & Collecting Data',
+    cardSummary: 'The three components every investigative question quietly promises — how to collect the data, how to analyze it, and who the conclusions apply to — plus census, sample, experiment, and observational study.',
+    heroTitle: 'One question. <em>Three</em><br>promises.',
+    heroSub: 'A good investigative question secretly promises three things: how the data will be collected, how it will be analyzed, and who the conclusions will apply to. Get any one of those wrong and the whole study falls apart.',
+    source: 'Topic 1.10 course video',
+    estTime: '~30–40 min',
+
+    sections: [
+      /* ---------------- 1. OVERVIEW ---------------- */
+      {
+        type: 'overview', id: 'overview', label: 'Section 01 — Overview',
+        heading: 'Every investigative question makes <span class="underline teal">three promises</span>.',
+        body: 'An investigative question isn’t just something you ask — it quietly commits you to a plan for collecting data, a technique for analyzing it, and a scope for what you’re allowed to conclude afterward.',
+        cards: [
+          { roman: 'I.', title: 'Guides collection', body: 'The question tells you what to collect and how: <strong>census</strong> (everyone), a <strong>sample</strong>, an <strong>experiment</strong> (impose a treatment), or an <strong>observational study</strong> (just record).', tags: ['Census','Sample','Experiment','Observational study'] },
+          { roman: 'II.', title: 'Guides analysis', body: 'Estimating an unknown parameter calls for a <strong>confidence interval</strong>. Testing an existing claim calls for a <strong>hypothesis test</strong>.', tags: ['Confidence interval','Hypothesis test'], accent: 'sample' },
+          { roman: 'III.', title: 'Guides conclusions', body: 'Random <strong>selection</strong> earns you the right to generalize to the population. Random <strong>assignment</strong> in an experiment earns you the word "cause."', tags: ['Generalize','Cause-and-effect'] }
+        ]
+      },
+
+      /* ---------------- 2. VOCAB ---------------- */
+      {
+        type: 'vocab', id: 'vocab', label: 'Section 02 — Vocabulary',
+        heading: 'The <span class="underline teal">eleven words</span> this topic runs on.',
+        body: 'Tap a term you’ve got down — your checkmarks are saved so you can see what still needs review.',
+        items: [
+          { id: 'investigative-question-3', term: 'Investigative question (3 components)', accent: 'population', body: 'A question that must (1) guide how data will be collected, (2) guide which analysis technique is used, and (3) indicate who the conclusions can be generalized to.' },
+          { id: 'census', term: 'Census', accent: 'population', body: 'Recording information from every single item or individual in the population — gives you the exact parameter, but is often too slow or costly for large populations.' },
+          { id: 'random-mechanism', term: 'Random mechanism', accent: 'sample', body: 'Any process that gives every observational unit an equal chance of being selected into a sample.' },
+          { id: 'experiment', term: 'Experiment', accent: 'sample', body: 'A study in which a researcher imposes treatments on experimental units to see whether changing the explanatory variable changes the response variable.' },
+          { id: 'explanatory-response', term: 'Explanatory & response variable', accent: 'sample', body: 'The explanatory variable (treatment) is what the researcher manipulates; the response variable is the outcome measured afterward.' },
+          { id: 'experimental-unit-subject', term: 'Experimental unit / subject', accent: 'sample', body: 'The individual — person, animal, or object — a treatment is assigned to. When it’s a person, we usually call them a subject.' },
+          { id: 'observational-study', term: 'Observational study', accent: 'population', body: 'A study where the researcher only records existing variables without imposing any treatment. Includes prospective (following forward) and retrospective (looking back) designs.' },
+          { id: 'confounding-variable-10', term: 'Confounding variable', accent: 'sample', body: 'A variable related to both the explanatory and response variables in an observational study — offering an alternative explanation for the result, and blocking any cause-and-effect claim.' },
+          { id: 'confidence-interval', term: 'Confidence interval', accent: 'population', body: 'A range of values, built from a sample statistic, used to estimate an unknown population parameter with a stated level of confidence.' },
+          { id: 'hypothesis-test', term: 'Hypothesis test', accent: 'population', body: 'A statistical process that uses sample evidence to decide whether a claimed value for a population parameter (the null hypothesis) should be rejected in favor of an alternative.' },
+          { id: 'generalization', term: 'Generalization', accent: 'sample', body: 'Applying a conclusion from a sample to a larger group. Valid for the entire population only if the sample was randomly selected; otherwise, valid only for individuals similar to those studied.' }
+        ]
+      },
+
+      /* ---------------- 3. FOUR METHODS, TWO TECHNIQUES ---------------- */
+      {
+        type: 'compare-table', id: 'compare', label: 'Section 03 — Four Methods, Two Techniques',
+        heading: 'Collect it <span class="underline teal">one of four ways</span>. Analyze it <span class="underline sample">one of two ways</span>.',
+        items: [
+          {
+            title: 'Four ways to collect data',
+            headers: ['Method', 'Imposes a treatment?', 'Covers whole population?', 'Typical use'],
+            rows: [
+              ['Census', 'No', 'Yes — every individual', 'Small populations where reaching everyone is realistic'],
+              ['Sample survey', 'No', 'No — a subset only', 'Most large populations; relies on random selection plus a survey or measurement'],
+              ['Experiment', 'Yes — researcher assigns treatments', 'No — a subset (often volunteers)', 'Testing whether an explanatory variable causes a change in a response'],
+              ['Observational study', 'No — variables are only recorded', 'No — a subset, random or not', 'Studying variables you cannot or should not manipulate (sleep habits, past behavior)']
+            ],
+            caption: 'A census and a sample survey both just record what’s already there — the only difference is whether you reach everyone or only a subset. An experiment is the one method where the researcher imposes something.'
+          },
+          {
+            title: 'Confidence interval vs. hypothesis test',
+            headers: ['', 'Confidence interval', 'Hypothesis test'],
+            rows: [
+              ['Purpose', 'Estimate an unknown population parameter', 'Decide whether a claimed value for a parameter should be rejected'],
+              ['Question shape', '"What is the true proportion / mean …?"', '"Is there evidence the true proportion / mean is greater than / less than / different from [claimed value]?"'],
+              ['What you get back', 'A range of plausible values at some confidence level — e.g. "95% confident it’s between 41% and 48%"', 'A conclusion about whether the sample gives convincing evidence against a specific claim']
+            ],
+            caption: 'If nobody has claimed a specific number yet, you’re estimating — use a confidence interval. If somebody already claimed a number and you want to test it, use a hypothesis test.'
+          }
+        ]
+      },
+
+      /* ---------------- 4. WHO CAN YOU CONCLUDE THIS FOR? ---------------- */
+      {
+        type: 'flow', id: 'decision', label: 'Section 04 — Who Can You Conclude This For?',
+        heading: 'Two questions decide <span class="underline sample">what you’re allowed to claim</span>.',
+        body: 'These two questions are independent of each other — answer them separately for any study.',
+        items: [
+          {
+            question: 'Were the observational or experimental units randomly selected from the population?',
+            branches: [
+              { label: 'Yes', tone: 'good', outcomes: [{ title: 'Generalize to the whole population', body: 'You may apply your conclusions to every individual in the population the sample came from.' }] },
+              { label: 'No', tone: 'bad', outcomes: [{ title: 'Generalize only to similar individuals', body: 'You may only apply your conclusions to individuals similar to those actually used in the study — not the whole population.' }] }
+            ]
+          },
+          {
+            question: 'Was it an experiment, with subjects randomly assigned to treatment groups?',
+            branches: [
+              { label: 'Yes — experiment + random assignment', tone: 'good', outcomes: [{ title: 'You can say cause-and-effect', body: 'Random assignment lets you conclude the explanatory variable caused the change in the response variable.' }] },
+              { label: 'No — observational study, or no random assignment', tone: 'bad', outcomes: [{ title: 'You cannot say cause-and-effect', body: 'Without random assignment to treatments, a lurking confounding variable could be the real explanation — you can only claim an association.' }] }
+            ]
+          }
+        ]
+      },
+
+      /* ---------------- 5. GUIDED NOTES (fill in the blank) ---------------- */
+      {
+        type: 'fill-blank', id: 'guided-notes', label: 'Section 05 — Guided Notes',
+        heading: 'Fill in the <span class="underline sample">guided notes</span>.',
+        body: 'Same idea as the printable guided notes — but pick each answer from a dropdown. Submit to check; anything wrong turns red so you can try once more before the answer is revealed.',
+        items: [
+          { segments: [
+            'A ',
+            { id:'b1', answer:'census', options:['census','sample','experiment'] },
+            ' records information from every individual in the population, while a sample only records information from a ',
+            { id:'b2', answer:'subset', options:['subset','majority','random half'] },
+            ' of it.'
+          ]},
+          { segments: [
+            'In an experiment, the researcher ',
+            { id:'b3', answer:'imposes', options:['imposes','observes','ignores'] },
+            ' a treatment on experimental units, while in an ',
+            { id:'b4', answer:'observational study', options:['observational study','census','random sample'] },
+            ', the researcher only records existing variables without giving anyone a treatment.'
+          ]},
+          { segments: [
+            'A variable that is related to both the explanatory and response variables in an observational study, and offers an alternative explanation for the result, is called a ',
+            { id:'b5', answer:'confounding variable', options:['confounding variable','response variable','random mechanism'] },
+            '.'
+          ]},
+          { segments: [
+            'If a claim about a population parameter already exists and you want to test whether the data contradicts it, use a ',
+            { id:'b6', answer:'hypothesis test', options:['hypothesis test','confidence interval','census'] },
+            '; if instead you simply want to estimate an unknown parameter, use a ',
+            { id:'b7', answer:'confidence interval', options:['confidence interval','hypothesis test','random sample'] },
+            '.'
+          ]},
+          { segments: [
+            'You may generalize your conclusions to the entire population only if the sample was selected ',
+            { id:'b8', answer:'randomly', options:['randomly','by convenience','from volunteers'] },
+            '; otherwise, you may only generalize to individuals similar to those in the study.'
+          ]},
+          { segments: [
+            'You may claim a cause-and-effect relationship only if the study was an ',
+            { id:'b9', answer:'experiment', options:['experiment','observational study','census'] },
+            ' with random ',
+            { id:'b10', answer:'assignment', options:['assignment','selection','sampling'] },
+            ' of subjects to treatment groups.'
+          ]}
+        ]
+      },
+
+      /* ---------------- 6. WORKED EXAMPLES ---------------- */
+      {
+        type: 'examples', id: 'examples', label: 'Section 06 — Worked Examples',
+        heading: 'Read the scenario. <span class="underline teal">Name all three components.</span>',
+        body: 'For each study: how was the data collected, what technique analyzes it, and who can the conclusions apply to? Click each one open, work it out, then check your answer.',
+        items: [
+          {
+            q: 'A high school wants to know the average number of hours students sleep on school nights. Every student in the school fills out a short online form reporting their typical hours of sleep.',
+            fields: [
+              { k: 'Collection method', v: 'A census — every student in the school was surveyed, not just a sample' },
+              { k: 'Data-analysis technique', v: 'A confidence interval — the question just wants to estimate the typical number of hours slept, not test a specific claim' },
+              { k: 'Generalization', v: 'Since every student was included, results apply to the entire school population by definition' }
+            ]
+          },
+          {
+            q: 'Researchers record the amount of time 200 randomly selected people spend on social media each day and compare it to their reported stress levels. No treatments were assigned.',
+            fields: [
+              { k: 'Collection method', v: 'An observational study (a sample survey) — no treatment was imposed, and only 200 of the larger population were sampled' },
+              { k: 'Data-analysis technique', v: 'Confidence intervals — one to estimate typical social-media time, another to estimate typical stress level' },
+              { k: 'Generalization', v: 'Because the 200 people were randomly selected, results generalize to the larger population they were drawn from' }
+            ]
+          },
+          {
+            q: 'A nutrition researcher randomly assigns 100 volunteer adults to one of two groups: one drinks a protein shake every morning for 6 weeks, the other does not. After 6 weeks, muscle mass is compared between groups.',
+            fields: [
+              { k: 'Collection method', v: 'An experiment — the researcher imposed a treatment (the shake) on some subjects and not others' },
+              { k: 'Data-analysis technique', v: 'A hypothesis test — comparing whether the shake group’s mean muscle mass is greater than the no-shake group’s' },
+              { k: 'Cause-and-effect?', v: 'Yes — random assignment to the two groups supports a cause-and-effect claim' },
+              { k: 'Generalization', v: 'Only to people similar to these 100 volunteers, since they were not randomly selected from the larger population — they had to volunteer' }
+            ]
+          },
+          {
+            q: 'A large school district randomly assigns 10 of its 20 elementary schools to a new math curriculum for a year, while the other 10 continue with the current curriculum. At year’s end, average math scores are compared.',
+            fields: [
+              { k: 'Collection method', v: 'An experiment — the district assigned which schools got which curriculum' },
+              { k: 'Cause-and-effect?', v: 'Yes — random assignment of schools to curriculum groups supports a cause-and-effect claim' },
+              { k: 'Generalization', v: 'To all elementary schools in this district, since all 20 schools (the entire relevant population) were included and randomly split — no volunteers involved' }
+            ]
+          },
+          {
+            q: 'The transportation department collects commute-time data from 150 drivers pulled from a database of all registered drivers in the city, but never states that the 150 were selected randomly.',
+            fields: [
+              { k: 'Collection method', v: 'An observational study (a sample survey) of registered drivers' },
+              { k: 'Data-analysis technique', v: 'A confidence interval, to estimate the true average commute time' },
+              { k: 'Generalization', v: 'Only to drivers similar to those 150 — since random selection was never stated, results cannot be generalized to all registered drivers' }
+            ]
+          }
+        ]
+      },
+
+      /* ---------------- 7. FLASHCARDS ---------------- */
+      {
+        type: 'flashcards', id: 'flashcards', label: 'Section 07 — Flashcards',
+        heading: 'See the clue. <span class="underline sample">Name the term.</span>',
+        body: 'Front shows a short scenario or definition clue. Flip to check yourself, then mark whether you knew it.',
+        items: [
+          { prompt: 'Recording information from every single individual in a population.', term: 'Census', detail: 'Gives you the exact parameter, but often too costly or slow for large populations.' },
+          { prompt: 'A researcher decides who gets a treatment and who doesn’t.', term: 'Experiment', detail: 'The defining feature: imposing a treatment on experimental units.' },
+          { prompt: 'A researcher only records existing variables — nobody is given anything.', term: 'Observational study', detail: 'Includes prospective (forward-looking) and retrospective (backward-looking) designs.' },
+          { prompt: 'A hidden variable related to both the explanatory and response variables, offering an alternative explanation.', term: 'Confounding variable', detail: 'Exactly what blocks a cause-and-effect claim in observational studies.' },
+          { prompt: '"I’m 95% confident the true proportion is between 41% and 48%." What technique produced this?', term: 'Confidence interval', detail: 'Estimates an unknown population parameter within a range.' },
+          { prompt: '"Is there evidence the true mean is greater than the claimed 5.5 inches?" What technique answers this?', term: 'Hypothesis test', detail: 'Tests a specific claim about a population parameter using sample evidence.' },
+          { prompt: 'The sample was not randomly selected from the population. Can you generalize your findings to everyone?', term: 'No — only to individuals similar to those studied', detail: 'Random selection is required to generalize to the entire population.' },
+          { prompt: 'It was an experiment, and subjects were randomly assigned to treatment groups. Can you claim cause-and-effect?', term: 'Yes', detail: 'Random assignment — not random selection — is what earns you the word "cause."' }
+        ]
+      },
+
+      /* ---------------- 8. QUIZ ---------------- */
+      {
+        type: 'quiz', id: 'quiz', label: 'Section 08 — Quiz',
+        heading: 'Test yourself. <span class="underline">No pressure.</span>',
+        body: 'Ten questions pulled straight from the lesson’s examples. Your best score is saved.',
+        questions: [
+          { q: 'Which of the four data-collection methods is the only one where the researcher imposes a treatment?', opts: ['Census', 'Observational study', 'Sample survey', 'Experiment'], correct: 3, exp: 'Only an experiment involves the researcher assigning a treatment to subjects.' },
+          { q: 'A study records every single student in a school, with no treatment given. This is a:', opts: ['Census', 'Experiment', 'Hypothesis test', 'Confounding variable'], correct: 0, exp: 'Surveying the entire population, with no treatment imposed, is a census.' },
+          { q: 'In an experiment, the outcome measured after the treatment is called the:', opts: ['Explanatory variable', 'Confounding variable', 'Response variable', 'Parameter'], correct: 2, exp: 'The response variable is the outcome measured after treatment is applied.' },
+          { q: 'A hidden variable related to both the explanatory and response variables in an observational study is a:', opts: ['Response variable', 'Confounding variable', 'Treatment', 'Census'], correct: 1, exp: 'That is exactly the definition of a confounding variable.' },
+          { q: 'Which technique estimates an unknown population parameter, with no existing claim to test?', opts: ['Hypothesis test', 'Census', 'Random assignment', 'Confidence interval'], correct: 3, exp: 'A confidence interval estimates an unknown parameter; a hypothesis test evaluates an existing claim.' },
+          { q: 'A company claims its tortillas average 5.5 in, and you want to test whether the true mean is actually less. Which technique fits?', opts: ['Hypothesis test', 'Confidence interval', 'Census', 'Random assignment'], correct: 0, exp: 'Testing an existing claim calls for a hypothesis test.' },
+          { q: 'A sample was NOT randomly selected from the population. What can you conclude?', opts: ['You can generalize to the entire population', 'You can only generalize to individuals similar to the sample', 'You can claim cause-and-effect', 'No conclusions are possible at all'], correct: 1, exp: 'Without random selection, generalization is limited to individuals similar to those studied.' },
+          { q: 'To claim a cause-and-effect relationship, a study must be:', opts: ['A census with no experiment', 'An observational study with a large sample', 'An experiment with random assignment of treatments', 'Any study with over 100 subjects'], correct: 2, exp: 'Cause-and-effect requires an experiment with random assignment to treatment groups.' },
+          { q: '100 volunteers are randomly assigned to two treatment groups in an experiment. What can be concluded?', opts: ['Cause-and-effect for the volunteers, but generalization only to people similar to them', 'Cause-and-effect and full generalization to the whole population', 'No cause-and-effect claim is possible', 'Generalization to the population but no cause-and-effect claim'], correct: 0, exp: 'Random assignment earns "cause," but volunteers (not randomly selected) limit generalization.' },
+          { q: 'Which of these is an example of a retrospective observational study?', opts: ['Following students forward for a year to record grades', 'Looking back at existing medical records to compare past behaviors of two groups', 'Randomly assigning subjects to a new treatment', 'Surveying every member of a population'], correct: 1, exp: 'Retrospective means looking backward at data that already exists.' }
+        ]
+      },
+
+      /* ---------------- 9. TAKEAWAYS ---------------- */
+      {
+        type: 'takeaways', id: 'takeaways', label: 'Section 09 — Takeaways',
+        heading: 'Five things to <span class="underline gold">actually remember</span>.',
+        items: [
+          { num: 'i.', title: 'Three promises in one question', body: 'An investigative question quietly commits to a collection plan, an analysis technique, and a scope for its conclusions.' },
+          { num: 'ii.', title: 'Only experiments impose a treatment', body: 'Census, sample survey, and observational study all just record what’s already there — an experiment is the one method that manipulates something.' },
+          { num: 'iii.', title: 'Estimate, or test a claim?', body: 'No existing number to check → confidence interval. Someone already claimed a number → hypothesis test.' },
+          { num: 'iv.', title: 'Random selection → generalize', body: 'You can only extend conclusions to the whole population if the sample was randomly selected from it.' },
+          { num: 'v.', title: 'Random assignment → cause-and-effect', body: 'Only an experiment with random assignment of subjects to treatments earns you the word "cause."' }
+        ]
+      }
+    ],
+
+    homework: {
+      estTime: '~30 min',
+      questions: [
+        { q: 'A researcher records the wingspan of every single butterfly in a small enclosed butterfly house (only 40 butterflies total). This is a:', opts: ['Census', 'Sample survey', 'Experiment', 'Hypothesis test'], correct: 0, exp: 'Every individual in this small population was measured, making it a census.' },
+        { q: 'A researcher randomly assigns 60 plants to receive either fertilizer A or fertilizer B, then measures plant height after 8 weeks. This is a:', opts: ['Census', 'Experiment', 'Observational study', 'Confidence interval'], correct: 1, exp: 'Assigning a treatment (fertilizer type) to experimental units makes this an experiment.' },
+        { q: 'A researcher simply records whether 300 randomly selected voters support a ballot measure, without giving anyone any treatment. This is a:', opts: ['Experiment', 'Census', 'Observational study', 'Hypothesis test'], correct: 2, exp: 'No treatment was imposed, and only a subset was sampled — an observational study (sample survey).' },
+        { q: 'In an experiment testing whether a new fertilizer increases crop yield, what is the response variable?', opts: ['The type of fertilizer', 'The plot of land', 'Whether a plot got fertilizer or not', 'The crop yield measured at the end'], correct: 3, exp: 'The response variable is the outcome measured — here, the crop yield.' },
+        { q: 'What is the defining feature that makes a study an experiment rather than an observational study?', opts: ['The researcher imposes a treatment on the experimental units', 'The sample size is larger than 30', 'The data is quantitative', 'The study uses a survey'], correct: 0, exp: 'Imposing a treatment is exactly what distinguishes an experiment from an observational study.' },
+        { q: 'A study observing whether people who already drink coffee daily have different sleep quality than those who don’t, with no treatment assigned, is:', opts: ['An experiment', 'An observational study', 'A census', 'A hypothesis test'], correct: 1, exp: 'Existing coffee habits are simply observed, not assigned — an observational study.' },
+        { q: 'A gym wants to know if a new workout program reduces recovery time. Researchers randomly assign volunteers to either the new program or the old one. What could act as a confounding variable if not controlled?', opts: ['The workout program itself', 'The recovery time measured', 'Participants’ existing fitness level, if it differs a lot between groups', 'The researcher’s name'], correct: 2, exp: 'A variable related to both the treatment and the outcome — like pre-existing fitness level — could confound the result if it isn’t balanced across groups.' },
+        { q: 'A poll wants to estimate what proportion of a town supports building a new library, with no specific number already claimed. Which technique fits?', opts: ['Hypothesis test', 'Census of every resident, always', 'Random assignment', 'Confidence interval'], correct: 3, exp: 'Estimating an unknown proportion, with nothing specific to test, calls for a confidence interval.' },
+        { q: 'A cereal company claims its boxes average 14 oz. A shopper group wants to test whether the true mean is actually less. Which technique fits?', opts: ['Hypothesis test', 'Confidence interval', 'Census', 'Observational study only'], correct: 0, exp: 'Testing an existing specific claim calls for a hypothesis test.' },
+        { q: 'Which phrase in an investigative question signals that a hypothesis test — not a confidence interval — is needed?', opts: ['"What is the true proportion of...?"', '"Is there evidence that the true mean is greater than [a specific claimed value]?"', '"Estimate the average time spent..."', '"What is the range of likely values for...?"'], correct: 1, exp: 'Testing against a specific claimed value is the signature of a hypothesis test.' },
+        { q: 'A random sample of 500 shoppers is surveyed about produce spending, and the results are generalized to all shoppers at that chain. What justifies this generalization?', opts: ['The sample size was over 100', 'No justification is needed for any sample', 'The 500 shoppers were randomly selected from the population', 'The study was a census'], correct: 2, exp: 'Random selection from the population is exactly what earns the right to generalize to it.' },
+        { q: 'A study uses only volunteers, with no random selection from the broader population, but does randomly assign those volunteers to treatment groups. What can be concluded?', opts: ['Nothing at all can be concluded', 'Generalization to the whole population, but no cause-and-effect claim', 'Neither cause-and-effect nor generalization is possible', 'A cause-and-effect claim for the volunteers, but generalization only to people similar to them'], correct: 3, exp: 'Random assignment (not random selection) earns cause-and-effect; without random selection, generalization is limited to similar individuals.' },
+        { q: 'A study is an observational study, not an experiment. Can the researchers claim a cause-and-effect relationship, even with a very large random sample?', opts: ['No — cause-and-effect requires an experiment with random assignment', 'Yes, as long as the sample is random', 'Yes, as long as the sample size exceeds 1,000', 'Yes, but only for quantitative variables'], correct: 0, exp: 'Random selection alone is never enough for cause-and-effect — that requires an experiment with random assignment.' },
+        { q: 'A confounding variable is best described as one that:', opts: ['Is measured after the response variable only', 'Is related to both the explanatory and response variables, offering an alternative explanation for the result', 'Only appears in experiments, never in observational studies', 'Always makes a study invalid and unusable'], correct: 1, exp: 'A confounding variable is tied to both the explanatory and response variables, muddying any cause-and-effect claim.' },
+        { q: 'A prospective observational study is one where:', opts: ['Data from the past is gathered after subjects are identified', 'Treatments are randomly assigned to subjects', 'Subjects are identified at one point in time, then followed forward to collect future data', 'Every member of the population is surveyed'], correct: 2, exp: 'Prospective means looking forward — subjects are identified now and followed into the future.' },
+        { q: 'A retrospective observational study is one where:', opts: ['Subjects are followed forward in time', 'Treatments are imposed on subjects', 'Every member of the population must be surveyed', 'Subjects are identified at one point in time, and data about their past is gathered'], correct: 3, exp: 'Retrospective means looking backward at data that already exists about the subjects’ past.' },
+        { q: 'Why is a census often impractical for very large populations?', opts: ['It is usually too costly, slow, or logistically difficult to reach every individual', 'Censuses are illegal for populations over 10,000', 'Censuses can only be used for categorical variables', 'Censuses always produce biased results'], correct: 0, exp: 'Reaching every single individual in a huge population is typically too expensive or time-consuming.' },
+        { q: 'A city surveys a random sample of residents about park usage; no one’s behavior is manipulated. Which data-collection method is this?', opts: ['Experiment', 'Observational study (sample survey)', 'Census', 'Retrospective experiment'], correct: 1, exp: 'No treatment was imposed, and only a subset was surveyed — an observational study.' },
+        { q: 'Which best distinguishes a confidence interval from a hypothesis test?', opts: ['A confidence interval always uses more data than a hypothesis test', 'A hypothesis test can only be used with categorical variables', 'A confidence interval estimates an unknown parameter, while a hypothesis test evaluates a specific claim about a parameter', 'They are two different names for the exact same procedure'], correct: 2, exp: 'That is the core distinction between the two techniques.' },
+        { q: 'A study’s conclusions may be generalized to the entire population from which the sample was drawn only if:', opts: ['The sample size is at least 30', 'The study is an experiment', 'The response variable is quantitative', 'The sample was randomly selected from that population'], correct: 3, exp: 'Random selection from the population is required before generalizing conclusions to it.' }
+      ]
+    }
+  }
+});
+
+/* ============================================
+   Topic 1.11 — Random Sampling Methods
+   Source: course transcript (Topic 1.11 lecture)
+   ============================================ */
+
+registerChapters({
+  '1-11': {
+    id: '1-11',
+    code: 'Topic 1.11',
+    unitName: 'Unit 1 — Exploring One-Variable Data',
+    title: 'Random Sampling Methods',
+    cardSummary: 'Sampling with vs. without replacement, and the four random sampling methods — simple random, stratified, cluster, and systematic — each with a different guarantee and a different best use case.',
+    heroTitle: 'Random doesn’t mean <em>messy</em>.',
+    heroSub: 'A "random" sample still runs on a very specific procedure. Simple random, stratified, cluster, and systematic sampling each guarantee randomness in a different way — and each fits a different kind of population.',
+    source: 'Topic 1.11 course video',
+    estTime: '~30–40 min',
+
+    sections: [
+      /* ---------------- 1. OVERVIEW ---------------- */
+      {
+        type: 'overview', id: 'overview', label: 'Section 01 — Overview',
+        heading: 'Four ways to draw a <span class="underline teal">random sample</span>.',
+        body: 'Every usable sample in this course must be random — no volunteers, no convenience. Beyond that, the four methods below differ only in how they use groups within the population.',
+        cards: [
+          { roman: 'I.', title: 'Replace it, or don’t?', body: 'Sampling <strong>without replacement</strong> — a unit can’t be picked twice — is the default in almost all of AP Statistics. <strong>With replacement</strong> means a unit goes back and could be picked again.', tags: ['Without replacement (default)','With replacement'] },
+          { roman: 'II.', title: 'Four methods, one goal', body: '<strong>Simple random</strong>, <strong>stratified</strong>, <strong>cluster</strong>, and <strong>systematic</strong> sampling all aim for a representative sample — they just use groups (or a list) differently to get there.', tags: ['Simple random','Stratified','Cluster','Systematic'], accent: 'sample' }
+        ]
+      },
+
+      /* ---------------- 2. VOCAB ---------------- */
+      {
+        type: 'vocab', id: 'vocab', label: 'Section 02 — Vocabulary',
+        heading: 'The <span class="underline teal">nine words</span> this topic runs on.',
+        body: 'Tap a term you’ve got down — your checkmarks are saved so you can see what still needs review.',
+        items: [
+          { id: 'without-replacement', term: 'Sampling without replacement', accent: 'population', body: 'Once an observational unit is selected, it is not returned to the population and cannot be picked again — the default in almost all of AP Statistics.' },
+          { id: 'with-replacement', term: 'Sampling with replacement', accent: 'sample', body: 'An observational unit is returned to the population after being selected, so it could be picked again.' },
+          { id: 'srs', term: 'Simple random sample (SRS)', accent: 'population', body: 'Every group of a given size has an equal chance of being selected. Procedure: number the population, use a random number generator, ignore repeats and unused numbers.' },
+          { id: 'stratified', term: 'Stratified random sample', accent: 'sample', body: 'The population is divided into non-overlapping, homogeneous strata (groups sharing an attribute); a simple random sample is then taken from every stratum.' },
+          { id: 'strata-homogeneous', term: 'Strata are homogeneous', accent: 'sample', body: 'Everyone inside one stratum shares the attribute being stratified on — e.g. every senior is in the "senior" stratum, and nowhere else.' },
+          { id: 'cluster', term: 'Cluster sample', accent: 'population', body: 'The population is divided into heterogeneous clusters that each already mirror the population; one or more entire clusters are then randomly selected to form the whole sample.' },
+          { id: 'cluster-heterogeneous', term: 'Clusters are heterogeneous', accent: 'sample', body: 'A good cluster is a nice mix of the population — the opposite of a stratum, which is homogeneous.' },
+          { id: 'systematic', term: 'Systematic random sample', accent: 'population', body: 'A random starting point on an ordered list, followed by selecting every kth individual after it.' },
+          { id: 'why-stratify', term: 'Why stratify (or cluster) at all', accent: 'sample', body: 'Only worth doing when an attribute of the population might actually affect the results. Stratifying on an irrelevant attribute reduces variation for no reason.' }
+        ]
+      },
+
+      /* ---------------- 3. WATCHING FOUR METHODS PICK THE SAME POPULATION ---------------- */
+      {
+        type: 'chart', id: 'grids', label: 'Section 03 — Watching Four Methods Pick the Same Population',
+        heading: 'Same <span class="underline teal">32 students</span>. Four different samples of 8.',
+        body: 'Faded circles are the population; solid, ringed circles are who actually made it into the sample. All four diagrams draw from the exact same 32 students — only the method changes.',
+        items: [
+          {
+            title: 'Simple random sample',
+            chartType: 'populationgrid',
+            spec: {
+              cols: 8,
+              legend: [{label:'Freshmen',group:0},{label:'Sophomores',group:1},{label:'Juniors',group:2},{label:'Seniors',group:3}],
+              cells: [
+                {group:0,selected:false},{group:1,selected:false},{group:2,selected:true},{group:3,selected:false},{group:1,selected:false},{group:0,selected:true},{group:3,selected:false},{group:2,selected:false},
+                {group:2,selected:false},{group:3,selected:true},{group:0,selected:false},{group:1,selected:false},{group:3,selected:false},{group:2,selected:false},{group:1,selected:true},{group:0,selected:false},
+                {group:1,selected:false},{group:0,selected:false},{group:3,selected:false},{group:2,selected:true},{group:0,selected:false},{group:1,selected:false},{group:2,selected:false},{group:3,selected:true},
+                {group:3,selected:false},{group:2,selected:false},{group:1,selected:false},{group:0,selected:true},{group:2,selected:false},{group:3,selected:false},{group:0,selected:true},{group:1,selected:false}
+              ]
+            },
+            caption: 'Every student gets a number; a random number generator picks 8. This particular scatter happens to land a mix of every grade — but it could just as easily have missed one entirely. That risk is exactly what the next two methods remove.'
+          },
+          {
+            title: 'Stratified random sample',
+            chartType: 'populationgrid',
+            spec: {
+              cols: 8,
+              legend: [{label:'Freshmen',group:0},{label:'Sophomores',group:1},{label:'Juniors',group:2},{label:'Seniors',group:3}],
+              cells: [
+                {group:0,selected:false},{group:0,selected:true},{group:0,selected:false},{group:0,selected:false},{group:0,selected:false},{group:0,selected:true},{group:0,selected:false},{group:0,selected:false},
+                {group:1,selected:false},{group:1,selected:true},{group:1,selected:false},{group:1,selected:false},{group:1,selected:false},{group:1,selected:true},{group:1,selected:false},{group:1,selected:false},
+                {group:2,selected:false},{group:2,selected:true},{group:2,selected:false},{group:2,selected:false},{group:2,selected:false},{group:2,selected:true},{group:2,selected:false},{group:2,selected:false},
+                {group:3,selected:false},{group:3,selected:true},{group:3,selected:false},{group:3,selected:false},{group:3,selected:false},{group:3,selected:true},{group:3,selected:false},{group:3,selected:false}
+              ]
+            },
+            caption: 'Split into four homogeneous strata by grade level first (one row each), then 2 students are randomly selected from every stratum — guaranteeing all four grades appear in the sample, every single time.'
+          },
+          {
+            title: 'Cluster sample',
+            chartType: 'populationgrid',
+            spec: {
+              cols: 8,
+              legend: [{label:'Freshmen',group:0},{label:'Sophomores',group:1},{label:'Juniors',group:2},{label:'Seniors',group:3}],
+              cells: [
+                {group:0,selected:false},{group:1,selected:false},{group:1,selected:true},{group:2,selected:true},{group:2,selected:false},{group:3,selected:false},{group:3,selected:false},{group:0,selected:false},
+                {group:2,selected:false},{group:3,selected:false},{group:3,selected:true},{group:0,selected:true},{group:0,selected:false},{group:1,selected:false},{group:1,selected:false},{group:2,selected:false},
+                {group:0,selected:false},{group:1,selected:false},{group:1,selected:true},{group:2,selected:true},{group:2,selected:false},{group:3,selected:false},{group:3,selected:false},{group:0,selected:false},
+                {group:2,selected:false},{group:3,selected:false},{group:3,selected:true},{group:0,selected:true},{group:0,selected:false},{group:1,selected:false},{group:1,selected:false},{group:2,selected:false}
+              ]
+            },
+            caption: 'Split into four heterogeneous clusters instead (each 2-column strip already contains a mix of all four grades). Randomly pick just one whole cluster — here, the second one — and everyone in it joins the sample.'
+          },
+          {
+            title: 'Systematic random sample',
+            chartType: 'populationgrid',
+            spec: {
+              cols: 8,
+              legend: [{label:'Freshmen',group:0},{label:'Sophomores',group:1},{label:'Juniors',group:2},{label:'Seniors',group:3}],
+              cells: [
+                {group:0,selected:false},{group:1,selected:false},{group:2,selected:true},{group:3,selected:false},{group:1,selected:false},{group:0,selected:false},{group:3,selected:true},{group:2,selected:false},
+                {group:2,selected:false},{group:3,selected:false},{group:0,selected:true},{group:1,selected:false},{group:3,selected:false},{group:2,selected:false},{group:1,selected:true},{group:0,selected:false},
+                {group:1,selected:false},{group:0,selected:false},{group:3,selected:true},{group:2,selected:false},{group:0,selected:false},{group:1,selected:false},{group:2,selected:true},{group:3,selected:false},
+                {group:3,selected:false},{group:2,selected:false},{group:1,selected:true},{group:0,selected:false},{group:2,selected:false},{group:3,selected:false},{group:0,selected:true},{group:1,selected:false}
+              ]
+            },
+            caption: 'Line up the whole population in a fixed order, pick a random start (position 3 here), then take every 4th person after that. Fast, and spreads the sample evenly across the list.'
+          }
+        ]
+      },
+
+      /* ---------------- 4. THE FOUR METHODS, SIDE BY SIDE ---------------- */
+      {
+        type: 'compare-table', id: 'compare', label: 'Section 04 — The Four Methods, Side by Side',
+        heading: 'Same goal. <span class="underline sample">Four different procedures.</span>',
+        items: [
+          {
+            title: 'Simple random, stratified, cluster, and systematic sampling',
+            headers: ['Method', 'Core idea', 'Procedure', 'Best used when'],
+            rows: [
+              ['Simple random sample (SRS)', 'Every group of a given size has an equal chance of being picked', 'Number everyone; use a random number generator to pick n numbers, ignoring repeats and unused numbers', 'No attribute of the population is critical enough to guarantee — random chance alone is trusted to mix things up'],
+              ['Stratified random sample', 'Population split into homogeneous strata; sample randomly within each one', 'Divide by a shared attribute (e.g. grade level), then take a simple random sample from every group', 'A specific attribute might matter to the results, and every group must be guaranteed to appear'],
+              ['Cluster sample', 'Population split into heterogeneous clusters, each already a mini population; select whole clusters at random', 'Label pre-existing natural groups (e.g. lunch periods), randomly pick one or more entire clusters', 'Natural, already-mixed groups exist, and individually visiting or labeling every person would be too slow'],
+              ['Systematic sample', 'A random starting point, then every kth person after it, off an ordered list', 'Pick a random start, then select every kth name on the list', 'A complete list of the population already exists, and you want a fast, evenly spread sample']
+            ],
+            caption: 'Stratified sampling guarantees representation by visiting every group individually; cluster sampling is faster because it visits only one (or a few) whole groups — but only works if each cluster is already a realistic mini-population.'
+          }
+        ]
+      },
+
+      /* ---------------- 5. GUIDED NOTES (fill in the blank) ---------------- */
+      {
+        type: 'fill-blank', id: 'guided-notes', label: 'Section 05 — Guided Notes',
+        heading: 'Fill in the <span class="underline sample">guided notes</span>.',
+        body: 'Same idea as the printable guided notes — but pick each answer from a dropdown. Submit to check; anything wrong turns red so you can try once more before the answer is revealed.',
+        items: [
+          { segments: [
+            'Sampling ',
+            { id:'b1', answer:'without replacement', options:['without replacement','with replacement','by convenience'] },
+            ' means an observational unit is not returned to the population once selected, so it cannot be picked again — the method used in the large majority of AP Statistics.'
+          ]},
+          { segments: [
+            'In a simple random sample, every group of a given size has an ',
+            { id:'b2', answer:'equal chance', options:['equal chance','unequal chance','zero chance'] },
+            ' of being selected — number every individual, then use a random number generator to select the needed amount, ignoring repeats and numbers no one has.'
+          ]},
+          { segments: [
+            'A stratified random sample divides the population into non-overlapping, ',
+            { id:'b3', answer:'homogeneous', options:['homogeneous','heterogeneous','random'] },
+            ' strata based on a shared attribute, then takes a simple random sample from ',
+            { id:'b4', answer:'each stratum', options:['each stratum','only one stratum','the largest stratum'] },
+            '.'
+          ]},
+          { segments: [
+            'A cluster sample divides the population into ',
+            { id:'b5', answer:'heterogeneous', options:['heterogeneous','homogeneous','equal-sized'] },
+            ' clusters — each one already a mini version of the population — and then randomly selects ',
+            { id:'b6', answer:'one or more whole clusters', options:['one or more whole clusters','a few people from every cluster','the largest cluster only'] },
+            ' to form the entire sample.'
+          ]},
+          { segments: [
+            'A systematic random sample uses a random starting point on an ordered list, then selects every ',
+            { id:'b7', answer:'kth', options:['kth','first','last'] },
+            ' individual after it.'
+          ]},
+          { segments: [
+            'You should stratify (or use a cluster sample) only when an attribute of the population might actually ',
+            { id:'b8', answer:'affect the results', options:['affect the results','sound interesting','be easy to measure'] },
+            ' — otherwise a simple random sample works just fine.'
+          ]}
+        ]
+      },
+
+      /* ---------------- 6. WORKED EXAMPLES ---------------- */
+      {
+        type: 'examples', id: 'examples', label: 'Section 06 — Worked Examples',
+        heading: 'One population. <span class="underline teal">Every method.</span>',
+        body: 'Click each one open, work it out, then check your answer.',
+        items: [
+          {
+            q: 'A high school has 1,200 students across 4 grades, each grade split into 3 homerooms of about 100 students. The administration wants a sample of 120 students. Describe how each method would work here.',
+            fields: [
+              { k: 'Simple random sample', v: 'Number all 1,200 students 1–1,200; use a random number generator to select 120 unique numbers (ignoring repeats and unused numbers); those 120 students form the sample' },
+              { k: 'Stratified', v: 'Split students into 4 strata by grade level; randomly select 30 students from each grade, for a total of 120' },
+              { k: 'Cluster', v: 'Treat each of the 12 homerooms as a cluster; randomly select whole homerooms (about 1–2 of them) until reaching roughly 120 students, and survey everyone in those homerooms' },
+              { k: 'Systematic', v: 'Get a list of all 1,200 students in a fixed order, pick a random starting point, then take every 10th student on the list until 120 are selected' }
+            ]
+          },
+          {
+            q: 'A field of rocks has large rocks up north, medium rocks in the middle, and small rocks down south. Why does a "cluster sample" using north/middle/south as the clusters fail, and what would make it work?',
+            fields: [
+              { k: 'Why it fails', v: 'North, middle, and south are each homogeneous (all-large, all-medium, all-small) — not heterogeneous. Randomly picking one whole region as the "cluster" gives a sample of only one rock size, not a mix' },
+              { k: 'The stratified fix', v: 'Treat north/middle/south as strata instead, and take a random sample of rocks from each region — that guarantees a mix of sizes' },
+              { k: 'The cluster fix', v: 'Redefine the clusters as vertical strips running north-to-south, so each strip already contains a mix of large, medium, and small rocks — then randomly pick one or two whole strips' }
+            ]
+          }
+        ]
+      },
+
+      /* ---------------- 7. FLASHCARDS ---------------- */
+      {
+        type: 'flashcards', id: 'flashcards', label: 'Section 07 — Flashcards',
+        heading: 'See the clue. <span class="underline sample">Name the term.</span>',
+        body: 'Front shows a short scenario or definition clue. Flip to check yourself, then mark whether you knew it.',
+        items: [
+          { prompt: 'A person is selected, then put back into the population, able to be picked again.', term: 'Sampling with replacement', detail: 'The less common approach in AP Statistics.' },
+          { prompt: 'Every group of a given size has an equal chance of being picked — could theoretically be all one gender, all one grade, etc.', term: 'Simple random sample (SRS)', detail: 'Number everyone, then use a random number generator.' },
+          { prompt: 'Population split into homogeneous groups by a shared attribute, then a random sample taken from every single group.', term: 'Stratified random sample', detail: 'Guarantees every group appears in the final sample.' },
+          { prompt: 'Population split into heterogeneous groups that each already mirror the population, then one or more whole groups are randomly picked.', term: 'Cluster sample', detail: 'Much faster than stratified — you only visit the picked group(s).' },
+          { prompt: 'A random starting point on a list, then every kth name after it.', term: 'Systematic random sample', detail: 'Fast, and requires an ordered list of the whole population.' },
+          { prompt: 'What must be true of a stratum, for stratifying to make sense?', term: 'Homogeneous — everyone shares the attribute', detail: 'Unlike a cluster, which should be heterogeneous.' },
+          { prompt: 'What must be true of a cluster, for cluster sampling to work well?', term: 'Heterogeneous — a mini version of the population', detail: 'A bad cluster (all one type) ruins the method.' },
+          { prompt: 'Splitting rocks into "north / middle / south" (all-large / all-medium / all-small) and randomly picking one whole region as your sample.', term: 'A broken cluster sample — clusters must be heterogeneous, not homogeneous', detail: 'This design is really trying to be a stratified sample instead.' }
+        ]
+      },
+
+      /* ---------------- 8. QUIZ ---------------- */
+      {
+        type: 'quiz', id: 'quiz', label: 'Section 08 — Quiz',
+        heading: 'Test yourself. <span class="underline">No pressure.</span>',
+        body: 'Ten questions pulled straight from the lesson’s examples. Your best score is saved.',
+        questions: [
+          { q: 'Sampling without replacement means:', opts: ['A unit can be picked more than once', 'Every group has an equal chance of selection', 'A unit is not returned to the population once selected', 'The sample must include the entire population'], correct: 2, exp: 'Without replacement, once picked, a unit is removed from further consideration.' },
+          { q: 'In a simple random sample, what has an equal chance of being selected?', opts: ['Every group of the given sample size', 'Only individuals from one category', 'Only the first individuals on a list', 'Every stratum, one at a time'], correct: 0, exp: 'The defining feature of an SRS: every possible group of that size is equally likely.' },
+          { q: 'A stratified random sample requires strata that are:', opts: ['Heterogeneous, like a mini population', 'Homogeneous, sharing a common attribute', 'Exactly equal in size', 'Selected using a random number generator instead of grouping'], correct: 1, exp: 'Strata must be homogeneous — everyone inside shares the attribute being stratified on.' },
+          { q: 'A cluster sample requires clusters that are:', opts: ['Homogeneous, sharing a common attribute', 'Exactly equal in size', 'Formed only after the sample is drawn', 'Heterogeneous, each one a mini version of the population'], correct: 3, exp: 'A good cluster mirrors the whole population — heterogeneous, not homogeneous.' },
+          { q: 'A systematic random sample selects individuals by:', opts: ['Picking a random start, then every kth person on an ordered list', 'Splitting the population into homogeneous groups first', 'Selecting one or more entire pre-existing groups', 'Assigning treatments to experimental units'], correct: 0, exp: 'Random start + fixed interval down an ordered list is the systematic method.' },
+          { q: 'Why might you choose to stratify a sample?', opts: ['To make data collection faster than any other method', 'Because stratifying is always required by AP Statistics', 'An attribute of the population (like age or grade) might affect the results and you want it represented', 'Because clusters cannot be found in your population'], correct: 2, exp: 'Stratifying is worth the extra effort only when an attribute might genuinely matter to the results.' },
+          { q: 'Why is a cluster sample often faster than a stratified sample?', opts: ['Because clusters are always bigger than strata', 'Because you only need to visit the one or two whole clusters selected, not every group', 'Because cluster samples don’t require randomness', 'Because cluster samples use fewer strata by definition'], correct: 1, exp: 'Cluster sampling only requires visiting the chosen cluster(s), unlike stratified sampling, which visits every stratum.' },
+          { q: 'A field of rocks has large rocks up north, medium in the middle, small down south. Randomly selecting one whole region as your entire sample is a poor cluster sample because:', opts: ['Regions cannot be numbered', 'Random number generators do not work on rocks', 'The sample size would be too small', 'Each region is homogeneous, not heterogeneous, so the sample would miss two of the three sizes entirely'], correct: 3, exp: 'A cluster needs to already mirror the whole population; a single-size region does not.' },
+          { q: '1,200 students are numbered 1–1,200, and a random number generator selects 120 unique numbers, ignoring repeats and unused numbers. This is a:', opts: ['Simple random sample', 'Stratified random sample', 'Cluster sample', 'Systematic random sample'], correct: 0, exp: 'Numbering everyone and picking numbers with a random number generator is the SRS procedure.' },
+          { q: 'A list of all 1,200 students is used, a random start is chosen, and every 10th student after it is selected. This is a:', opts: ['Simple random sample', 'Systematic random sample', 'Cluster sample', 'Stratified random sample'], correct: 1, exp: 'A random start plus a fixed interval down a list defines a systematic sample.' }
+        ]
+      },
+
+      /* ---------------- 9. TAKEAWAYS ---------------- */
+      {
+        type: 'takeaways', id: 'takeaways', label: 'Section 09 — Takeaways',
+        heading: 'Five things to <span class="underline gold">actually remember</span>.',
+        items: [
+          { num: 'i.', title: 'Without replacement is the default', body: 'Once picked, a unit is out for good — that’s how almost every sample in this course works.' },
+          { num: 'ii.', title: 'SRS trusts pure chance', body: 'Every group of the target size has an equal shot — usually mixes nicely, but in theory could look strange.' },
+          { num: 'iii.', title: 'Stratify to guarantee a mix', body: 'Split into homogeneous groups by an attribute that matters, then sample from every single one.' },
+          { num: 'iv.', title: 'Cluster to save time', body: 'Split into heterogeneous whole-groups, pick just one or a few — but only works if those clusters really are mini populations.' },
+          { num: 'v.', title: 'Systematic is a shortcut off a list', body: 'Random start, then a fixed interval — fast, and only needs one ordered list of the whole population.' }
+        ]
+      }
+    ],
+
+    homework: {
+      estTime: '~30 min',
+      questions: [
+        { q: 'A population of 500 people is numbered, and a random number generator selects 50 unique numbers to form the sample. This is a:', opts: ['Simple random sample', 'Stratified random sample', 'Cluster sample', 'Systematic random sample'], correct: 0, exp: 'Numbering everyone and using a random number generator is the SRS procedure.' },
+        { q: 'A population is split by gender into two homogeneous groups, and a random sample is drawn from each group separately. This is a:', opts: ['Simple random sample', 'Stratified random sample', 'Cluster sample', 'Systematic random sample'], correct: 1, exp: 'Splitting into homogeneous groups and sampling from each is stratified sampling.' },
+        { q: 'A company has 40 regional offices, each already a realistic mix of every job role. Two whole offices are randomly selected, and everyone in them is surveyed. This is a:', opts: ['Simple random sample', 'Stratified random sample', 'Cluster sample', 'Systematic random sample'], correct: 2, exp: 'Randomly selecting whole pre-existing heterogeneous groups is cluster sampling.' },
+        { q: 'Every 25th name on an alphabetized list of employees is selected, starting from a randomly chosen name near the top. This is a:', opts: ['Simple random sample', 'Stratified random sample', 'Cluster sample', 'Systematic random sample'], correct: 3, exp: 'A random start plus a fixed interval down an ordered list is systematic sampling.' },
+        { q: 'Sampling without replacement means:', opts: ['A selected individual cannot be selected again', 'A selected individual is returned and can be selected again', 'Every stratum must be equal in size', 'The sample must equal the population'], correct: 0, exp: 'Without replacement, a selected individual is removed from further selection.' },
+        { q: 'Sampling with replacement means:', opts: ['A selected individual can never be chosen again', 'A selected individual is returned to the population and could be chosen again', 'Sampling is done without any randomness', 'The sample automatically becomes a census'], correct: 1, exp: 'With replacement, a selected individual goes back into the pool and could be picked again.' },
+        { q: 'Which sampling method makes it possible, in theory, to end up with a sample of all one gender, purely by chance?', opts: ['Stratified random sample', 'Cluster sample', 'Simple random sample', 'Systematic random sample, always'], correct: 2, exp: 'An SRS trusts pure chance, so an unusual (though unlikely) sample is technically possible.' },
+        { q: 'A stratum, by definition, should be:', opts: ['A random subset of any size', 'Heterogeneous, like a mini population', 'Exactly equal in size to other strata', 'Homogeneous — everyone sharing the attribute being stratified on'], correct: 3, exp: 'Strata are homogeneous groups defined by a shared attribute.' },
+        { q: 'A cluster, by definition, should be:', opts: ['Heterogeneous — a nice mix, like a mini population', 'Homogeneous — everyone sharing one attribute', 'Selected only after the entire population is stratified', 'Impossible to use with human populations'], correct: 0, exp: 'A good cluster is heterogeneous, mirroring the whole population.' },
+        { q: 'Why would a researcher choose a cluster sample over a stratified sample, when both are possible?', opts: ['Cluster samples always produce more accurate results', 'A cluster sample is usually much faster, since you only visit the whole cluster(s) selected', 'Cluster samples do not require any randomness', 'Stratified samples cannot use a random number generator'], correct: 1, exp: 'Cluster sampling saves time by visiting only the selected cluster(s), not every group.' },
+        { q: 'Why would a researcher choose to stratify instead of using a simple random sample?', opts: ['Stratifying is always faster than a simple random sample', 'Stratifying requires no random number generator', 'An attribute of the population might affect the results, and stratifying guarantees that attribute is represented', 'Stratifying always produces a smaller sample size'], correct: 2, exp: 'Stratifying is worth it specifically when an attribute might affect the results.' },
+        { q: 'A survey of favorite ice cream flavors is unlikely to need stratifying by which of these attributes?', opts: ['Age group, if flavor preference varies noticeably by age', 'Region, if flavor preference varies noticeably by area', 'Nothing needs to be assumed without more information', 'Shoe size, since shoe size has no plausible connection to flavor preference'], correct: 3, exp: 'Stratifying only makes sense for attributes that might actually relate to the variable being studied.' },
+        { q: 'A list of 5,000 registered voters exists in a fixed order. A researcher picks a random start and then takes every 50th voter on the list. What method is this?', opts: ['Systematic random sample', 'Cluster sample', 'Stratified random sample', 'Census'], correct: 0, exp: 'A random start plus a fixed interval down a list is a systematic sample.' },
+        { q: 'A population is divided into 20 pre-existing delivery routes, each a realistic mix of every customer type. Three routes are randomly chosen in full. What method is this?', opts: ['Stratified random sample', 'Cluster sample', 'Systematic random sample', 'Simple random sample'], correct: 1, exp: 'Randomly picking whole, already-mixed pre-existing groups is cluster sampling.' },
+        { q: 'A population of 800 students is divided into 4 strata by grade, and 25 students are randomly selected from each grade. How many students total are in the sample?', opts: ['800', '25', '100', '4'], correct: 2, exp: '25 students from each of 4 strata gives 25 × 4 = 100 students total.' },
+        { q: 'In that same study, is the sample necessarily representative of the whole school in terms of grade level?', opts: ['No, grade level cannot be guaranteed with any method', 'No, only cluster sampling guarantees this', 'It depends entirely on chance', 'Yes, because stratifying by grade guarantees each grade appears in the exact proportion planned'], correct: 3, exp: 'Stratifying by grade guarantees representation from every grade, unlike an SRS which leaves it to chance.' },
+        { q: 'A field of rocks has large rocks up north, medium in the middle, and small down south. Which sampling method would guarantee a mix of all three sizes in the sample?', opts: ['Stratified random sample, using region as the strata', 'Cluster sample, using region as the clusters', 'Systematic sample starting only in the north', 'Simple random sample restricted to the north region'], correct: 0, exp: 'Stratifying by region and sampling from each region guarantees all three sizes appear.' },
+        { q: 'Why does treating "north / middle / south" as clusters fail in that same rock field?', opts: ['Because clusters must always be numbered', 'Because each region is homogeneous (all one size), not a realistic mini population', 'Because cluster sampling cannot be used outdoors', 'Because there are too many rocks to count'], correct: 1, exp: 'A cluster needs to already mirror the population; a single-size region does not.' },
+        { q: 'What would make "north / middle / south" work as clusters instead of strata?', opts: ['Making all three regions exactly the same size', 'Assigning random numbers instead of regions', 'Redefining the regions (e.g. north-to-south strips) so each one already contains a mix of large, medium, and small rocks', 'Only sampling from the north region'], correct: 2, exp: 'Redefining the groups so each one is already a heterogeneous mix turns them into valid clusters.' },
+        { q: 'Which sampling method requires the least amount of individual-level labeling, once natural groups already exist?', opts: ['Simple random sample', 'Stratified random sample', 'Systematic random sample', 'Cluster sample'], correct: 3, exp: 'Cluster sampling only requires labeling the pre-existing groups, not every individual — the fastest option when natural groups exist.' }
+      ]
+    }
+  }
+});
+
+/* ============================================
+   Topic 1.12 — Potential Problems with Sampling: Bias
+   Source: course transcript (Topic 1.12 lecture)
+   ============================================ */
+
+registerChapters({
+  '1-12': {
+    id: '1-12',
+    code: 'Topic 1.12',
+    unitName: 'Unit 1 — Exploring One-Variable Data',
+    title: 'Potential Problems with Sampling: Bias',
+    cardSummary: 'Bias as a systematic — not random — error: volunteer and convenience samples that were never random at all, plus undercoverage, nonresponse, and response bias that can creep in even after a good random sample.',
+    heroTitle: 'When random <em>isn’t</em><br>enough.',
+    heroSub: 'A sample can be perfectly random and still be biased. Learn to spot the five ways a sampling method can systematically push a statistic too high or too low — and which direction each one pushes.',
+    source: 'Topic 1.12 course video',
+    estTime: '~25–35 min',
+
+    sections: [
+      /* ---------------- 1. OVERVIEW ---------------- */
+      {
+        type: 'overview', id: 'overview', label: 'Section 01 — Overview',
+        heading: '<span class="underline teal">Systematic</span>, not random.',
+        body: 'A biased sample doesn’t just miss by chance — it misses in the same direction, over and over. That’s what separates bias from the ordinary variability every sample naturally has.',
+        cards: [
+          { roman: 'I.', title: 'Bias pushes one way, consistently', body: 'Bias is a <strong>systematic error</strong> in the sampling procedure that makes a statistic consistently too high or too low compared to the true population parameter.', tags: ['Systematic','Consistently high or low'] },
+          { roman: 'II.', title: 'Two families', body: 'Some samples are biased because they were <strong>never random</strong> to begin with (volunteer, convenience). Others are randomly selected and <strong>still end up biased</strong> (undercoverage, nonresponse, response).', tags: ['Never random','Random, but still biased'], accent: 'sample' }
+        ]
+      },
+
+      /* ---------------- 2. VOCAB ---------------- */
+      {
+        type: 'vocab', id: 'vocab', label: 'Section 02 — Vocabulary',
+        heading: 'The <span class="underline teal">six words</span> this topic runs on.',
+        body: 'Tap a term you’ve got down — your checkmarks are saved so you can see what still needs review.',
+        items: [
+          { id: 'bias', term: 'Bias', accent: 'population', body: 'A systematic error in the sampling procedure that makes a statistic consistently larger or consistently smaller than the population parameter it estimates — different from ordinary sample-to-sample variability.' },
+          { id: 'volunteer-bias', term: 'Volunteer response bias', accent: 'sample', body: 'Occurs when a sample consists entirely of volunteers — people with strong opinions are far more likely to opt in, typically pushing the statistic toward the more passionate view.' },
+          { id: 'convenience-bias', term: 'Convenience sample bias', accent: 'sample', body: 'Occurs when a sample is selected in a non-random way simply because it’s easy to reach — like surveying only the students sitting nearby at lunch.' },
+          { id: 'undercoverage-bias', term: 'Undercoverage bias', accent: 'population', body: 'Occurs when the sampling method systematically leaves out (or under-represents) part of the population — even if the sample actually drawn is otherwise perfectly random.' },
+          { id: 'nonresponse-bias', term: 'Nonresponse bias', accent: 'population', body: 'Occurs when a randomly selected individual simply doesn’t respond, and non-respondents differ in some important way from those who do.' },
+          { id: 'response-bias', term: 'Response bias', accent: 'sample', body: 'Occurs when responses aren’t truthful — because of leading question wording, an uncomfortable topic, the presence of the person asking, or a faulty measuring device.' }
+        ]
+      },
+
+      /* ---------------- 3. THE BIAS FAMILY TREE ---------------- */
+      {
+        type: 'flow', id: 'family-tree', label: 'Section 03 — The Bias Family Tree',
+        heading: 'One question splits <span class="underline sample">bias into two families</span>.',
+        body: 'Ask this first, every time you read a sampling scenario.',
+        items: [
+          {
+            question: 'Was the sample randomly selected in the first place?',
+            branches: [
+              { label: 'No', tone: 'bad', outcomes: [
+                { title: 'Volunteer response bias', body: 'The sample is made entirely of people who opted in — usually those with the strongest opinions.' },
+                { title: 'Convenience sample bias', body: 'The sample was chosen simply because it was easy to reach, not because it represented the population.' }
+              ]},
+              { label: 'Yes — but bias can still creep in', tone: 'warn', outcomes: [
+                { title: 'Undercoverage bias', body: 'The sampling method itself systematically leaves part of the population out.' },
+                { title: 'Nonresponse bias', body: 'Selected individuals simply don’t respond, and they differ from those who do.' },
+                { title: 'Response bias', body: 'People respond, but their answers aren’t truthful — due to wording, discomfort, or a faulty measurement.' }
+              ]}
+            ]
+          }
+        ]
+      },
+
+      /* ---------------- 4. FIVE TYPES, SIDE BY SIDE ---------------- */
+      {
+        type: 'compare-table', id: 'compare', label: 'Section 04 — Five Types, Side by Side',
+        heading: 'Same word, <span class="underline teal">five different mechanisms</span>.',
+        items: [
+          {
+            title: 'The five bias types',
+            headers: ['Bias type', 'What goes wrong', 'Still "random"?', 'Typical fix'],
+            rows: [
+              ['Volunteer response bias', 'Only people who opt in respond — usually those with the strongest opinions', 'No — never randomly selected', 'Select subjects yourself using a random mechanism, instead of asking for volunteers'],
+              ['Convenience sample bias', 'The sample is chosen for ease of access, not randomness', 'No — never randomly selected', 'Use a true random-selection procedure instead of "whoever is easiest to reach"'],
+              ['Undercoverage bias', 'The sampling method itself leaves part of the population out (or under-represents it)', 'Yes — the sample drawn can still be random', 'Make sure the sampling frame (the list you sample from) actually includes everyone in the population'],
+              ['Nonresponse bias', 'Selected individuals don’t respond, and non-respondents differ from respondents', 'Yes — the initial selection was random', 'Follow up with non-respondents; offer an incentive that doesn’t influence their answer'],
+              ['Response bias', 'Respondents answer, but untruthfully — due to wording, discomfort, or faulty measurement', 'Yes — the initial selection was random', 'Use neutral wording, anonymous responses, and a properly calibrated measuring device']
+            ],
+            caption: 'The first two types happen before you ever get a sample — the selection itself wasn’t random. The last three can sneak into a perfectly random sample.'
+          }
+        ]
+      },
+
+      /* ---------------- 5. GUIDED NOTES (fill in the blank) ---------------- */
+      {
+        type: 'fill-blank', id: 'guided-notes', label: 'Section 05 — Guided Notes',
+        heading: 'Fill in the <span class="underline sample">guided notes</span>.',
+        body: 'Same idea as the printable guided notes — but pick each answer from a dropdown. Submit to check; anything wrong turns red so you can try once more before the answer is revealed.',
+        items: [
+          { segments: [
+            'Bias in a sampling method is a ',
+            { id:'b1', answer:'systematic', options:['systematic','random','unavoidable'] },
+            ' error that makes a statistic consistently too high or too low — different from the ordinary variability every sample has.'
+          ]},
+          { segments: [
+            'A sample made up entirely of people who chose to opt in is affected by ',
+            { id:'b2', answer:'volunteer response bias', options:['volunteer response bias','undercoverage bias','response bias'] },
+            ', since people with strong opinions are far more likely to participate.'
+          ]},
+          { segments: [
+            'Selecting a sample simply because it is easy to reach — like surveying only the people nearby — is called a ',
+            { id:'b3', answer:'convenience sample', options:['convenience sample','stratified sample','systematic sample'] },
+            '.'
+          ]},
+          { segments: [
+            'Even a perfectly random sample can suffer from ',
+            { id:'b4', answer:'undercoverage bias', options:['undercoverage bias','response bias','volunteer bias'] },
+            ' if the sampling method systematically leaves part of the population out before the random selection even happens.'
+          ]},
+          { segments: [
+            'When selected individuals simply do not respond, and the people who do respond differ from those who don’t, the result is ',
+            { id:'b5', answer:'nonresponse bias', options:['nonresponse bias','response bias','undercoverage bias'] },
+            '.'
+          ]},
+          { segments: [
+            'When people do respond, but their answers are not truthful — often because of how a question is worded or who is asking — the result is ',
+            { id:'b6', answer:'response bias', options:['response bias','nonresponse bias','convenience bias'] },
+            '.'
+          ]}
+        ]
+      },
+
+      /* ---------------- 6. WORKED EXAMPLES ---------------- */
+      {
+        type: 'examples', id: 'examples', label: 'Section 06 — Worked Examples',
+        heading: 'Read the scenario. <span class="underline teal">Name the bias, and its direction.</span>',
+        body: 'Click each one open, work it out, then check your answer.',
+        items: [
+          {
+            q: 'A teacher wants to know students’ favorite type of music. She only asks students in her morning class.',
+            fields: [
+              { k: 'Bias type', v: 'Convenience sample bias' },
+              { k: 'Why', v: 'She surveyed whoever was easiest to reach — her own morning class — rather than selecting randomly from the whole school' },
+              { k: 'Direction', v: 'Unclear which way it pushes without more detail, but it definitely fails to represent the whole student body' }
+            ]
+          },
+          {
+            q: 'A health teacher asks students, "Do you smoke cigarettes?" Many students answer no even if they do.',
+            fields: [
+              { k: 'Bias type', v: 'Response bias' },
+              { k: 'Why', v: 'Students may lie about smoking because the health teacher — an authority figure on exactly this topic — is asking directly' },
+              { k: 'Direction', v: 'Underestimates the true proportion of students who smoke' }
+            ]
+          },
+          {
+            q: 'A city council randomly surveys only residents in neighborhoods that already have city-provided trash pickup, to learn about waste-management satisfaction citywide.',
+            fields: [
+              { k: 'Bias type', v: 'Undercoverage bias' },
+              { k: 'Why', v: 'Even though the surveyed residents were randomly selected, everyone without city trash pickup was left out of the sampling frame entirely' },
+              { k: 'Direction', v: 'Likely overestimates citywide satisfaction, since residents without the service — who may be less satisfied — never had a chance to respond' }
+            ]
+          },
+          {
+            q: 'A website asks visitors to rate a new smartphone by filling out an online survey. Only users who visit the survey page respond.',
+            fields: [
+              { k: 'Bias type', v: 'Volunteer response bias' },
+              { k: 'Why', v: 'Nobody was selected — people had to choose to visit the page and fill it out, which tends to attract those with especially strong opinions' },
+              { k: 'Direction', v: 'Could push the rating toward the extremes in either direction, depending on who feels strongly enough to respond' }
+            ]
+          },
+          {
+            q: 'A company emails a satisfaction survey to 1,000 randomly selected customers, but only 150 respond — mostly customers with complaints.',
+            fields: [
+              { k: 'Bias type', v: 'Nonresponse bias' },
+              { k: 'Why', v: 'The initial 1,000 were randomly selected, but 850 chose not to respond, and the 150 who did respond skew toward people with complaints' },
+              { k: 'Direction', v: 'Underestimates true customer satisfaction, since dissatisfied customers were far more motivated to respond' }
+            ]
+          },
+          {
+            q: 'A market researcher asks random shoppers standing right next to them at a luxury car dealership, "Do you regularly purchase high-end vehicles?"',
+            fields: [
+              { k: 'Bias type', v: 'Response bias (with a hint of undercoverage bias)' },
+              { k: 'Why', v: 'Shoppers may feel pressured to say yes with the researcher standing right there; sampling only people at this one dealership also excludes everyone who wasn’t there' },
+              { k: 'Direction', v: 'Overestimates how many people regularly purchase high-end vehicles' }
+            ]
+          }
+        ]
+      },
+
+      /* ---------------- 7. FLASHCARDS ---------------- */
+      {
+        type: 'flashcards', id: 'flashcards', label: 'Section 07 — Flashcards',
+        heading: 'See the clue. <span class="underline sample">Name the term.</span>',
+        body: 'Front shows a short scenario or definition clue. Flip to check yourself, then mark whether you knew it.',
+        items: [
+          { prompt: 'A sample statistic is consistently too high or too low, not just randomly off.', term: 'Bias', detail: 'Different from ordinary sample-to-sample variability, which is unavoidable but not systematic.' },
+          { prompt: 'A radio call-in poll where only people who choose to call get counted.', term: 'Volunteer response bias', detail: 'Strong opinions are overrepresented; indifferent people rarely bother to call in.' },
+          { prompt: 'A principal surveys only the students sitting in the cafeteria in front of him.', term: 'Convenience sample bias', detail: 'Chosen for ease of access, not randomness.' },
+          { prompt: 'A survey is emailed only to students living in on-campus dorms, leaving out everyone off-campus.', term: 'Undercoverage bias', detail: 'Part of the population never had a chance to be selected — even if the on-campus sample itself was random.' },
+          { prompt: '1,000 people are randomly emailed a survey, but only 150 — mostly people with complaints — respond.', term: 'Nonresponse bias', detail: 'Non-respondents may differ a lot from respondents.' },
+          { prompt: '"Good kids always do their homework, right?" as a survey question.', term: 'Response bias', detail: 'Leading wording (or an uncomfortable topic, or the wrong person asking) makes answers untruthful.' },
+          { prompt: 'Which two bias types happen because the sample was never randomly selected in the first place?', term: 'Volunteer response bias and convenience sample bias', detail: 'Everything else on this list can happen even to a properly random sample.' },
+          { prompt: 'Which three bias types can sneak into a sample that WAS randomly selected?', term: 'Undercoverage, nonresponse, and response bias', detail: 'Random selection alone doesn’t protect you from any of these.' }
+        ]
+      },
+
+      /* ---------------- 8. QUIZ ---------------- */
+      {
+        type: 'quiz', id: 'quiz', label: 'Section 08 — Quiz',
+        heading: 'Test yourself. <span class="underline">No pressure.</span>',
+        body: 'Ten questions pulled straight from the lesson’s examples. Your best score is saved.',
+        questions: [
+          { q: 'Bias in a sampling method is best described as:', opts: ['Ordinary variability between samples', 'A systematic error that makes a statistic consistently too high or too low', 'A sample that is too large', 'A statistic that exactly matches the parameter'], correct: 1, exp: 'Bias is systematic — it consistently pushes the statistic in one direction.' },
+          { q: 'A radio station’s call-in poll on a tax increase is affected by which type of bias?', opts: ['Undercoverage bias', 'Response bias', 'Volunteer response bias', 'Nonresponse bias'], correct: 2, exp: 'Only people who choose to call in are counted — the hallmark of volunteer response bias.' },
+          { q: 'A principal surveys only the students in front of him at lunch duty. This is:', opts: ['A convenience sample', 'A stratified sample', 'A cluster sample', 'A systematic sample'], correct: 0, exp: 'Chosen purely for ease of access — a convenience sample.' },
+          { q: 'A university surveys only students living in on-campus dorms about housing satisfaction, leaving out off-campus students entirely. This is:', opts: ['Response bias', 'Nonresponse bias', 'Volunteer response bias', 'Undercoverage bias'], correct: 3, exp: 'Part of the population (off-campus students) was never given a chance to be selected — undercoverage bias.' },
+          { q: '1,000 customers are randomly emailed a survey, but only 150 — mostly people with complaints — respond. This is:', opts: ['Response bias', 'Nonresponse bias', 'Convenience sample bias', 'Undercoverage bias'], correct: 1, exp: 'The initial selection was random, but non-respondents differ from respondents — nonresponse bias.' },
+          { q: 'A teacher asks students, "Good kids always do their homework, right?" This wording is likely to cause:', opts: ['Undercoverage bias', 'Nonresponse bias', 'Response bias', 'Volunteer response bias'], correct: 2, exp: 'Leading wording pressures untruthful answers — response bias.' },
+          { q: 'Which two bias types mean the sample was never randomly selected to begin with?', opts: ['Undercoverage and nonresponse', 'Response and nonresponse', 'Undercoverage and response', 'Volunteer response and convenience sample'], correct: 3, exp: 'Volunteer response and convenience sample bias both happen because the sample was never random.' },
+          { q: 'Which three bias types can occur even after a properly random sample is selected?', opts: ['Undercoverage, nonresponse, and response bias', 'Volunteer, convenience, and undercoverage bias', 'Only response bias', 'None — a random sample is always free of bias'], correct: 0, exp: 'Undercoverage, nonresponse, and response bias can all sneak into a genuinely random sample.' },
+          { q: 'A market researcher asks shoppers at a luxury car dealership, standing right next to them, "Do you regularly buy high-end vehicles?" This is most likely:', opts: ['Nonresponse bias only', 'Response bias (the interviewer’s presence pressures answers)', 'No bias, since shoppers were randomly approached', 'Undercoverage bias only, with no other bias present'], correct: 1, exp: 'The interviewer standing right there likely pressures shoppers toward a more flattering answer.' },
+          { q: 'A school counselor asks students directly, "Have you ever cheated on a test?" Which direction is the response bias likely to push the reported cheating rate?', opts: ['It overestimates the true rate', 'It has no effect on the true rate', 'It underestimates the true rate, since students may not want to admit to cheating', 'It always doubles the true rate exactly'], correct: 2, exp: 'Students are likely to underreport cheating to avoid admitting to socially frowned-upon behavior.' }
+        ]
+      },
+
+      /* ---------------- 9. TAKEAWAYS ---------------- */
+      {
+        type: 'takeaways', id: 'takeaways', label: 'Section 09 — Takeaways',
+        heading: 'Five things to <span class="underline gold">actually remember</span>.',
+        items: [
+          { num: 'i.', title: 'Bias is systematic, not random', body: 'A biased statistic is consistently too high or too low — unlike the ordinary variability every sample naturally has.' },
+          { num: 'ii.', title: 'Two families of bias', body: 'Never-random samples (volunteer, convenience) vs. samples that were random but still ended up biased (undercoverage, nonresponse, response).' },
+          { num: 'iii.', title: 'Volunteers and convenience samples were never random', body: 'The fix is the same for both: use a genuine random-selection mechanism instead.' },
+          { num: 'iv.', title: 'Undercoverage happens before you even sample', body: 'The sampling frame itself — the list you draw from — misses part of the population.' },
+          { num: 'v.', title: 'Nonresponse and response bias happen after', body: 'People are simply missing from the results, or they responded but weren’t truthful.' }
+        ]
+      }
+    ],
+
+    homework: {
+      estTime: '~25 min',
+      questions: [
+        { q: 'A sample statistic is consistently higher than the true population parameter, over and over, due to a flaw in the sampling procedure. This is an example of:', opts: ['Bias', 'Ordinary sample variability', 'A census', 'A confounding variable'], correct: 0, exp: 'A systematic, repeated skew in one direction is exactly what bias means.' },
+        { q: 'An online poll asks visitors to a website to rate a product; only people who visit and choose to respond are counted. This is:', opts: ['Undercoverage bias', 'Volunteer response bias', 'Nonresponse bias', 'Response bias'], correct: 1, exp: 'Nobody was selected — people opted in themselves, which is volunteer response bias.' },
+        { q: 'A researcher surveys only the shoppers standing closest to the store entrance because it is quick and easy. This is:', opts: ['Undercoverage bias', 'Nonresponse bias', 'Convenience sample bias', 'Response bias'], correct: 2, exp: 'Chosen purely for ease of access — a convenience sample.' },
+        { q: 'A survey is mailed only to households with a listed landline number, leaving out every household that only has a cell phone. This is:', opts: ['Response bias', 'Nonresponse bias', 'Volunteer response bias', 'Undercoverage bias'], correct: 3, exp: 'Cell-phone-only households were never part of the sampling frame — undercoverage bias.' },
+        { q: 'A school mails a randomly selected sample of 400 parents a survey, and 320 of them return it. Since the response rate is high, is nonresponse bias a concern?', opts: ['It could still be a concern if the 80 non-respondents differ meaningfully from the 320 who responded', 'No, any response rate above 50% eliminates nonresponse bias', 'No, nonresponse bias only applies to online surveys', 'Yes, but only if fewer than 10 people respond'], correct: 0, exp: 'Nonresponse bias depends on whether non-respondents differ from respondents, not on the response rate alone.' },
+        { q: 'A survey asks, "Do you support increasing funding for our excellent local schools?" This wording is most likely to cause:', opts: ['Undercoverage bias', 'Response bias', 'Nonresponse bias', 'No bias at all'], correct: 1, exp: 'Loaded wording ("excellent") pressures a certain answer — response bias.' },
+        { q: 'Which of these is NOT one of the five bias types discussed in this topic?', opts: ['Undercoverage bias', 'Response bias', 'Sampling frame bias', 'Volunteer response bias'], correct: 2, exp: '"Sampling frame bias" is not one of the five named types — undercoverage, nonresponse, response, volunteer, and convenience are.' },
+        { q: 'A company wants feedback from all 5,000 employees, randomly emails all of them a survey, but only 400 reply — mostly employees who are unhappy. What kind of bias is this, and which direction does it push satisfaction results?', opts: ['Response bias; overestimates satisfaction', 'Undercoverage bias; underestimates satisfaction', 'Convenience bias; has no clear direction', 'Nonresponse bias; underestimates satisfaction, since unhappy employees were more motivated to respond'], correct: 3, exp: 'A random invitation with a skewed set of respondents is textbook nonresponse bias, pushing results toward the unhappy respondents.' },
+        { q: 'A dentist asks patients, "You floss every day, right?" and most patients say yes even if they don’t. What kind of bias is this?', opts: ['Response bias, since patients may feel pressure to give a favorable answer to their dentist', 'Nonresponse bias, since some patients don’t answer at all', 'Undercoverage bias, since not all patients were surveyed', 'Volunteer response bias, since patients chose to see the dentist'], correct: 0, exp: 'Patients answering untruthfully due to who is asking is response bias.' },
+        { q: 'A researcher wants opinions on a new highway project, but only surveys residents who live directly along the proposed route. This is:', opts: ['Response bias', 'Undercoverage bias, since residents elsewhere in the affected area are left out', 'Nonresponse bias', 'Volunteer response bias'], correct: 1, exp: 'Residents outside the immediate route but still affected were never part of the sampling frame.' },
+        { q: 'Which fix best addresses volunteer response bias?', opts: ['Reword the survey questions to be neutral', 'Follow up with people who don’t respond', 'Select subjects yourself using a genuine random-selection mechanism, instead of asking for volunteers', 'Expand the sampling frame to include more locations'], correct: 2, exp: 'Volunteer bias is fixed by not relying on self-selection at all — select subjects randomly instead.' },
+        { q: 'Which fix best addresses undercoverage bias?', opts: ['Offer an incentive for responding', 'Make survey questions anonymous', 'Have someone other than the researcher collect responses', 'Make sure the sampling frame actually includes every part of the population of interest'], correct: 3, exp: 'Undercoverage is a sampling-frame problem, so it’s fixed by making the frame complete.' },
+        { q: 'A market research company sends field representatives to interview random shoppers face-to-face about their income. Some shoppers may not answer truthfully because they feel embarrassed discussing income with a stranger. This is:', opts: ['Response bias', 'Nonresponse bias', 'Undercoverage bias', 'Convenience sample bias'], correct: 0, exp: 'Untruthful answers due to discomfort with the topic and the interviewer’s presence is response bias.' },
+        { q: 'A survey is sent to a random sample of 500 people, but 200 of them never open the email. Assuming those 200 differ from the 300 who did respond, what is this?', opts: ['Response bias', 'Nonresponse bias', 'Undercoverage bias', 'Volunteer response bias'], correct: 1, exp: 'Randomly selected people who simply don’t respond, differing from those who do, is nonresponse bias.' },
+        { q: 'Bias is different from ordinary sample-to-sample variability because bias:', opts: ['Only happens with small sample sizes', 'Can never be reduced or fixed', 'Is systematic — it consistently pushes the statistic in one direction, not just randomly off target', 'Only occurs in experiments, never in surveys'], correct: 2, exp: 'The key distinction is systematic vs. random: bias always pushes the same direction.' },
+        { q: 'A poorly calibrated bathroom scale weighs every person 3 lb too heavy. If used to collect data on a randomly selected sample, this is an example of:', opts: ['Nonresponse bias', 'Undercoverage bias', 'Volunteer response bias', 'Response bias, since the measurements themselves are systematically untruthful'], correct: 3, exp: 'A faulty measuring device that systematically distorts every reading is a form of response bias.' },
+        { q: 'Which best describes the difference between undercoverage bias and nonresponse bias?', opts: ['Undercoverage happens before selection (part of the population can’t be reached); nonresponse happens after selection (selected people don’t answer)', 'They are two names for the exact same problem', 'Undercoverage only applies to phone surveys; nonresponse only applies to mail surveys', 'Nonresponse bias is not actually a real form of bias'], correct: 0, exp: 'Undercoverage is a flaw in the sampling frame itself; nonresponse happens after selection, when chosen people don’t respond.' },
+        { q: 'A random sample of registered voters is called by phone during business hours on weekdays, when working adults are less likely to be home. Retired and unemployed people are overrepresented among respondents. This is closest to:', opts: ['Volunteer response bias', 'Nonresponse bias, since the working adults who were called didn’t answer', 'Response bias', 'Undercoverage bias'], correct: 1, exp: 'The sample selection was random, but a systematic pattern in who fails to respond skews the results — nonresponse bias.' },
+        { q: 'Why is anonymity often used as a fix for response bias?', opts: ['It increases the response rate directly', 'It expands the sampling frame', 'It removes social pressure to answer a certain way, making truthful answers more likely', 'It eliminates the need for random selection'], correct: 2, exp: 'Anonymity reduces the social pressure that causes people to answer untruthfully.' },
+        { q: 'A study finds that a sample’s reported rate of exercise is much higher than external health data suggests it should be for that population. Which type of bias most plausibly explains this, if respondents were randomly selected but may have exaggerated their activity?', opts: ['Undercoverage bias', 'Convenience sample bias', 'Volunteer response bias', 'Response bias, since people may over-report healthy behaviors to look good'], correct: 3, exp: 'Untruthful self-reporting to appear more favorable is a classic response-bias pattern.' }
+      ]
+    }
+  }
+});
+
+/* ============================================
+   Topic 1.13 — Designing Experiments
+   Source: course transcript (Topic 1.13 lecture)
+   ============================================ */
+
+registerChapters({
+  '1-13': {
+    id: '1-13',
+    code: 'Topic 1.13',
+    unitName: 'Unit 1 — Exploring One-Variable Data',
+    title: 'Designing Experiments',
+    cardSummary: 'The four principles every well-designed experiment needs — comparison, randomization, replication, and direct control — plus three ways to structure one: completely randomized, randomized block, and matched pairs.',
+    heroTitle: 'Four principles. <em>Three</em><br>designs.',
+    heroSub: 'A good experiment isn’t just "give some people a treatment." It needs a comparison group, random assignment, enough subjects to matter, and control over anything else that might explain the result — then one of three structures to organize it all.',
+    source: 'Topic 1.13 course video',
+    estTime: '~35–45 min',
+
+    sections: [
+      /* ---------------- 1. OVERVIEW ---------------- */
+      {
+        type: 'overview', id: 'overview', label: 'Section 01 — Overview',
+        heading: 'Four principles. <span class="underline sample">Three ways to structure them.</span>',
+        body: 'Every well-designed experiment — no matter how it’s structured — rests on the same four non-negotiable principles.',
+        cards: [
+          { roman: 'I.', title: 'Four non-negotiable principles', body: '<strong>Comparison</strong> of at least two treatment groups, random <strong>assignment</strong> of who gets what, <strong>replication</strong> — more than one unit per treatment — and <strong>direct control</strong> of any extraneous variable the researcher can manage.', tags: ['Comparison','Randomization','Replication','Direct control'] },
+          { roman: 'II.', title: 'People know they’re in a study', body: 'With human subjects, <strong>blinding</strong> and a <strong>placebo</strong> control for the fact that just knowing you got a treatment (or didn’t) can change your response.', tags: ['Single/double-blind','Placebo effect'], accent: 'sample' },
+          { roman: 'III.', title: 'Three ways to structure it', body: '<strong>Completely randomized</strong>, <strong>randomized block</strong>, and <strong>matched pairs</strong> designs all still rest on the same four principles above — they just handle extraneous variables differently.', tags: ['Completely randomized','Randomized block','Matched pairs'] }
+        ]
+      },
+
+      /* ---------------- 2. VOCAB ---------------- */
+      {
+        type: 'vocab', id: 'vocab', label: 'Section 02 — Vocabulary',
+        heading: 'The <span class="underline teal">ten words</span> this topic runs on.',
+        body: 'Tap a term you’ve got down — your checkmarks are saved so you can see what still needs review.',
+        items: [
+          { id: 'control-group', term: 'Control group', accent: 'population', body: 'A group in an experiment used purely for comparison — often given no treatment (or an inactive one) as a baseline.' },
+          { id: 'extraneous-variable', term: 'Extraneous variable', accent: 'sample', body: 'A variable believed to affect the response, but not the explanatory variable being studied, and outside the researcher’s control — like age, diet, or genetics.' },
+          { id: 'random-assignment', term: 'Random assignment', accent: 'population', body: 'Randomly deciding which experimental units get which treatment — the mechanism that scatters extraneous variables evenly across every treatment group.' },
+          { id: 'replication', term: 'Replication', accent: 'sample', body: 'Assigning more than one experimental unit to each treatment. More units means natural person-to-person variability averages out, making a true treatment effect easier to detect.' },
+          { id: 'direct-control', term: 'Direct control', accent: 'population', body: 'Deliberately holding a controllable extraneous variable — like water, sunlight, or dosage timing — constant across every treatment group.' },
+          { id: 'blinding', term: 'Blinding (single / double)', accent: 'sample', body: 'In a single-blind experiment, subjects don’t know which treatment they’re getting. In a double-blind experiment, neither the subjects nor the researchers who interact with them know.' },
+          { id: 'placebo', term: 'Placebo & placebo effect', accent: 'sample', body: 'A placebo is a fake, inactive treatment given to a control group so every subject feels like they’re receiving something — controlling for the placebo effect, the natural difference in response between knowing you got something vs. knowing you got nothing.' },
+          { id: 'blocking-variable', term: 'Blocking variable', accent: 'population', body: 'An extraneous variable considered too important to leave to chance. Subjects are first grouped into blocks sharing a similar value of it, then randomly assigned to treatments within each block.' },
+          { id: 'completely-randomized', term: 'Completely randomized design', accent: 'population', body: 'Treatments are assigned to all experimental units completely at random, with no blocking.' },
+          { id: 'matched-pairs', term: 'Matched pairs design', accent: 'sample', body: 'A special case of blocking with only two treatments: experimental units are paired up by similarity (or each unit gets both treatments, in random order), and one treatment is randomly assigned to each member of the pair.' }
+        ]
+      },
+
+      /* ---------------- 3. SEEING THE THREE DESIGNS ---------------- */
+      {
+        type: 'chart', id: 'designs', label: 'Section 03 — Seeing the Three Designs',
+        heading: '18 volunteers. <span class="underline teal">Three ways to split them.</span>',
+        body: 'A vitamin D study is testing 50 mg vs. 100 mg vs. a placebo for lowering blood pressure. Every circle below is a volunteer, colored by age — the extraneous variable this study is most worried about.',
+        items: [
+          { title: 'Completely randomized — Treatment (50 mg)', chartType: 'populationgrid', spec: { cols: 3, legend: [{label:'Young',group:0},{label:'Middle-aged',group:1},{label:'Older',group:2}], cells: [{group:0,selected:true},{group:0,selected:true},{group:0,selected:true},{group:1,selected:true},{group:1,selected:true},{group:2,selected:true}] }, caption: '3 young, 2 middle-aged, 1 older — purely by chance.' },
+          { title: 'Completely randomized — Treatment (100 mg)', chartType: 'populationgrid', spec: { cols: 3, legend: [{label:'Young',group:0},{label:'Middle-aged',group:1},{label:'Older',group:2}], cells: [{group:0,selected:true},{group:1,selected:true},{group:1,selected:true},{group:1,selected:true},{group:2,selected:true},{group:2,selected:true}] }, caption: '1 young, 3 middle-aged, 2 older.' },
+          { title: 'Completely randomized — Placebo', chartType: 'populationgrid', spec: { cols: 3, legend: [{label:'Young',group:0},{label:'Middle-aged',group:1},{label:'Older',group:2}], cells: [{group:0,selected:true},{group:1,selected:true},{group:2,selected:true},{group:2,selected:true},{group:2,selected:true},{group:0,selected:true}] }, caption: '2 young, 1 middle-aged, 3 older. Every group’s age mix is a little different — random chance, not a guarantee — even though it was assigned completely at random.' },
+          { title: 'Randomized block — Treatment (50 mg)', chartType: 'populationgrid', spec: { cols: 3, legend: [{label:'Young',group:0},{label:'Middle-aged',group:1},{label:'Older',group:2}], cells: [{group:0,selected:true},{group:0,selected:true},{group:1,selected:true},{group:1,selected:true},{group:2,selected:true},{group:2,selected:true}] }, caption: '2 young, 2 middle-aged, 2 older — guaranteed.' },
+          { title: 'Randomized block — Treatment (100 mg)', chartType: 'populationgrid', spec: { cols: 3, legend: [{label:'Young',group:0},{label:'Middle-aged',group:1},{label:'Older',group:2}], cells: [{group:0,selected:true},{group:0,selected:true},{group:1,selected:true},{group:1,selected:true},{group:2,selected:true},{group:2,selected:true}] }, caption: '2 young, 2 middle-aged, 2 older — guaranteed.' },
+          { title: 'Randomized block — Placebo', chartType: 'populationgrid', spec: { cols: 3, legend: [{label:'Young',group:0},{label:'Middle-aged',group:1},{label:'Older',group:2}], cells: [{group:0,selected:true},{group:0,selected:true},{group:1,selected:true},{group:1,selected:true},{group:2,selected:true},{group:2,selected:true}] }, caption: '2 young, 2 middle-aged, 2 older — guaranteed. Blocking by age first, then randomly assigning within each age block, means every treatment group gets an identical age mix, every single time.' },
+          { title: 'Matched pairs — a sunscreen study', chartType: 'matchedpairs', spec: { pairs: [
+              { group: 0, note: 'Same age, same skin type, low stress' },
+              { group: 1, note: 'Same gender, same age, dark hair & eyes' },
+              { group: 2, note: 'Same age, same skin type, high stress' },
+              { group: 3, note: 'Same age, fair skin, red hair' },
+              { group: 0, note: 'Twin siblings, same skin type' }
+            ] }, caption: 'Each row is one matched pair (colors just distinguish rows, not categories). Within a pair, A and B share every trait that most affects sunburn — then one randomly gets Sunscreen A, the other Sunscreen B.' }
+        ]
+      },
+
+      /* ---------------- 4. THREE DESIGNS, SIDE BY SIDE ---------------- */
+      {
+        type: 'compare-table', id: 'compare', label: 'Section 04 — Three Designs, Side by Side',
+        heading: 'Same four principles. <span class="underline sample">Three different structures.</span>',
+        items: [
+          {
+            title: 'Completely randomized, randomized block, and matched pairs designs',
+            headers: ['Design', 'Procedure', 'Best used when', 'This chapter’s example'],
+            rows: [
+              ['Completely randomized design', 'All experimental units are assigned to treatments completely at random — no blocking first', 'No extraneous variable is critical enough to guarantee evenly; pure randomization is trusted to mix things up', '18 volunteers randomly split into 50 mg / 100 mg / placebo groups'],
+              ['Randomized block design', 'Units are first grouped into blocks sharing a similar value of one extraneous variable, then randomly assigned to treatments within each block', 'One extraneous variable (like age) is believed to matter so much that it can’t be left to chance', 'Same 18 volunteers, first blocked by age (young / middle-aged / older), then randomly assigned within each block'],
+              ['Matched pairs design', 'A special case of blocking with only two treatments: units are paired by similarity, then one treatment is randomly assigned to each pair member', 'Only two treatments are being compared, and pairing by similarity (or having each unit try both treatments) is possible', 'Sunscreen A vs. B, tested on pairs matched by age, skin type, and stress level']
+            ],
+            caption: 'All three designs still rest on the same four principles — comparison, randomization, replication, and direct control. Blocking (and its extreme case, matched pairs) just adds a guarantee that one specific extraneous variable won’t accidentally pile up in one treatment group.'
+          }
+        ]
+      },
+
+      /* ---------------- 5. GUIDED NOTES (fill in the blank) ---------------- */
+      {
+        type: 'fill-blank', id: 'guided-notes', label: 'Section 05 — Guided Notes',
+        heading: 'Fill in the <span class="underline sample">guided notes</span>.',
+        body: 'Same idea as the printable guided notes — but pick each answer from a dropdown. Submit to check; anything wrong turns red so you can try once more before the answer is revealed.',
+        items: [
+          { segments: [
+            'Every well-designed experiment needs four things: comparison of at least two treatment groups, random ',
+            { id:'b1', answer:'assignment', options:['assignment','selection','sampling'] },
+            ' of those treatments, ',
+            { id:'b2', answer:'replication', options:['replication','blinding','blocking'] },
+            ' — more than one experimental unit per treatment — and direct control of extraneous variables the researcher can manage.'
+          ]},
+          { segments: [
+            'All experimental units should be treated the ',
+            { id:'b3', answer:'same', options:['same','differently','randomly'] },
+            ' other than the treatment they are purposely given — any unplanned difference between groups can become a confounding variable.'
+          ]},
+          { segments: [
+            'A variable that is believed to affect the response but is outside the researcher’s control, like age or genetics, is called an ',
+            { id:'b4', answer:'extraneous variable', options:['extraneous variable','explanatory variable','control group'] },
+            '; random assignment helps spread it evenly across every treatment group.'
+          ]},
+          { segments: [
+            'In a ',
+            { id:'b5', answer:'single-blind', options:['single-blind','double-blind','matched'] },
+            ' experiment, subjects don’t know their treatment; in a double-blind experiment, neither the subjects nor the researchers measuring them know.'
+          ]},
+          { segments: [
+            'A fake, inactive treatment given to a control group so that everyone feels like they received something is called a ',
+            { id:'b6', answer:'placebo', options:['placebo','blocking variable','extraneous variable'] },
+            ', and it controls for the ',
+            { id:'b7', answer:'placebo effect', options:['placebo effect','confounding variable','direct control'] },
+            '.'
+          ]},
+          { segments: [
+            'A ',
+            { id:'b8', answer:'randomized block design', options:['randomized block design','completely randomized design','matched pairs design'] },
+            ' first groups experimental units by a shared value of an important extraneous variable, then randomly assigns treatments within each group.'
+          ]},
+          { segments: [
+            'A matched pairs design is a special case of blocking that only works with exactly ',
+            { id:'b9', answer:'two', options:['two','three','four'] },
+            ' treatments, since each pair has exactly two members (or one member who tries both).'
+          ]}
+        ]
+      },
+
+      /* ---------------- 6. WORKED EXAMPLES ---------------- */
+      {
+        type: 'examples', id: 'examples', label: 'Section 06 — Worked Examples',
+        heading: 'Read the design. <span class="underline teal">Spot the principle.</span>',
+        body: 'These reference the vitamin D and sunscreen studies in Sections 03–04 above. Click each one open, work it out, then check your answer.',
+        items: [
+          {
+            q: 'The vitamin D study uses three groups: 50 mg, 100 mg, and a placebo, with 18 volunteers. Which of the four principles is at risk if only 1–2 people are in each group, and why does it matter?',
+            fields: [
+              { k: 'Principle at risk', v: 'Replication' },
+              { k: 'Why it matters', v: 'With only 1–2 people per group, natural person-to-person differences (one person’s stress, diet, or genetics) could easily be mistaken for a treatment effect — more subjects per group let those individual differences average out' }
+            ]
+          },
+          {
+            q: 'In that same vitamin D study, why must every volunteer take their pill the exact same way (e.g. the same time of day, with the same amount of water)?',
+            fields: [
+              { k: 'Concept', v: 'Direct control' },
+              { k: 'Why', v: 'If one group took their pill with food and another on an empty stomach, that difference — not the vitamin D dose — could explain any difference in blood pressure' }
+            ]
+          },
+          {
+            q: 'Why would a researcher choose a randomized block design over a completely randomized design for this same experiment?',
+            fields: [
+              { k: 'Reason', v: 'If age is believed to strongly affect blood pressure, leaving it to chance in a completely randomized design risks an uneven split — e.g. mostly older volunteers landing in one group by luck' },
+              { k: 'What blocking guarantees', v: 'Blocking by age first, then randomly assigning within each age block, guarantees every treatment group gets the same age mix, every time' }
+            ]
+          },
+          {
+            q: 'Using the matched-pairs sunscreen study above, why can’t the researcher blame age, skin type, or stress for any difference between Sunscreen A and B?',
+            fields: [
+              { k: 'Reason', v: 'Within every pair, both people were matched to be identical on age, skin type, and stress — so those variables can’t differ systematically between everyone who used Sunscreen A and everyone who used Sunscreen B' },
+              { k: 'What’s left', v: 'The only systematic difference across the whole study is which sunscreen each person used — exactly what a matched-pairs design is built to isolate' }
+            ]
+          },
+          {
+            q: 'A fertilizer study gives 30 plots of grass either Fertilizer A or Fertilizer B, with random assignment of which plot gets which. Can the researcher claim Fertilizer A causes better growth? Can the results be generalized to all grass everywhere?',
+            fields: [
+              { k: 'Cause-and-effect?', v: 'Yes — random assignment of the fertilizer treatment supports a cause-and-effect claim' },
+              { k: 'Generalization', v: 'Only to grass similar to these 30 plots (same grass type, climate, etc.), unless the plots were also randomly selected from a larger, more diverse population of grass' }
+            ]
+          },
+          {
+            q: 'A blood-pressure study is single-blind: volunteers don’t know if they got the pill or the placebo, but the nurse recording their blood pressure knows which group each person is in. What upgrade would make this double-blind, and why would it matter?',
+            fields: [
+              { k: 'Upgrade', v: 'Also keep the nurse (or whoever measures blood pressure) unaware of which treatment each volunteer received' },
+              { k: 'Why it matters', v: 'If the nurse knows who got the real pill, they might unconsciously measure or record blood pressure differently — double-blinding removes that source of bias from both sides' }
+            ]
+          }
+        ]
+      },
+
+      /* ---------------- 7. FLASHCARDS ---------------- */
+      {
+        type: 'flashcards', id: 'flashcards', label: 'Section 07 — Flashcards',
+        heading: 'See the clue. <span class="underline sample">Name the term.</span>',
+        body: 'Front shows a short scenario or definition clue. Flip to check yourself, then mark whether you knew it.',
+        items: [
+          { prompt: 'An experiment has only one group, and everyone gets the same treatment. What principle is missing?', term: 'Comparison', detail: 'Without at least two treatment groups, there’s nothing to compare the result against.' },
+          { prompt: 'Who gets which treatment must be decided this way, so extraneous variables get spread evenly across groups.', term: 'Random assignment', detail: 'The mechanism that makes groups similar in every way except the treatment.' },
+          { prompt: 'Only 2 subjects are used per treatment group. Why is that a problem?', term: 'Not enough replication', detail: 'With too few subjects, ordinary person-to-person variability can look like a real treatment effect.' },
+          { prompt: 'Every subject takes their pill with the same amount of water, at the same time of day.', term: 'Direct control', detail: 'Holding a controllable extraneous variable constant across every group.' },
+          { prompt: 'Subjects don’t know their treatment, but the researchers measuring them do.', term: 'Single-blind', detail: 'Double-blind means neither subjects nor the researchers interacting with them know.' },
+          { prompt: 'A fake, inactive treatment given to the control group so everyone feels like they’re getting something.', term: 'Placebo', detail: 'Controls for the placebo effect — the fact that just believing you got treatment can change your response.' },
+          { prompt: 'Subjects are first grouped by age, then randomly assigned to treatments within each age group.', term: 'Randomized block design', detail: 'Guarantees every treatment group gets the same mix of the blocking variable.' },
+          { prompt: 'Only two treatments exist, and subjects are paired up by similarity before one of each pair gets each treatment.', term: 'Matched pairs design', detail: 'A special case of blocking, limited to exactly two treatments.' }
+        ]
+      },
+
+      /* ---------------- 8. QUIZ ---------------- */
+      {
+        type: 'quiz', id: 'quiz', label: 'Section 08 — Quiz',
+        heading: 'Test yourself. <span class="underline">No pressure.</span>',
+        body: 'Ten questions pulled straight from the lesson’s examples. Your best score is saved.',
+        questions: [
+          { q: 'Which of the four principles of good experimental design requires at least two treatment groups?', opts: ['Randomization', 'Comparison', 'Replication', 'Direct control'], correct: 1, exp: 'Comparison means having at least two treatment groups to compare against each other.' },
+          { q: 'What does random assignment specifically accomplish?', opts: ['It guarantees every treatment group is exactly the same size', 'It eliminates the need for a control group', 'It spreads extraneous variables evenly across all treatment groups', 'It removes the need for replication'], correct: 2, exp: 'Random assignment scatters extraneous variables across groups so groups differ mainly in the treatment received.' },
+          { q: 'Why does replication (multiple subjects per treatment) matter?', opts: ['It helps average out natural person-to-person variability, making a true treatment effect easier to detect', 'It guarantees a cause-and-effect conclusion by itself', 'It removes the need for random assignment', 'It is only useful in observational studies'], correct: 0, exp: 'More subjects per group let ordinary individual differences average out.' },
+          { q: 'Making sure every subject takes their pill with the exact same amount of water at the same time of day is an example of:', opts: ['Blocking', 'Blinding', 'Replication', 'Direct control'], correct: 3, exp: 'Deliberately holding a controllable extraneous variable constant is direct control.' },
+          { q: 'In a double-blind experiment:', opts: ['Only the subjects are unaware of their treatment', 'Neither the subjects nor the researchers who interact with them know who got which treatment', 'Only the researchers are unaware of the treatments', 'No one, including the lead investigator, is ever informed of the results'], correct: 1, exp: 'Double-blind means both subjects and the researchers interacting with them are kept unaware.' },
+          { q: 'A placebo is used mainly to:', opts: ['Increase the sample size', 'Replace the need for random assignment', 'Control for the placebo effect by making every subject feel like they received a treatment', 'Guarantee a cause-and-effect conclusion'], correct: 2, exp: 'A placebo controls for the placebo effect — the response difference from simply believing you got treatment.' },
+          { q: 'A randomized block design is chosen over a completely randomized design when:', opts: ['No extraneous variable is expected to matter', 'The experiment has only two treatments', 'Subjects can be matched into pairs', 'One extraneous variable is believed to matter so much it shouldn’t be left to chance'], correct: 3, exp: 'Blocking guarantees an even split of a specific extraneous variable, rather than trusting pure chance.' },
+          { q: 'A matched pairs design is a special case of blocking that is limited to:', opts: ['Exactly two treatments', 'Exactly two blocking variables', 'Exactly two experimental units total', 'Exactly two researchers'], correct: 0, exp: 'Matched pairs only works when comparing exactly two treatments.' },
+          { q: 'Eighteen volunteers are randomly split into three vitamin D dosage groups with no blocking at all. This is a:', opts: ['Randomized block design', 'Completely randomized design', 'Matched pairs design', 'Observational study'], correct: 1, exp: 'Randomly assigning treatments with no blocking first is a completely randomized design.' },
+          { q: 'Eighteen volunteers are first grouped by age (young / middle / older), then randomly assigned to one of three vitamin D dosage groups within each age group. This is a:', opts: ['Completely randomized design', 'Matched pairs design', 'Randomized block design', 'A convenience sample'], correct: 2, exp: 'Grouping by an extraneous variable first, then randomizing within each group, is a randomized block design.' }
+        ]
+      },
+
+      /* ---------------- 9. TAKEAWAYS ---------------- */
+      {
+        type: 'takeaways', id: 'takeaways', label: 'Section 09 — Takeaways',
+        heading: 'Five things to <span class="underline gold">actually remember</span>.',
+        items: [
+          { num: 'i.', title: 'Four non-negotiable principles', body: 'Comparison, randomization, replication, and direct control — every well-designed experiment needs all four.' },
+          { num: 'ii.', title: 'Treat every group the same, except the treatment', body: 'Any unplanned difference between groups can become a confounding variable that explains the result instead of the treatment.' },
+          { num: 'iii.', title: 'Blinding and placebos control the mind', body: 'Only needed with human subjects — the placebo effect is real, and blinding keeps both subjects and researchers from unconsciously skewing results.' },
+          { num: 'iv.', title: 'Block when one variable matters too much to risk', body: 'Blocking guarantees an even split of that one variable across every treatment group, instead of trusting pure chance.' },
+          { num: 'v.', title: 'Matched pairs is blocking taken to the extreme', body: 'Pairs (or a subject matched with themselves) are made as similar as possible — but it only works with exactly two treatments.' }
+        ]
+      }
+    ],
+
+    homework: {
+      estTime: '~30 min',
+      questions: [
+        { q: 'An experiment gives every single subject the identical treatment, with no comparison group. Which principle is violated?', opts: ['Comparison', 'Randomization', 'Replication', 'Direct control'], correct: 0, exp: 'Without at least two treatment groups, there is no comparison to draw a conclusion from.' },
+        { q: 'Which of the following best describes what random assignment accomplishes in an experiment?', opts: ['It guarantees equal sample sizes in every group', 'It spreads extraneous variables evenly across treatment groups so groups differ mainly in the treatment received', 'It eliminates the placebo effect entirely', 'It replaces the need for a control group'], correct: 1, exp: 'Random assignment is the mechanism that scatters extraneous variables across groups.' },
+        { q: 'A drug trial uses only 2 subjects per treatment group instead of 200. What principle is being shortchanged?', opts: ['Comparison', 'Direct control', 'Replication', 'Blinding'], correct: 2, exp: 'Too few subjects per group means individual variability isn’t averaged out — that’s a replication problem.' },
+        { q: 'Giving every plant in a fertilizer study exactly 100 mL of water on the same schedule is an example of:', opts: ['Blocking', 'Blinding', 'Randomization', 'Direct control'], correct: 3, exp: 'Holding a controllable extraneous variable (watering) constant across all groups is direct control.' },
+        { q: 'A single-blind experiment means:', opts: ['Subjects do not know which treatment they received', 'Neither subjects nor researchers know who got which treatment', 'Only the statistician is unaware of the results', 'The experiment has only one treatment group'], correct: 0, exp: 'Single-blind keeps only the subjects unaware of their treatment.' },
+        { q: 'A double-blind experiment means:', opts: ['Only subjects are kept unaware of their treatment', 'Neither the subjects nor the researchers who interact with them know who got which treatment', 'The experiment must have exactly two treatment groups', 'The results are announced twice, for verification'], correct: 1, exp: 'Double-blind keeps both subjects and the researchers who interact with them unaware.' },
+        { q: 'A control group that receives a fake, inactive treatment instead of nothing at all helps control for:', opts: ['Replication error', 'Random assignment bias', 'The placebo effect', 'Blocking variation'], correct: 2, exp: 'A placebo is used specifically to control for the placebo effect.' },
+        { q: 'A weight-loss study gives 60 volunteers either a real supplement or a placebo, with random assignment and no blocking. This design is:', opts: ['Randomized block design', 'Matched pairs design', 'An observational study', 'A completely randomized design'], correct: 3, exp: 'Random assignment with no blocking is a completely randomized design.' },
+        { q: 'Researchers believe stress level strongly affects the outcome of a study, so they first group subjects into low-stress and high-stress blocks, then randomly assign treatments within each block. This is:', opts: ['A randomized block design', 'A completely randomized design', 'A matched pairs design', 'A convenience sample'], correct: 0, exp: 'Grouping by an extraneous variable first, then randomizing within each group, is a randomized block design.' },
+        { q: 'A matched pairs design can only be used when there are:', opts: ['Three or more treatments', 'Exactly two treatments', 'No extraneous variables at all', 'At least 100 subjects'], correct: 1, exp: 'Matched pairs is limited to comparing exactly two treatments.' },
+        { q: 'Two subjects, matched because they are the same age, gender, and skin type, are randomly split so one gets Sunscreen A and the other Sunscreen B. This is an example of:', opts: ['A completely randomized design', 'A randomized block design with three blocks', 'A matched pairs design', 'An observational study'], correct: 2, exp: 'Pairing similar subjects and randomly assigning one of two treatments to each is a matched pairs design.' },
+        { q: 'A study has each subject try both treatments — for example, one arm gets Sunscreen A and the other arm gets Sunscreen B, in random order. This is:', opts: ['A completely randomized design', 'An observational study', 'Not a valid experimental design', 'A matched pairs design, using each subject as their own match'], correct: 3, exp: 'When a subject serves as their own comparison, that’s still a valid matched pairs design.' },
+        { q: 'Why is it a problem if one treatment group in an experiment happens to contain mostly older subjects, purely by chance?', opts: ['Age could become a confounding variable, making it unclear whether the treatment or age caused the result', 'It is never a problem, since randomization always produces perfectly equal groups', 'It only matters if the study is observational', 'It automatically invalidates any cause-and-effect claim, with no fix possible'], correct: 0, exp: 'An uneven age split risks age becoming a confounding variable.' },
+        { q: 'What is the best fix for the risk described in the previous question, if age is believed to matter a lot?', opts: ['Only use volunteers of one specific age', 'Use a randomized block design, blocking on age before randomly assigning treatments', 'Remove random assignment entirely', 'Skip replication to save time'], correct: 1, exp: 'Blocking on the variable of concern guarantees it can’t pile up unevenly in one group.' },
+        { q: 'Why must experimental units be treated identically other than the treatment they are given?', opts: ['To reduce the total sample size needed', 'Because it is required for a study to legally be called an experiment', 'Otherwise, any unplanned difference between groups could become a confounding variable that explains the result instead of the treatment', 'Because otherwise the study cannot be double-blind'], correct: 2, exp: 'Any unplanned difference between groups threatens to explain the result instead of the treatment.' },
+        { q: 'A drug company tests a new medication using 500 volunteers randomly assigned to drug or placebo groups, both taking identical-looking pills, with neither subjects nor the nurses recording symptoms told who got what. Which principle(s) are most clearly present here?', opts: ['Comparison only', 'Replication only', 'Direct control only', 'Randomization, replication, and double-blinding all together'], correct: 3, exp: 'This description shows random assignment, a large sample (replication), and double-blinding all working together.' },
+        { q: 'A study is described as testing "whether listening to music while studying improves test scores," using 3 groups: classical music, white noise, and silence. What role does the silence group play?', opts: ['It serves as a control group for comparison', 'It is the only group that matters', 'It eliminates the need for random assignment', 'It represents a blocking variable'], correct: 0, exp: 'The silence group is the baseline the other two groups get compared against.' },
+        { q: 'Why might a researcher use a placebo instead of giving the control group nothing at all?', opts: ['A placebo increases the required sample size', 'Without a placebo, the control group might respond differently just from knowing they got nothing, muddying the comparison', 'A placebo guarantees a cause-and-effect conclusion', 'A placebo replaces the need for randomization'], correct: 1, exp: 'A placebo keeps the control group from responding differently simply because they know they got nothing.' },
+        { q: 'A nutrition study wants to compare two diets, and can pair up siblings living in the same household for the comparison. Why might this make a matched pairs design attractive?', opts: ['Because it eliminates the need for any randomization at all', 'Because it guarantees a bigger sample size', 'Because siblings sharing a household are likely similar in many extraneous variables (diet history, environment), isolating the effect of which diet they’re assigned', 'Because pairs are always cheaper to recruit than individuals'], correct: 2, exp: 'Matching on shared household traits removes those traits as possible explanations for any difference found.' },
+        { q: 'Which of the three experimental designs discussed in this topic still requires random assignment of treatments?', opts: ['Only the completely randomized design', 'Only the randomized block design', 'Only the matched pairs design', 'All three — comparison, randomization, replication, and direct control apply to every design'], correct: 3, exp: 'All three designs are built on the same four principles; they only differ in how they handle extraneous variables.' }
       ]
     }
   }

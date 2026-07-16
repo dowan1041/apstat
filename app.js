@@ -742,6 +742,8 @@ function renderSection(sec, mount, chapterId){
     case 'quiz': return renderQuiz(sec, mount, chapterId);
     case 'takeaways': return renderTakeaways(sec, mount);
     case 'chart': return renderChart(sec, mount);
+    case 'compare-table': return renderCompareTable(sec, mount);
+    case 'flow': return renderFlow(sec, mount);
   }
 }
 
@@ -1187,6 +1189,105 @@ function svgDotPlot(data, opts){
   </svg>`;
 }
 
+/* ---- z-score number line (mean, sd, and one marked value) ---- */
+function svgZScoreLine(spec, opts){
+  opts = opts || {};
+  const mean = spec.mean, sd = spec.sd, value = spec.value;
+  const decimals = spec.decimals !== undefined ? spec.decimals : (Number.isInteger(mean) && Number.isInteger(sd) && Number.isInteger(value) ? 0 : 1);
+  const z = (value - mean) / sd;
+  const spread = Math.max(3.5, Math.abs(z) + 0.6);
+  const axisMin = mean - spread*sd, axisMax = mean + spread*sd;
+  const pad = 24, plotW = 440, padT = 54, padB = 34;
+  const w = pad*2 + plotW;
+  const axisY = padT + 70;
+  const h = axisY + padB;
+  const xScale = v => pad + (v-axisMin)/(axisMax-axisMin)*plotW;
+  const bandOpacities = [0.10, 0.17, 0.26]; /* widest (3sd) first, narrowest (1sd) painted last/darkest */
+  const bands = [3,2,1].map((k,i)=>{
+    const x0 = xScale(mean - k*sd), x1 = xScale(mean + k*sd);
+    return `<rect x="${x0}" y="${padT}" width="${x1-x0}" height="${axisY-padT}" fill="var(--population)" fill-opacity="${bandOpacities[i]}"/>`;
+  }).join('');
+  const ticks = [];
+  for(let k=-3;k<=3;k++){
+    const v = mean + k*sd;
+    const x = xScale(v);
+    const vLabel = decimals ? v.toFixed(decimals) : Math.round(v);
+    const zLabel = (k===0 ? '0' : (k>0?'+':'') + k) + 'σ';
+    ticks.push(`<line x1="${x}" y1="${axisY}" x2="${x}" y2="${axisY+5}" stroke="var(--line)" stroke-width="1.5"/>
+      <text x="${x}" y="${axisY+18}" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="11" fill="var(--ink-soft)">${vLabel}</text>
+      <text x="${x}" y="${axisY+30}" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="9.5" fill="var(--ink-faint)">${zLabel}</text>`);
+  }
+  const meanX = xScale(mean);
+  const valX = xScale(value);
+  const labelY = padT - 14;
+  const zText = `z = ${z>=0?'+':''}${z.toFixed(2)}`;
+  const decOrRound = n => decimals ? n.toFixed(decimals) : Math.round(n);
+  const valueLabel = (spec.label ? spec.label + ': ' : '') + decOrRound(value) + (spec.unit||'');
+  return `<svg viewBox="0 0 ${w} ${h}" width="100%" height="${h}" style="max-width:${w}px;display:block;margin:0 auto;">
+    ${bands}
+    <line x1="${pad}" y1="${axisY}" x2="${pad+plotW}" y2="${axisY}" stroke="var(--line)" stroke-width="1.5"/>
+    ${ticks.join('')}
+    <line x1="${meanX}" y1="${padT}" x2="${meanX}" y2="${axisY}" stroke="var(--ink-soft)" stroke-width="1.5" stroke-dasharray="3,3"/>
+    <text x="${meanX}" y="${padT-38}" text-anchor="middle" font-family="Plus Jakarta Sans, sans-serif" font-size="10.5" fill="var(--ink-soft)">mean = ${decOrRound(mean)}${spec.unit||''}</text>
+    <line x1="${valX}" y1="${axisY}" x2="${valX}" y2="${padT}" stroke="var(--sample)" stroke-width="1.5" stroke-dasharray="3,3"/>
+    <circle cx="${valX}" cy="${axisY}" r="6.5" fill="var(--sample)"/>
+    <text x="${valX}" y="${labelY}" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="12.5" font-weight="700" fill="var(--sample)">${zText}</text>
+    <text x="${valX}" y="${labelY-16}" text-anchor="middle" font-family="Plus Jakarta Sans, sans-serif" font-size="10.5" fill="var(--ink-soft)">${valueLabel}</text>
+  </svg>`;
+}
+
+/* ---- population/dot grid (a population of colored dots, some selected as a sample) ---- */
+function svgPopulationGrid(spec, opts){
+  opts = opts || {};
+  const cols = spec.cols;
+  const cells = spec.cells;
+  const rows = Math.ceil(cells.length / cols);
+  const r = 11, gap = 30, pad = 20;
+  const legendH = spec.legend ? 30 : 0;
+  const w = pad*2 + (cols-1)*gap + r*2;
+  const h = pad*2 + (rows-1)*gap + r*2 + legendH;
+  const dots = cells.map((cell,i)=>{
+    const row = Math.floor(i/cols), col = i%cols;
+    const cx = pad + r + col*gap;
+    const cy = pad + r + row*gap;
+    const color = chartColor(cell.group);
+    if(cell.selected){
+      return `<circle cx="${cx}" cy="${cy}" r="${r}" fill="${color}" stroke="var(--ink)" stroke-width="2.25"/>`;
+    }
+    return `<circle cx="${cx}" cy="${cy}" r="${r-1.5}" fill="${color}" fill-opacity="0.22" stroke="${color}" stroke-opacity="0.4" stroke-width="1"/>`;
+  }).join('');
+  const legend = (spec.legend||[]).map(l=>`<span class="chart-legend-item"><span class="chart-legend-swatch" style="background:${chartColor(l.group)}; border-radius:50%;"></span>${l.label}</span>`).join('');
+  const legendEl = spec.legend ? `<div class="chart-legend">${legend}</div>` : '';
+  return `<div class="chart-pie-wrap">
+    <svg viewBox="0 0 ${w} ${h-legendH}" width="100%" height="${h-legendH}" style="max-width:${w}px;display:block;margin:0 auto;">${dots}</svg>
+    ${legendEl}
+  </div>`;
+}
+
+/* ---- matched pairs (rows of two linked circles, one pair per row) ---- */
+function svgMatchedPairs(spec, opts){
+  opts = opts || {};
+  const pairs = spec.pairs;
+  const rowH = 50, pad = 22, circleR = 14, gapWithinPair = 66, padT = 14;
+  const hasNotes = pairs.some(p=>p.note);
+  const w = pad*2 + gapWithinPair + circleR*2 + (hasNotes ? 210 : 0);
+  const h = padT*2 + pairs.length*rowH;
+  const rows = pairs.map((p,i)=>{
+    const y = padT + i*rowH + rowH/2;
+    const x1 = pad + circleR, x2 = x1 + gapWithinPair;
+    const color = chartColor(p.group||0);
+    const noteEl = p.note ? `<text x="${x2+circleR+16}" y="${y+4}" font-family="Plus Jakarta Sans, sans-serif" font-size="11.5" fill="var(--ink-soft)">${p.note}</text>` : '';
+    return `
+      <line x1="${x1}" y1="${y}" x2="${x2}" y2="${y}" stroke="var(--line)" stroke-width="2"/>
+      <circle cx="${x1}" cy="${y}" r="${circleR}" fill="${color}" stroke="var(--population)" stroke-width="2.5"/>
+      <text x="${x1}" y="${y+4}" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="10.5" font-weight="700" fill="#fff">A</text>
+      <circle cx="${x2}" cy="${y}" r="${circleR}" fill="${color}" stroke="var(--sample)" stroke-width="2.5"/>
+      <text x="${x2}" y="${y+4}" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="10.5" font-weight="700" fill="#fff">B</text>
+      ${noteEl}`;
+  }).join('');
+  return `<svg viewBox="0 0 ${w} ${h}" width="100%" height="${h}" style="max-width:${w}px;display:block;margin:0 auto;">${rows}</svg>`;
+}
+
 /* ---- box plot (single or parallel, from a five-number summary) ---- */
 function niceStep(range){
   const rough = range/6;
@@ -1283,12 +1384,53 @@ function renderChart(sec, mount){
       case 'dotplot': body = svgDotPlot(it.data, it.opts || {}); break;
       case 'boxplot': body = svgBoxPlot(it.groups, it.opts || {}); break;
       case 'stemplot': body = renderStemplot(it); break;
+      case 'zscoreline': body = svgZScoreLine(it.spec, it.opts || {}); break;
+      case 'populationgrid': body = svgPopulationGrid(it.spec, it.opts || {}); break;
+      case 'matchedpairs': body = svgMatchedPairs(it.spec, it.opts || {}); break;
       default: body = svgBarChart(it.data, { mode: it.mode || 'count' });
     }
     card.innerHTML = `<h4>${it.title}</h4><div class="chart-svg-wrap">${body}</div>` + (it.caption ? `<p class="chart-caption">${it.caption}</p>` : '');
     grid.appendChild(card);
   });
   mount.appendChild(grid);
+}
+
+/* ---- comparison table(s) ---- */
+function renderCompareTable(sec, mount){
+  const wrap = document.createElement('div');
+  wrap.className = 'compare-table-list';
+  sec.items.forEach(it=>{
+    const card = document.createElement('div');
+    card.className = 'compare-table-wrap';
+    const theadCells = it.headers.map(hh=>`<th>${hh}</th>`).join('');
+    const bodyRows = it.rows.map(row=>`<tr>${row.map(c=>`<td>${c}</td>`).join('')}</tr>`).join('');
+    card.innerHTML = (it.title ? `<h4>${it.title}</h4>` : '') +
+      `<div class="compare-table-scroll"><table class="compare-table"><thead><tr>${theadCells}</tr></thead><tbody>${bodyRows}</tbody></table></div>` +
+      (it.caption ? `<p class="chart-caption">${it.caption}</p>` : '');
+    wrap.appendChild(card);
+  });
+  mount.appendChild(wrap);
+}
+
+/* ---- decision-flow diagram: a question with 2-3 labeled branches, each stacking outcome cards ---- */
+function renderFlow(sec, mount){
+  const wrap = document.createElement('div');
+  wrap.className = 'flow-list';
+  sec.items.forEach(it=>{
+    const card = document.createElement('div');
+    card.className = 'flow-card';
+    const branches = it.branches.map(b=>{
+      const outcomes = b.outcomes.map(o=>`<div class="flow-outcome"><strong>${o.title}</strong><p>${o.body}</p></div>`).join('');
+      return `<div class="flow-branch">
+        <span class="flow-branch-label flow-tone-${b.tone||'neutral'}">${b.label}</span>
+        <span class="flow-arrow" aria-hidden="true">&darr;</span>
+        <div class="flow-outcomes">${outcomes}</div>
+      </div>`;
+    }).join('');
+    card.innerHTML = `<div class="flow-question">${it.question}</div><div class="flow-branch-row">${branches}</div>`;
+    wrap.appendChild(card);
+  });
+  mount.appendChild(wrap);
 }
 
 /* ---------------- BACK TO TOP ---------------- */
