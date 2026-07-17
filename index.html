@@ -390,6 +390,10 @@ section.sec{margin-bottom:3.4rem; scroll-margin-top:90px;}
 .hw-hero h1{margin-bottom:.7rem;}
 #hwTeacherKeyWrap:empty{display:none;}
 #hwTeacherKeyWrap{margin-top:1.2rem;}
+.hw-status-banner{font-family:'JetBrains Mono',monospace; font-size:.82rem; padding:.8rem 1.1rem; border-radius:10px; margin-top:1.2rem;}
+.hw-status-banner:empty{display:none; padding:0; margin:0;}
+.hw-status-banner.pending{background:var(--gold-wash); color:var(--gold); border:1px solid var(--gold);}
+.hw-status-banner.confirmed{background:var(--population-wash); color:var(--population); border:1px solid var(--population);}
 .hw-flag-summary{font-family:'JetBrains Mono',monospace; font-size:.8rem; color:var(--gold); margin-top:1rem;}
 .hw-flag-summary:empty{display:none;}
 .hw-q{background:var(--card); border:1px solid var(--line); border-radius:14px; padding:1.3rem 1.4rem; margin-bottom:1rem; box-shadow:var(--shadow-sm); border-left:1px solid var(--line);}
@@ -419,6 +423,11 @@ section.sec{margin-bottom:3.4rem; scroll-margin-top:90px;}
 .hw-opt:hover{border-color:var(--population-line);}
 .hw-opt.selected{background:var(--population-wash); border-color:var(--population); color:var(--population); font-weight:500;}
 .hw-opt.selected .hw-opt-letter{color:var(--population);}
+.hw-opt.correct{background:var(--population-wash); border-color:var(--population); color:var(--population); font-weight:500;}
+.hw-opt.correct .hw-opt-letter{color:var(--population);}
+.hw-opt.wrong{background:var(--sample-wash); border-color:var(--sample); color:var(--sample); font-weight:500;}
+.hw-opt.wrong .hw-opt-letter{color:var(--sample);}
+.hw-q-exp{background:var(--paper-deep); border-radius:10px; padding:.8rem 1rem; font-size:.85rem; color:var(--ink-soft); margin-top:.9rem;}
 .hw-submit-row{display:flex; align-items:center; gap:1rem; flex-wrap:wrap; margin:1.6rem 0 3rem;}
 .hw-submit-msg{font-family:'JetBrains Mono',monospace; font-size:.82rem; color:var(--population);}
 
@@ -626,6 +635,28 @@ html.auth-pending .wrap{display:none !important;}
 .rp-quiz-row .rq-title{flex:1 1 auto; color:var(--ink-soft); overflow:hidden; text-overflow:ellipsis; white-space:nowrap;}
 .rp-quiz-row .rq-score{flex:none; font-variant-numeric:tabular-nums; color:var(--ink-muted);}
 .rp-quiz-row .rq-score.pass{color:var(--population); font-weight:600;}
+.rp-quiz-row .rq-score.pending{color:var(--gold);}
+.rp-hw-row-link{cursor:pointer; border-radius:8px; transition:background .15s;}
+.rp-hw-row-link:hover{background:var(--population-wash);}
+.rp-hw-block{margin-bottom:.3rem;}
+.rp-hw-row-teacher{flex-wrap:wrap;}
+.hw-review-toggle{
+  flex:none; font-family:'JetBrains Mono',monospace; font-size:.72rem; font-weight:600;
+  padding:.3rem .65rem; border-radius:8px; border:1px solid var(--line); background:var(--paper-deep);
+  color:var(--ink-soft); cursor:pointer; transition:all .15s;
+}
+.hw-review-toggle:hover{border-color:var(--population-line); color:var(--population); background:var(--population-wash);}
+.hw-review-panel{padding:.7rem .9rem 1rem; margin:.2rem 0 .7rem; border:1px dashed var(--line); border-radius:12px; background:var(--paper-deep);}
+.hw-review-panel[hidden]{display:none;}
+.hw-review-badge{font-family:'JetBrains Mono',monospace; font-size:.74rem; color:var(--ink-muted); margin-bottom:.6rem;}
+.hw-review-q{padding:.6rem 0; border-bottom:1px dashed var(--line-soft); font-size:.85rem;}
+.hw-review-q:last-of-type{border-bottom:none;}
+.hw-review-q-text{color:var(--ink); margin-bottom:.3rem;}
+.hw-review-q-answer{color:var(--ink-muted);}
+.hw-review-q.is-correct .hw-review-q-answer{color:var(--population);}
+.hw-review-q.is-wrong .hw-review-q-answer{color:var(--sample);}
+.hw-review-q-correct{color:var(--population); margin-top:.15rem;}
+.hw-confirm-btn{margin-top:.8rem;}
 .rp-student-row{
   display:flex; align-items:center; justify-content:space-between; gap:.8rem; padding:.7rem .9rem;
   border:1px solid var(--line); border-radius:12px; margin-bottom:.6rem; cursor:pointer; background:var(--card);
@@ -770,6 +801,7 @@ html.auth-pending .wrap{display:none !important;}
       <h1 id="hwTitle" style="margin-top:.4rem;"></h1>
       <p class="hub-sub" id="hwSub"></p>
       <div id="hwTeacherKeyWrap"></div>
+      <div class="hw-status-banner" id="hwStatusBanner"></div>
       <div class="hw-flag-summary" id="hwFlagSummary"></div>
     </div>
     <div id="hwQuestions"></div>

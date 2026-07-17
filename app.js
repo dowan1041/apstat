@@ -38,6 +38,24 @@ function saveProgress(p){
 }
 let PROGRESS = loadProgress();
 
+/* Homework confirmations: { chapterId: confirmed_at } for the signed-in
+   student's own homework. A row only exists once a teacher has reviewed
+   that chapter's submission and released the graded results — see
+   supabase/003_homework_confirmations.sql. Cloud-only; stays empty in
+   localStorage-only mode (no teacher/student split exists there). */
+let HW_CONFIRMATIONS = {};
+function isHwConfirmed(chapterId){ return !!HW_CONFIRMATIONS[chapterId]; }
+async function loadHwConfirmations(){
+  if(!CLOUD || !currentUser) return;
+  try{
+    const { data, error } = await sb.from('homework_confirmations')
+      .select('chapter_id, confirmed_at').eq('student_id', currentUser.id);
+    if(error){ console.warn('[hw] confirmations load failed:', error.message); return; }
+    HW_CONFIRMATIONS = {};
+    (data || []).forEach(row=>{ HW_CONFIRMATIONS[row.chapter_id] = row.confirmed_at; });
+  } catch(e){ console.warn('[hw] confirmations load error:', e); }
+}
+
 /* Hub view mode (cards / list) — a local UI preference, not study
    progress, so it's kept out of PROGRESS/Supabase sync entirely. */
 const HUB_VIEW_KEY = 'apstats-hub-view-mode';
@@ -126,6 +144,7 @@ async function enterApp(){
   hideGates();
   showUserChip();
   await loadCloudProgress();
+  await loadHwConfirmations();
   if(!hashListenerBound){
     window.addEventListener('hashchange', navigate);
     hashListenerBound = true;
@@ -289,7 +308,12 @@ function renderReportHero(progressObj, email){
     </div>`;
 }
 
-function renderReportSections(progressObj){
+function renderReportSections(progressObj, opts){
+  opts = opts || {};
+  const mode = opts.mode || 'self';
+  const confirmations = opts.confirmations || (mode === 'self' ? HW_CONFIRMATIONS : {});
+  const studentId = opts.studentId || null;
+
   const unitsHtml = UNITS.map(unit=>{
     const pct = unitPct(unit, progressObj);
     return `<div class="rp-unit-row">
@@ -315,10 +339,42 @@ function renderReportSections(progressObj){
     const p = (progressObj && progressObj[id]) || {};
     if(!p.homeworkDone) return '';
     const score = p.homeworkScore || 0;
-    return `<div class="rp-quiz-row">
-      <span class="rq-code">${ch.code.replace('Topic ','')}</span>
-      <span class="rq-title">${ch.title}</span>
-      <span class="rq-score ${score>=PASS_QUIZ_PCT?'pass':''}">${score}%</span>
+    const confirmed = !!confirmations[id];
+    const code = ch.code.replace('Topic ','');
+
+    if(mode === 'self'){
+      if(!confirmed){
+        return `<div class="rp-quiz-row">
+          <span class="rq-code">${code}</span>
+          <span class="rq-title">${ch.title}</span>
+          <span class="rq-score pending">Awaiting review</span>
+        </div>`;
+      }
+      return `<div class="rp-quiz-row rp-hw-row-link" onclick="closeReport(); goHomework('${id}')">
+        <span class="rq-code">${code}</span>
+        <span class="rq-title">${ch.title}</span>
+        <span class="rq-score ${score>=PASS_QUIZ_PCT?'pass':''}">${score}%</span>
+      </div>`;
+    }
+
+    // teacher mode: score is always visible to the teacher; a "Check
+    // answers" toggle reveals the per-question breakdown, with a confirm
+    // button that releases the graded result to the student.
+    const badgeText = confirmed
+      ? `Confirmed ✓ ${new Date(confirmations[id]).toLocaleDateString()}`
+      : 'Not yet released to student';
+    return `<div class="rp-hw-block">
+      <div class="rp-quiz-row rp-hw-row-teacher">
+        <span class="rq-code">${code}</span>
+        <span class="rq-title">${ch.title}</span>
+        <span class="rq-score ${score>=PASS_QUIZ_PCT?'pass':''}">${score}%</span>
+        <button type="button" class="hw-review-toggle" data-chapter="${id}">Check answers</button>
+      </div>
+      <div class="hw-review-panel" id="hwReviewPanel-${studentId}-${id}" hidden>
+        <div class="hw-review-badge" id="hwConfirmBadge-${studentId}-${id}">${badgeText}</div>
+        <div class="hw-review-questions"></div>
+        ${confirmed ? '' : `<button type="button" class="btn hw-confirm-btn" data-chapter="${id}">Confirm &amp; release to student</button>`}
+      </div>
     </div>`;
   }).filter(Boolean).join('');
 
@@ -344,6 +400,65 @@ function renderReportSections(progressObj){
     ${homeworkRows || '<div class="rp-empty">No homework submitted yet.</div>'}
     <div class="rp-sec-title">Flagged for review</div>
     ${flaggedRows || '<div class="rp-empty">No questions flagged yet.</div>'}`;
+}
+
+/* Per-question right/wrong breakdown for one student's homework
+   submission — teacher-only, rendered inside a .hw-review-panel. */
+function renderHomeworkGradeDetail(chapterId, progressObj){
+  const ch = CHAPTERS[chapterId];
+  const hw = ch && ch.homework;
+  if(!hw || !hw.questions || !hw.questions.length) return '<div class="rp-empty">No homework data.</div>';
+  const p = (progressObj && progressObj[chapterId]) || {};
+  const answers = p.homeworkAnswers || [];
+  return hw.questions.map((q, qi)=>{
+    const chosen = answers[qi];
+    const hasAnswer = chosen !== null && chosen !== undefined;
+    const isCorrect = hasAnswer && chosen === q.correct;
+    const chosenText = hasAnswer ? `${String.fromCharCode(65+chosen)}. ${q.opts[chosen]}` : '— no answer —';
+    return `<div class="hw-review-q ${isCorrect ? 'is-correct' : 'is-wrong'}">
+      <div class="hw-review-q-text"><b>Q${qi+1}.</b> ${q.q}</div>
+      <div class="hw-review-q-answer">${isCorrect ? '✓' : '✗'} Student answered: ${chosenText}</div>
+      ${!isCorrect ? `<div class="hw-review-q-correct">Correct answer: ${String.fromCharCode(65+q.correct)}. ${q.opts[q.correct]}</div>` : ''}
+    </div>`;
+  }).join('');
+}
+
+/* Wires up the "Check answers" toggles and "Confirm & release" buttons
+   inside a just-rendered teacher-mode renderReportSections() block. */
+function wireHomeworkReviewPanels(container, studentId, progressObj){
+  container.querySelectorAll('.hw-review-toggle').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      const chapterId = btn.dataset.chapter;
+      const panel = document.getElementById(`hwReviewPanel-${studentId}-${chapterId}`);
+      const opening = panel.hidden;
+      panel.hidden = !opening;
+      btn.textContent = opening ? 'Hide answers' : 'Check answers';
+      if(opening){
+        const qBox = panel.querySelector('.hw-review-questions');
+        if(qBox && !qBox.innerHTML) qBox.innerHTML = renderHomeworkGradeDetail(chapterId, progressObj);
+      }
+    });
+  });
+  container.querySelectorAll('.hw-confirm-btn').forEach(btn=>{
+    btn.addEventListener('click', async ()=>{
+      const chapterId = btn.dataset.chapter;
+      btn.disabled = true; btn.textContent = 'Confirming…';
+      try{
+        const { error } = await sb.rpc('confirm_homework', { p_student_id: studentId, p_chapter_id: chapterId });
+        if(error){
+          console.warn('[hw] confirm failed:', error.message);
+          btn.disabled = false; btn.textContent = 'Confirm & release to student';
+          return;
+        }
+        const badge = document.getElementById(`hwConfirmBadge-${studentId}-${chapterId}`);
+        if(badge) badge.textContent = 'Confirmed ✓ just now';
+        btn.remove();
+      } catch(e){
+        console.warn('[hw] confirm error:', e);
+        btn.disabled = false; btn.textContent = 'Confirm & release to student';
+      }
+    });
+  });
 }
 
 function renderFullReport(progressObj, email){
@@ -376,14 +491,25 @@ async function renderStudentsTab(){
       </div>`;
     }).join('');
     body.querySelectorAll('.rp-student-row').forEach(row=>{
-      row.addEventListener('click', ()=>{
+      row.addEventListener('click', async ()=>{
         const i = row.dataset.i;
         const detail = document.getElementById('studentDetail'+i);
         const opening = detail.hidden;
         body.querySelectorAll('.rp-student-detail').forEach(d=>d.hidden = true);
         if(opening){
-          detail.innerHTML = renderReportSections(data[i].progress || {});
           detail.hidden = false;
+          detail.innerHTML = '<div class="rp-empty">Loading…</div>';
+          const studentId = data[i].user_id;
+          const progress = data[i].progress || {};
+          let confirmations = {};
+          try{
+            const { data: rows, error } = await sb.from('homework_confirmations')
+              .select('chapter_id, confirmed_at').eq('student_id', studentId);
+            if(error) console.warn('[hw] student confirmations load failed:', error.message);
+            else (rows || []).forEach(r=>{ confirmations[r.chapter_id] = r.confirmed_at; });
+          } catch(e){ console.warn('[hw] student confirmations load error:', e); }
+          detail.innerHTML = renderReportSections(progress, { mode:'teacher', confirmations, studentId });
+          wireHomeworkReviewPanels(detail, studentId, progress);
         }
       });
     });
@@ -641,6 +767,20 @@ function renderHomework(id){
   while(answers.length < hw.questions.length) answers.push(null);
   const flagged = prog.homeworkFlagged.slice();
 
+  const confirmed = isHwConfirmed(id);
+  const showGrading = prog.homeworkDone && confirmed;
+  const banner = document.getElementById('hwStatusBanner');
+  if(showGrading){
+    banner.className = 'hw-status-banner confirmed';
+    banner.textContent = `Reviewed by your teacher — you scored ${prog.homeworkScore}%. Right and wrong answers are marked below.`;
+  } else if(prog.homeworkDone){
+    banner.className = 'hw-status-banner pending';
+    banner.textContent = "Submitted — your teacher hasn't reviewed this yet. Your score will appear here once they do.";
+  } else {
+    banner.className = 'hw-status-banner';
+    banner.textContent = '';
+  }
+
   const flagSummary = document.getElementById('hwFlagSummary');
   flagSummary.textContent = flagged.length
     ? `🚩 ${flagged.length} question${flagged.length===1?'':'s'} flagged for review.`
@@ -658,11 +798,18 @@ function renderHomework(id){
           <span class="flag-ico">🚩</span>${flagged.includes(qi) ? 'Flagged' : 'Not sure?'}
         </button>
       </div>
-      <div class="hw-opts">${q.opts.map((o,oi)=>
-        `<button type="button" class="hw-opt${answers[qi]===oi?' selected':''}" data-qi="${qi}" data-oi="${oi}">
+      <div class="hw-opts">${q.opts.map((o,oi)=>{
+        let cls = 'hw-opt';
+        if(answers[qi]===oi) cls += ' selected';
+        if(showGrading){
+          if(oi === q.correct) cls += ' correct';
+          else if(answers[qi]===oi) cls += ' wrong';
+        }
+        return `<button type="button" class="${cls}" data-qi="${qi}" data-oi="${oi}">
            <span class="hw-opt-letter">${String.fromCharCode(65+oi)}.</span><span>${o}</span>
-         </button>`
-      ).join('')}</div>`;
+         </button>`;
+      }).join('')}</div>
+      ${showGrading && q.exp ? `<div class="hw-q-exp">${q.exp}</div>` : ''}`;
     qBox.appendChild(card);
   });
   qBox.querySelectorAll('.hw-opt').forEach(btn=>{
@@ -670,7 +817,10 @@ function renderHomework(id){
       const qi = parseInt(btn.dataset.qi);
       const oi = parseInt(btn.dataset.oi);
       answers[qi] = oi;
-      qBox.querySelectorAll(`.hw-opt[data-qi="${qi}"]`).forEach(b=>b.classList.toggle('selected', b === btn));
+      qBox.querySelectorAll(`.hw-opt[data-qi="${qi}"]`).forEach(b=>{
+        b.classList.toggle('selected', b === btn);
+        b.classList.remove('correct','wrong'); // stale grading no longer applies once the student edits this question
+      });
     };
   });
   qBox.querySelectorAll('.hw-flag-btn').forEach(btn=>{
@@ -701,7 +851,16 @@ function renderHomework(id){
     prog.homeworkScore = Math.round(correct / hw.questions.length * 100);
     prog.homeworkDone = true;
     persist();
-    msg.textContent = 'Submitted ✓ — nice work. Your teacher can review your results.';
+    // Resubmitting invalidates any earlier teacher confirmation — the
+    // new answers need a fresh check before results reach the student.
+    if(CLOUD && currentUser && HW_CONFIRMATIONS[id]){
+      delete HW_CONFIRMATIONS[id];
+      sb.from('homework_confirmations').delete()
+        .eq('student_id', currentUser.id).eq('chapter_id', id)
+        .then(({error})=>{ if(error) console.warn('[hw] unconfirm failed:', error.message); });
+    }
+    renderHomework(id);
+    document.getElementById('hwSubmitMsg').textContent = 'Submitted ✓ — nice work. Your teacher can review your results.';
   };
 }
 
