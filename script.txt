@@ -1,1 +1,748 @@
-Hey stats stars, welcome to AP statistics. In this video, we'll be covering topic 1.4 over graphical representations for one categorical variable from the AP statistics course and exam description. Now, before we get started, be sure to download and print the guided notes that accompany this lesson. The guided notes are designed to help you actively follow along, organize the key concepts, and create a valuable study resource that you can use throughout the exam and preparing for the AP exam. You can find these guided notes along with study guides, practice worksheets, assessments, and many other AP statistics resources in the ultimate review packet for AP statistics. There's a link in the description below. Now, the objectives for this lesson are to construct categorical one variable graphical representations and justify a claim using a categorical one variable graphical representation. We're also going to compare categorical representations by looking at two different of those representations. Now, as we work through today's lesson, I'll explain the key concepts, demonstrate the correct procedures, and show you how these ideas are applied in AP statistics. And at the end of the lesson, we'll work through several practice problems so you can apply what we've learned and check your understanding. Let's get started with topic 1.4. So, when it comes to making graphs for one categorical variable, we pretty much have two options that I'm sure all of you have heard of. Number one being bar graphs and number two being pie charts. Let's talk about them right now and kind of look at them, even though this is a pretty simple topic. All right, so bar charts, also called bar graphs, display frequencies or counts. So, the bars are going to go up or down based on how many fall into that particular category. We could also have those bars go up or down based on the relative frequency, which remember is the proportion or percentage of the um observational units that are in that category. Okay, now each bar on the bar chart represents a category of the categorical variable of interest. The height or length of each bar corresponds to the frequency or relative frequency, as I just said. And we want to make sure we do is what we keep the width of the bars all the same. It wouldn't make sense to use different widths because that could be a little bit kind of a misunderstood if we look at the graph. So, we want to make sure the widths are all the same, it's the heights that are going to change to determine what falls into that particular one. So, if you remember from the previous video when we were looking at ethnicities of a sample people, here would be a bar chart that shows the different ethnicities. Now, if you don't have all of the data, you simply have nothing on this bar chart, you have to be good at estimating. So, we said, "Well, how many people are black or African American in your sample?" You'd say, "Well, it's a little bit below 100." So, you'd say, "I don't know, maybe you kind of have to figure this out, right?" So, right in the middle would be 75. So, maybe we're looking at like 85. You you have to do a little bit of rounding. You can't say for sure unless you actually have the data. That's one of the only negatives of a bar graph is if you don't have all the actual data, you just have the bars. Sometimes, depending how it's labeled on the left-hand side, you got to do a little bit of estimating for how many observation units or people in this case fall into that particular category. But, that's pretty simple to show. Then, we can also do a relative bar graph where we're simply looking at the proportion or percentage of individuals that fell into each of these categories. So, again, you got to do a little bit of estimating. So, if this is 40%, this is 60%, 50 be right in the middle. So, we could say roughly might be a teeny bit lower, but roughly around 50% of people in our survey answered that their ethnicity was white. But, you get the idea that we could do one that shows the counts or one that shows the proportions. Pretty simple to do and not very very difficult. And we have a lot of different technologies that can create these for us. All right. Now, we want to talk about pie charts. Pie charts are usually used to display frequencies or counts or relative frequencies or proportions for categorical data, as well. Each slice on a pie represents a category of that categorical variable of interest, and the area of each slice is the fraction of the total area corresponding to the relative frequency of observational units. So, the sum of all the slices should be one or 100% of the total area. Pretty simple to do. You're never going to have to create a pie chart on your own by hand, so don't get too worried about that, especially cuz we have all different types of technology that could do it. So, here is a pie chart for ethnicities, so we could kind of see, you know, that blue section for people that answered white was just over 50% maybe, and then we see the um the African-American group, and it's kind of nice cuz sometimes you can actually have it labeled what percentage are in there, so you don't have to do any estimating. So, we see it's about 33.8% there. So, it's kind of nice sort of you have that, and then we can have these little arrows pointing to all these very small ones here for these other ethnicities, but really, really, really simple. All right. Now, graphical representations of a categorical variable reveal information that could be used to justify claims about the variable in context. So, for example, we could easily justify that this sample had more people respond white than any other ethnicity. I mean, pretty obvious that we can make that justification. Now, can we say that this is true for the population? Well, if the sample that gave us this data that we're looking at right here came from a random sample taken from the population of interest, then yes, we can infer that in the population, not exactly 50.8% of people are white, but probably somewhere close to that, and that'd be a good justification because we have this data to support that. Now, frequency and relative frequency tables, bar charts, and pie charts can be used to compare two or more data sets as well. So, let's look at this right here. So, we have two different ethnicities or um two different data sets, excuse me. So, on the left here, we have ethnicities from school A, and on the right, we have ethnicities from school B. Now, these are frequencies. They show how many, they don't show the proportion, It how many. So, one thing we could quickly talk about here is oh, okay, so at school A there is more um people that responded white. But, actually you got to be careful. There is a larger proportion that responded for white at school A, but if you actually look at the Y axis over here, don't be misled. Because again, we estimate that maybe about 85 or so people in this sample chose white as their ethnicities, but over here yes, the black or African-American was more, but if we actually said how many were white, it's a little actually over 400. So, maybe around like 410 or something like that. So, you can't say that there's more people at school A that are white, cuz that's actually false. But, you can say there's a larger proportion of people at school A that that are that are white, if that makes sense. Cuz, you know, at school A we have the larger the the the the most common group was white. At school B, the most common group or the more common group was black or African-American. So, you got to make sure that you really look at that Y axis when you are talking about the data and how you refer to it. All right, so couple of the key things that you need to be able to do coming out of this topic are construct a categorical one variable graphical representation, again bar chart or pie chart. Now, we say that you need to be construct one, but to be honest, you're you're never really going to be put in a situation where you have to make one on your own, simply because technology allows us to do it pretty easily. But, we do need to make sure we can justify claims, as we talked about, using one of these representations, and we have to be able to compare using these representations. So, hopefully not too bad there. Overall, not really a whole lot of difficult things you have to do. And let's now look at a quick practice problem. So, let's say that we have a sample of 300 trees taken from Ohio, and we analyze what species of tree it was. This would be a frequency table showing us how many. So, again, without the data we could say that oak and ash were the two highest, but if we wanted to know how many, we'd have to estimate. So, maybe oak was around 65 trees, ash was around 55 trees. You got to do a little bit of estimating there. Now, we can answer a ton of different questions, but most of them are pretty easy. For example, how many elm trees were in the samples? So, we're going to go back to our graph here, and we're going to look at the elm trees, which was about 25-ish, maybe right around there. You know, could be 24, could be 26, but we can say about 25 trees were elm trees. What tree species was the most common? Well, that's pretty easy. That's going to be the oak trees. That's the one we saw was the highest, about 65 of the trees were oak trees. Now, what can we infer? Can we infer that in the state of Ohio, there are more oak trees? Yes, we can infer that. Do we know that for sure? Does that mean there's exactly that percentage or that amount? No, right? It's all inference. It's using information from a sample to try to better understand or make judgments or predictions about our population. But, if our sample showed a lot of oak and ash trees, then we could probably say in the population there's also a lot of oak and ash trees as well. All right, then finally it says, "Determine the proportion of each species in the sample." Now, if we had all the data, we could simply count how many ash trees were there, divide by the total. But, we don't have that, right? All we have is this bar graph. So, we're going to have to kind of add all these together. So, you could take your time and say, "Okay, this is about 55. This is about 15. This is about maybe, let's say, 29 or 28, right?" Then, you can add them all together. Now, we already knew there were 300, right? So, we don't necessarily have to add them all together, especially when it told us in the problem that there were 300. So, all we have to do is estimate how many were in each, and then divide by 300 to get the proportion, relative frequency, or percentage. Remember, they all mean the same thing. So, if you take your time and take each one of these tree species and divide by 300, you should get a relative frequency graph that looks something like this, where we could have a little bit of an idea. Now, notice that it still shows that oak and ash are the highest, but instead of showing how many, it shows the percentage. So, for oak, we're looking at around, I don't know, 23-ish percent of the trees were oak trees. Now, if we actually did the math, we could have a better answer to that. But, remember, we're estimating this to be about 65. You know, if we actually take 65 and divide it by 300 to to get that value, we get about 22%, right? 21.something something something. So, again, I said about 23%, but we actually did the math, it should be closer to 22%. So, make sure you are doing the math to try to get those answers as best as possible. But, if all you have is what's in front of you, this graph and nothing else, then you do have to do a little bit of estimating to get these. But, pretty cool, pretty simple to do, nothing overly difficult here. Everybody should know about these different types of graphs when it comes to categorical data. They are the most common and pretty easy to read and understand.
+2.1
+Hey stats, welcome to AP Statistics. In this video, we'll be covering topic 2.1 over table and graphical representations of two categorical variables from the AP Statistics course exam description. Before we get started, be sure to download and print the guided notes that accompany this lesson. The guided notes are designed to help you actively follow along, organize the key concepts, and create a valuable study resource you could use throughout the course and when preparing for the AP exam. You can find these guided notes along with study guides, practice worksheets, assessments, and many other AP Statistics resources in the ultimate review packet for AP Statistics. There's a link in the description below. In this video, we will cover the different ways we can use tables and graphs to organize two categorical variables and find associations between them. As we work through today's topic, I'll explain the key concepts, demonstrate the required statistical procedures, and show you how these ideas are applied in AP Statistics. At the end of the lesson, we'll work through several practice problems so you can apply what we've learned and check your understanding. Let's get started with topic 2.1. And just remember, one topic at a time, one step closer to a five. So in topic 2.1, we're going to talk about two different ways that we could represent two categorical variables. Table form or graph form. Let's start with table form. Now the table form is actually called a two-way table. Also called a contingency table. We could this can be used to summarize and compare data for two categorical variables. The entries in the cells of the table can be frequencies which are a fancy word for counts or relative frequencies which is a fancy word for proportions. Let's take a look at one because it'll make a lot more sense. So here's the first example of a two-way table. We looked at 188 students and we asked them two categorical questions. The first question was how do you get to school? And we see that on the left hand side here, bus, parent drives them, they drive themselves or they walk. And the second categorical question we asked them was, were you tardy to school today? And that was no or yes. So this is called a two-way table because we see two categorical variables, one going vertically and one going horizontally. And then we look and we see all of these numbers in the cells. So on the right hand side, the left hand side, we see our totals. So 35 total kids rode the bus. 90 total kids drove themselves. 124 total kids said no, they were not tardy. 64 said they were tardy. You get the point. And the numbers inside are a little bit more specific. So this would be 21 kids who were not tardy and got to school by their parent. These would be 41 kids who were tardy and drove themselves to school. So that's a two-way table. Let's look at another one real quick here. So here's another two-way table. The two categorical variables are gender, male or female. We see that on the left hand side going up and down. And across the top we have their hair color, black, blonde, brown or red. That's their original, you know, birth hair color, I guess you could say. So we see that across the top. And again, I highlighted in pink here the totals for each specific answer. the total for females, the total for males, or the total of people that said brown hair, or the total people that said they had black hair. And then inside in yellow, we have the individual values to get a little bit more specific. So, for example, this would be five people who were both male and had blonde hair. So, you get the point. Now, again, the other thing we mentioned was that we could show frequencies, which is count. So, again, we see here counts, five people. We counted five people who were both males and had blonde hair. But we could also create a two-way table based on proportions which is called relative frequencies. So here is a relative frequency instead of showing counts. Again it's showing proportions. So instead of showing five people who were male and blonde hair, we see about 0.058 about 5.81%. So all we did to get that was take 5 / 86. And 5 divided by 86 is exactly where that number comes from. Again, that's taking it's the proportion out of the total. So that's 0.0581. Almost 6% of all the people surveyed were either male or had male and had blonde hair. And then again, same thing over here. We see about 48% of all those surveyed were female. And then about 63% of all people had brown hair. You get the point. So those are two-way tables. They're really, really easy to read. And the name makes sense, two-way table, because they go two ways, horizontally and vertically. one direction for each of the two variables. Now let's move into looking at the graphs of categorical variables. So we have three different types of graphs. Side by side bar charts, segmented bar charts in mosaic plots. These are all examples of graphs that we could use to display the relationship between two categorical variables. In these graphs, the frequencies or relative frequency, remember those are just fancy words for counts or proportions of each category or level of one of the category variables is displayed for each category of the other categorical variable. Now, that can be a little bit confusing. So, let's look at some really, really simple examples. So, here's the first example, what we call a side byside bar graph. So, this is the one that we were looking at earlier with hair color. So, across the bottom we see black, blonde, brown, and red. Those are the different hair colors. And then we see side byside box plots or or excuse me not box plots side by side bars one for male and one for female we use red for female and blue for male. So we see here is that if we are comparing people that have black hair it's a really nice visual way of saying oh wow there were more males. If we're comparing people that have brown hair we say oh pretty much the same amount. I think it was 27 27 of males had bl brown brown hair and females that had brown hair. So it's a real nice quick visual tool. Here is what we call a segmented bar graph. Now I like to look at this like as a candy bar. Right? So on the left hand side here we see the females. So every single chunk of this bar here is from the female data only. And each section represents the proportion of that hair color. So red, I know they're kind of colors kind of got mixed up here, but red is the proportion of the females that had black hair. So we see this box right here that is covered in red here. Red is the proportion that have black hair. So each section represents the proportion. We see that it goes all the way up to 100% because well all of the females are in that bar somewhere. It's just broken down into what color hair you have. So again, another nice visual tool. We could clearly see that the largest proportion is brown. So of the females, the largest proportion of them had brown hair. And we can actually say the same thing for males as well. If we look at the males, the largest proportion of the males had brown hair. Smallest had red hair. And then we see next there was black hair, which is the red color. I know confusing. So sorry about that. But you get the idea. So that's a segmented bar graph where we segment each bar into the individual categories of the other categorical variable. So we see the entire bar is for female but then it's broken down into each segment of the other categorical variable in this case hair color. Now the cool thing is we can actually switch the two variables. So here we're looking at of the females what proportion had each color and of the males what proportion each color. But now we switch it up and across the bottom we have black, blonde, brown and red. Those are the different hair colors. And we see the proportions of those with black hair that were either male or female. Of those that had blonde hair, what proportions were either male or female. Of those that had brown hair, that was one of those 50/50. So of those that have brown hair, 50% were male, 50% were female. And then of those that had red hair. So again, we see of those that had red hair, the majority of them were I know it was a really small number to begin with, but the majority of them were female. So you get the idea of how we could break that down either direction. So that's an example of a segmented bar graph. Lastly, we have what's called a mosaic plot. Mosaic plots are pretty cool and they take a couple moments to explain, but once you understand them, they're really easy to understand. So first off, what we're looking at here is two high schools are competing to sell water bottles for a fundraiser. Each high school either sells small, medium, and large water bottles. And what we see here is basically a segmented bar graph with a little bit of a twist. So let's first make sure we understand where the segmented bar graph comes in. So right here we have high school A and we see that the large water bottles there's the gray. So 70% of the kids at high school A sold or excuse me 70% of all the water bottles sold at high school A were large. And then we see the two sections looks to be about 15 and 15. About 15% of all the water bottles sold at high school A were medium and about 15% were small. Now, when we look at high school B right here, we see the same thing, right? The gray is the proportion of all water bottles sold at high school B that were large. We see that that's about 60%. But we notice it's wider. Okay, this is the trick of a mosaic plot. The wideness, if that's even a word, the wideness or the the the wider that we see for high school B means that there were more total water bottles sold at high school B. So it looks like that maybe we could say somewhere in the lawns of like maybe four times or three times it's you know say but we definitely see that more kids or more water bott I keep saying students sorry more water bottles will sold at high school B so maybe high school B has more students which means they sold more water bottles but the width just means that there's a bigger chunk of all the data was from high school B to begin with. I'm just going to throw out some, you know, we don't really have numbers here, but let's just say that there was 100 total water bottles sold at high school A and then maybe high school B was 400 total water bottles. So, we see that yes, a higher proportion of water bottles sold at high school A were large than high school B. Definitely 70% versus 60%. But since high school B sold more water bottles to begin with, which we could tell by the width of that, we could say, well, there's actually more water bottles at high school B were large than high school A. Now, that seems a little bit confusing because you're like, well, wait a minute. How could you say that the bar for high school A large is taller than the bar for large water bottles at high school B? But if high school B had more water bottles to begin with, which is what the width shows us, then we know that there were actually more water bottles sold at high school B. So you get the idea of a mosaic plot. So it's basically a segmented bar graph, but we add the additional layer of the width to show you which one, you know, which group, high school A or high school B, had more total water bottles to begin with. We're going to do a little bit of a mosaic plot later, but hopefully that quick description there made sense. Now, graphical representations of two category categorical variables can be used to compare the relationship of one categorical variable across the levels of the other categorical variable and determine whether two variables are associated. So, the most important thing that we're trying to say here is when you look at a graphical representation of two categorical variables, you can determine if those two variables are somehow associated or not. Now before we talk about an example, we should probably make sure we talk about what we mean by associated. So what does it mean if two variables are associated? So if there is an association, this means that one variable will impact the other. That means the two variables have some type of impact on each other. If there is no association, which is also called independent, this means that the two variables do not impact each other. So again, no association means that the two variables do not impact each other. An association between two variables means the outcome of one variable has an impact on the other variable. Now let's talk about this with a two-way table to get started. Then we'll also show you how we can look at a graph of this. So here is some data we collected on a sample of 200 people. Again, this is a two-way table. We asked them two questions. First, what is your gender? Male or female? We see that on the lefth hand side here. And then we asked, do you like chocolate? Yes or no. And this shows us all of the data we know. Now, we are looking at the fact that we did have an unequal number of males and females, which is totally fine. We had more females than males. And then we had a total of 140 people said they don't like chocolate. I can't believe it was that high. I think most people do like chocolate, but whatever. And then 60 total people said yes, they do like chocolate. And all the numbers in the middle are the both. So for example, this would be the total number of men and saying no. So 69 men said no, they do not like chocolate. You get the idea. So the first thing we want to do to try to determine if there's a association between gender and liking chocolate is to create a graphical representation. So here is my graphical representation. I went with a segmented bar graph. So on the left hand side here we see the males and of the males we see the percentage that said yes verse the percentage in red that said no. And then of the females we see the percentage that said yes verse the percentage that said no. Now if you're wondering where did I get these numbers from? Again it's really simple. We're just working with proportions. So we're looking at of the males six out of 75. Of the males 6 out of 75 said yes. 6 out of 75 is about 8%. And that's where we see this blue chunk right here is about 8%. That means 92% of the males were in that red chunk. And then same thing with the females here. We saw that 54 of them said yes. So 54 out of 125 was about 43.2%. This is roughly 43.2%. And the remaining percentage would be those that said no, the females that said no, they do not like chocolate. So now, how could we look at this graph and determine if there's an association? Well, let's look at this. In the segmented bar graph, we could see that of the males, a larger proportion said no. While of the females, a smaller proportion said no. And we could also say vice versa. Of the males, a smaller proportion said yes. Of the females, a larger proportion said yes. So, what this tells us that men are associated with disliking chocolate more than females. If we look at the males, a much bigger percentage of them dislike chocolate compared to the females. So, or the females maybe we could say are associated with liking chocolate more than males. So, this is how we see an association. So, something about being a female, I don't know what it is, right? I'm not going to dive into this, but something about being a female does make you more likely to say yes, you like chocolate. And then something about being a male makes you less likely to like chocolate. And we could see that with the imbalance of proportions. Now let's see an example where we have very similar data but we're going to get a very different answer. So here we did something similar 200 people and we had male and female but this time the question was do you like Skittles? Had nothing to do with chocolate. It was do you like Skittles? Here's a two-way table of our data. And what I did was I took this two-way table and I created a segmented bar graph. But here's what I see. Now notice if we look at the males about the same percentage maybe around 26% a little bit above 25. I'm just going to estimate 26%. I could go to my table get a more accurate answer but I'm just looking at the graph here. But I noticed that of the females it's also about 26%. Meaning that if you are male it did it make you more or less likely to like Skittles. If you are a female did it make you more or less likely to like Skittles? Regardless if you are a male or a female, 26% like Skittles. I mean, it just it doesn't matter if you're a male or a female, about 26% of all people like Skittles. Whereas here, it's like, whoa, okay, if you're a female, you're more likely to like chocolate. So, you know, if I said, hey, behind that closed door is somebody who likes chocolate, you're going to say, well, I more likely they're going to be a female. Or if I flip that around, behind that door is a female. More likely they're going to like chocolate. If I said behind that door is a male, less likely that they're going to like chocolate. But when it came to Skittles, it was the same whether you were male or female. It didn't matter 26%. And that's an example of where we say not associated. Meaning these two variables are independent of each other. If you're a male, it doesn't make you more or less likely Skittles. It stays at 26%. Same thing if you're a female. So that's a good example of how we could identify if there's an association between two categorical variables by looking at a graph. And segmented bar graphs make this really really easy to do. If you see an equal proportion, well that means there is no association where if you see an unequal proportion, well that means that something about being a female in this example is making you more likely to like chocolate. Something about being a male is making you less likely to like chocolate. All right, let's look at another example here to just to kind of practice all these skills that we're learning about graphs and these two-way tables. So, a local elementary school decides to sell bottles printed with the school district's logo as a fundraiser. So, similar to that water bottle problem earlier, but a little bit different. The students in the elementary school were asked to sell bottles in three different sizes, small, medium, large. And the relative frequencies of the number of bottles sold for each size by the elementary school were 60%.6 60% for small 30% for medium.3 and 10% for large.1. A local middle school also decided to sell the water bottles as a fundraiser in the same three sizes small, medium, and large. And the middle school students sold three times the number of bottles. So what we know is that the middle school sold more total bottles than the elementary school. Now for the middle school students, the proportion of bottles sold was equal for all three sizes. Okay, so the first question wants us to create these segmented bar graphs. Now earlier we were looking at segmented bar graphs that went up and down, but segmented bar graphs can also go left and right. And what they want us to do is simply create a segmented bar graph showing the relative frequencies, the proportions of the number of bottles sold for each size at the elementary school and the middle school. So remember in the elementary school we were told 60% small, 30% medium and the final 10% large. And for the middle school we were told that they equal proportion across the board. They were equal proportion. So here's what those segmented bar graphs would look like. So for the elementary school we have the red which is small going up to 60%. And then the additional 30% for medium took us to 90% right here. And then the final 10% was right here for the large water bottles. Now for the middle school it says there's an equal distribution for the small medium and large. Now if you have a total of 100% right that equal distribution be about 33 33 33. Now I know that's a 99% so be actually 33.3333 but you get the idea. So the red would be about 33% a little bit over 30%. The blue would be another 33% so getting closer to about 67ish% and the remaining in green there would be the large which is also 33.33%. But we see that equal distribution across the board. Pretty cool. Now, the other thing that we want to say is, all right, how can we maybe display this as a mosaic plot? Because we were told that the middle school sold three times as many total water bottles. So, here would be a mosaic plot that still shows us the elementary school. So, look at elementary school. We still see 60% small, 30% medium, 10% large. And for the middle school, we still see that roughly equal distribution. 33 33 33. But notice that the middle school here is wider. Well, we're allowed to do that in this mosaic plot because we were told that the middle school sold three times as many water bottles. So the width would be three times that of the elementary school. So we could see that there is a larger total amount of water bottles sold at the middle school. All right. Now let's ask you some questions about this. So the first question says, can it be said that the elementary school sold more small bottles than the middle school? And the answer to that should be no. And this tricks a lot of students because they look at this mosaic plot or they look at this segmented bar graph and they say, "Oh, I mean look a it's a higher proportion. The the bar for small was bigger for elementary." Yes, there was a higher proportion. So we can say that a larger proportion of water bottles at the elementary school were small compared to the middle school. But the question says, can it be said that the elementary school sold more small water bottles? Not a larger proportion, just more total water bottles. And the answer to that would be no. So let's just say, for example, let's make the numbers kind of nice and neat here. If there were 100 total water bottles sold at the elementary school and we were told there was three times that amount. So that' be wh 3,000 at the middle school. Now 60% of a 100red would be 60 small water bottles at the elementary school. And then roughly a third of the middle school were small. That would be a thousand. So yes, the proportion of small water bottles at elementary school was more. But because the middle school sold a total of three times the amount of water bottles, then that total number of water bottles is going to be bigger for the middle school compared to elementary school even though the proportion was lower. So don't get tricked by a question like that. And that's the cool thing about a Mosaic plot. It allows us to understand that. All right, final question. Is there an association between the two schools and the types of bottles sold? Here the question is yes. If you were at the middle elementary school, you were more likely to sell small water bottles. A larger proportion of water bottles were small at elementary school. So that shows an association, right? Something about the elementary school, maybe they're just smaller kids, right? They're they're tinier, so they prefer the small water bottles. Where the middle school, it was an equal preference across the board. So what we could easily say here is that there is an association between the size of the water bottles and the school. And we could say something about the elementary school created a larger proportion of small water bottles to be sold than the middle school. And we could also say that even though even the medium, you can also say large, right? You maybe go to large because at the middle school it's a larger proportion of large compared to elementary school. And again, it could be because of what we were saying earlier. Elementary kids are smaller, so maybe they're going to prefer the small water bottles. Middle school kids a little bit bigger, so maybe they would maybe like larger water bottles a little bit more. But the idea is that we don't see that same percentage of small or large at the two different locations, which means there is an association. Something about that elementary school is causing a larger proportion of the water bottles to be small. Something about the middle schools making it a little bit smaller for the small water bottles. But you get the idea there. Hopefully that makes a lot of sense. In the next video for topic 2.2, we're going to talk a little bit more about actually kind of looking at the numbers to kind of answer these questions. But the cool thing is you can really get that feel for an association or not simply by looking at these graphs. All right, that's it for section 2.1. Hopefully it made a lot of sense.
+
+2.2
+Hey statsar, welcome to AP statistics. In this video, we'll be covering topic 2.2 over summary statistics for two categorical variables from the AP statistics course exam description. Now, before we get started, be sure to download and print the guided notes that accompany this lesson. The guided notes are designed to help you actively follow along, organize the key concepts, and create a valuable study resource you can use throughout the course and when preparing for the AP exam. You can find these guided notes along with study guides, practice worksheets, assessments, and many other AP statistics resources in the ultimate review packet for AP statistics. There's a link in the description below. In this video, we will cover the different summary statistics that can be used to summarize two categorical variables and find associations between them. As we work through today's topic, I'll explain the key concepts, demonstrate the required statistical procedures, and show you how these ideas are applied in AP statistics. At the end of the lesson, we'll work through several practice problems so you can apply what we've learned and check your understanding. Let's get started with topic 2.2. And always remember, one topic at a time, one step closer to a five. So, in this topic, we're going to be talking about summary statistics for two categorical variables. Now, remember what the heck a statistic is. A statistic is any numerical piece of information that comes from a sample. So, if this is a number that somehow describes a sample, well, you got yourself a statistic. So, how the heck are we going to be talking about statistics for two categorical variables? Well, analyzing a two-way table based on two categorical variables can yield several different proportions that would be summaries of the table, hence they're considered statistics. Remember, proportions are numbers, so a proportion that somehow comes from a two-way table is going to be, well, a statistic. Now, there's several different types. Let's talk about those different types. So, a marginal relative frequency in a two-way table is a row total divided by a total for the entire table or a column total divided by the total for an entire table. So, we actually call it a marginal relative frequency because it comes from the margins. So, if we look at this here, the marginal frequencies would be the totals. The 35 total people who rode a bus. The 29 total people who drove with a parent to school. The 90 total people who drove themselves. Or the 124 people total people that were not tardy to school. So, again, those are your marginal frequencies. Now, this is a proportion based on the totals in the margin. So, keep that in mind. So, here are some examples. What proportion of those surveyed rode the bus? What proportion of those surveyed walked? What proportion of those surveyed were tardy? Again, these are all numbers are going to be coming from the totals. Now, let's talk about how we're going to notate this. So, the notation is going to look something like this. We see a P parentheses and an equal sign. Now, let's talk about what all these different things mean. So, first, the P stands for proportion or percentage or when we learn a little bit later on in this unit, probability. But, that P can stand for a proportion or percentage right now. Inside the parentheses next to that P is what we're looking for. What is it that we're looking for? And then the equal sign is going to be our answer. The answer, the proportion of the total that meets what it is we're looking for in the middle there. Now, this does not mean multiplication. I get kids say, "Oh, does this mean P times something?" Cuz we're used to algebra where parentheses next to a letter means No, no, no, no, no. This is just notation for saying, "Hey, we're about to find the proportion of this in the total and this is going to be our answer." Let's look at some examples cuz this is really, really simple. All right. So, let's say we have this two-way table here showing how you get to school and are you tardy, yes or no. And we said, "Hey, what proportion of all people ride the bus?" Okay, so P for proportion, which is the same thing as P for percentage. In the parentheses is what we're looking for, riding the bus. Now we got to figure out the answer. Well, how many total people rode the bus? Well, 35 did, but it's proportional, so it's out of the 188 total people. So, grab a calculator with me if you need to. 35 / 188 is .186. I always like going with three significant digits. So, .186, about 18.6% of people in the survey rode the bus. All right, what percentage of people walked? Okay, so we got to look in the in the margins. 34 total people walked out of 188. It's probably going to be a little bit lower than with the number we just found. 34 / 188 or 188, excuse me, is .181. So, about 18.1% of people walked. All right, what about the proportion of people that yes, were tardy to school? Okay, looking in the margins, we see 64 yes, were tardy, but that's the frequency, but we're looking for the proportion, so we're going to divide by the total, 188. So, 64 / 188 is about 34%. So, about .340. So, notice when I'm doing my work here, I'm looking for three things. The correct notation to identify what it is you're looking for, the fraction that's going to get me my answer, and then finally the actual proportion. Now, technically a fraction is a proportion, so leaving 64 / 188 is actually not wrong, but typically in the AP world, we're going to want that proportion answer. And you're allowed to move that decimal twice and say 34.0% just if you do make it a percent sign, don't forget the percent sign. So, that's it. That's the marginal relative frequencies, just looking in your margins and dividing by your total to figure out what those proportions are. Let's move into the next statistic that we can get here, and that's called a joint relative frequency in a two-way table. Now, this is a cell frequency divided by the total for the entire table. So, we're not looking in the margins, we're looking actually at the cells in the middle of the table. All right, let's talk about some examples of this. This is the proportion of A and B. If you are a cell in the middle of the table, you are actually a combination of two of those variables. One category for the first variable and another category for the second variable. So, we need to use that word and. So, some examples here would be what proportion of those surveyed rode the bus and were tardy. So, there's two things here. If you're going to raise your hand, you have to first ride the bus and second, you have to be tardy. Or what proportion of those surveyed walk and were tardy. So, if I'm going to find these answers, I'm going to have to look inside the table, and that's why it's called joint relative frequency because it's the joint or the joining of two different things. Not one, that's marginal, two things. For example, riding the bus and being tardy or walking and not being tardy. All right, now let's talk about the notation. Well, it's the same notation we just came up with. But, inside those parentheses, we're going to have to put two things. Now, we could do the two things like we could do um bus and tardy. We could do something like that or bus and yes. But, I want to show you something else we could do. There is a mathematical symbol for and. The mathematical symbol for and is this upside down U. So, you are more than welcome to use the word and, write A N D, but you could also use this upside down U. It actually stands for the intersection of these two things. So, the intersection of bus riders and being tardy, and that's why we use that that upside down U. It's just a math symbol, so just keep in mind this upside down U means and. And I don't care if you use it or don't use it, but you might see it on the AP exam, so you want to make sure you're ready for it. And then of course, we've got to figure out the answer. All right, so let's look at our two-way table and figure these out. So, now we're looking for a joint. We're looking for the joint the the joining of bus and yes. So, this would be right here, right? This is where they're joint. entire row is bus, this entire column is yes, I'm just tardy, so this is the joining of those two things. So, nine out of 188 students were both rode the bus to school and tardy. So, now we got to do is divide 9 / 188 and here we get that joint relative frequency .0479. .0479. So, really really close or about 5% of students rode the bus and were tardy. All right, what about walking and no? So, again we're going to do Here's walking, here's no. The joint would be right here. That's the joining of those two things. So, 28 kids both walked to school and were not tardy. And we're going to divide that by the total. 28 out of 188. Grab a calculator. 28 out of 188 is .149. So, really really close to about 15% of all the students surveyed were both walking and not being tardy to school. All right, the next type of statistic we have is a conditional relative frequency. This is a relative frequency computed by restricting to a particular level or category of interest. A conditional relative frequency can be a cell frequency in a row divided by a total for that row or it can be a cell frequency in a column divided by the total for that column. Okay, not going to lie, this is where things get a little bit tricky, but I'm going to do my best to explain it really, really well. A conditional relative frequency is when we put a restriction on our answer. And that restriction says, "Okay, we can no longer divide by the grand total because the grand total involves everybody, and we are have a restriction." Now, way easier if I show you some examples of this versus me trying to actually say it in words. All right, so here's a couple examples. Of those surveyed that rode the bus, what proportion were tardy? Okay, so what am I asking you? I'm asking you what proportion were tardy. It's pretty obvious and what proportion were tardy, but I gave you a restriction, of those that rode the bus. So now this is restricting me. I'm only allowed to look at students that rode the bus. Everybody else, throw them out the window, I don't need them. I'm only allowed to look at those that rode the bus, and of those that rode the bus, what proportion were tardy? So what's going to happen here is my denominator is going to change because I'm only allowed to look at the number of kids that rode the bus. I'm not allowed to look at all 188 kids cuz not all of them rode the bus. Some of them walked or drove themselves, you get the point. Here's the next question. What proportion of students that were tardy drove themselves to school? So I'm looking for the proportion that drove themselves to school. That's what I'm looking for, right? But I gave a condition, what proportion of the students that were tardy? So here is my condition, you had to be tardy. I'm only looking at those kids that were tardy, and of those kids were tardy, what proportion drove themselves? So now my denominator is going to change to only being those kids that were tardy. And here's one more. What proportion were tardy given that they walked to school? So what proportion were tardy? That's the question. What proportion were tardy, but I gave you a restriction, given that they walked to school. So we're only allowed to look at the walkers, and of the walkers, what proportion were tardy? Now, the one more thing I want to point out to you, the condition, the restrictions, the condition or restrictions, why it's called conditional relative frequency, cuz there's a condition or a restriction, could go anywhere in the sentence. So, in the first one, I put in the front of the sentence, of those that rode the bus, {comma} what proportion were tardy? In the middle question, I actually put it in the middle. I said, what proportion of the students that were tardy drove themselves to school? So, I kind of put the condition in the middle. And then the last question, I put the condition at the end, what proportion were tardy given that they walked to school? So, the point is, I can put the restriction or condition anywhere in the sentence. It's your job to read and say, okay, what am I looking for? In this first one, I'm looking for the proportion of tardy. And then who am I restricted to? Those that rode the bus. Now, this is different than any other question we've asked before, because marginal questions just say one thing, what proportion of kids were tardy? That's it, one thing. Joint uses the word and. Here, we're not using the word and, we're using a given or restriction or condition to limit who I'm allowed to look at. Now, let's talk about how we're going to notate this, cuz this is where we get even more differences here. So, first we're going to use that letter P for proportion or percentage. Then we're going to have our set of parentheses, but in that parentheses is a line, a straight down the middle, a line. Now, in front of the line right here is going to go what you're looking for, what proportion are you looking for? Like, what is it that you're actually trying to find in the problem? But after the line, back here, goes the condition. This is the given or the restriction, what we know to already be true goes in the back. Now, remember, when we say it or when we ask the question, we can actually put the restriction in the front, the middle, or the back. But when we write it out using proper notation, the condition goes in the back no matter what, and then over here is going to be our answer. Now, what we have to remember is that condition or the restriction is going to limit my denominator. It's going to restrict my denominator. All right, let's get down to look at some examples. I think this is where it's going to make a lot of sense. All right, so that first question says, "Of those that ride the bus, what proportion were tardy?" So, again, of those that rode the bus, so the bus becomes my condition. Only allowed to look at those that rode the bus. So, that's only 35 kids. So, notice that's going to change my denominator cuz I'm now only allowed to look at those 35 kids that rode the bus. And of those 35 kids, what are what how many of them said yes or yes they were tardy, I mean? Nine. So, nine out of 35 is going to be my conditional relative frequency. Again, I'm restricting myself. And there was a condition, of those that rode the bus. So, I'm only allowed to look at this row right here. Not allowed to look at 188 cuz I'm only allowed to look at the bus riders. So, nine of those bus riders were tardy to school. Nine out of 35 is 0.257. 0.257. There we go. Okay, next question. "Of those that were tardy, what proportion drove themselves?" So, now I'm asking you to find the proportion that drove themselves, but the condition is of those that were tardy. Okay, how many total people were tardy cuz that's going to limit my denominator? 64 were tardy. Of those 64 that said yes we were tardy, how many of them drove themselves? 41. So, of all the people that said yes they were tardy, that's limiting me, the condition is limiting me there, 64 total people, 41 drove themselves. So, 41 out of 64 is 0.641. 0.64 1. So, about 64% of all kids that were tardy drove themselves to school. And the final one was of those that walked, what proportion are tardy? Okay, so of those that walked, or given that you walk again. Remember that the sentence actually put in the back, what proportion were tardy given that they walked to school? Even though that goes in the back, right? The condition is you were given. The one thing I knew about that student was that they walked to school. So okay, of the 34 students that walked to school, because now I'm only allowed to look at these 34 kids, right? My restriction or my condition allows me to only look at those 34. Of those 34, six of them were tardy. So six out of 34 is .176. So about 18% of those that walked to school were tardy. Hopefully that makes a lot of sense. Now, just keep in mind the condition changes the denominator because it limits the group we're looking at. So really make sure you understand the difference between marginal, you're only given one thing, what proportion of people rode the bus. Joint, you're given two things but the word and connecting them, and that's going to be where you're looking in the total, or you're looking inside of the table for those values. And then conditional questions, you there's a restriction, there's a condition that's going to change your denominator, and make sure you know that proper notation using that line to notate that. All right, now that we understand all of the different types of statistics, we could use these summary statistics for two categorical variables to actually compare distributions and look for evidence of an association between two variables. Now, we talked about this back in 2.1, but remember, if there is an association, what that means is adding or changing a condition changes the proportion when we have an association between two variables. So there's an association between two categorical variables if you change a condition or you add a condition and the proportion changes. Now, this can be a little bit tricky at first, so let me do my best to explain. So, here's the question. Is there an association between being tardy and how you get to school? So, here's what I would do to answer this question. Now, the first thing is being tardy, right? That's what we're asked about. So, let's find that marginal relative value there. So, 64 kids out of 188 were total. No condition, no joint there, no and just I'm looking at the total that were tardy. 64 out of 188 we found this earlier was about 34%. So, it's .340 or about 34.0%. Okay, now what we're going to do is we're going to add a condition and we're going to see does that change? Because if I add a condition and the answer changes, well, then that shows an association. That's the definition of an association. Adding something changes you. Okay. So, let's see here. Of those that ride the bus. So, now we're going to add the condition you're only allowed to be a bus driver. Okay, or a bus not a bus driver, a bus rider. Okay, so of the 35 kids that rode the bus, nine of them were tardy. Okay, so we have nine out of 35 and we see .257. So, right away there we're thinking, "Oh my gosh, that there is an association, right?" 34% of all kids are tardy. But if you ride the bus, if it's known you ride the bus, on the condition you ride the bus, well, you're actually less likely to be tardy cuz now we're 25%. All right, what about if you drive with a parent to school? Okay, that condition is going to limit me to only looking at the 29 people who get dropped off at school by a parent. Of those people, eight are tardy. So, eight out of 29 is .276. .276. So, likewise we see a if you ride with a parent, you're less likely to be tardy. I mean, 34% of all kids in the survey were tardy, but if you drove with a parent, you're less likely to be tardy. Now, what if you drove yourself? Well, 90 total kids drove themselves to school. Of those 90 kids, 41 were tardy. 41 out of 90 is about 45.5% .5%, .45. Actually, it's about .456. So, about 45.6%. So, now what we notice is if you drive yourself to school, you're more likely to be tardy. So, here we are seeing an association. Right? We're seeing an association. I like to start off with that marginal. It gives me like a baseline. 34% of people are tardy, but if I add a condition, ride the bus, it goes down. Drive with a parent, it goes down. Drive yourself, it goes up. When I add a condition, it changes the likelihood or the proportion of you being tardy. This is clearly showing for those in the survey, there is an association between how you get to school and being tardy. All right. Now, let's look at this a little bit away. What if we have the statistics to write a conclusion about what we have found? And that's the part of the hardest thing for students to do, right? AP statistics is so much not just about doing math with numbers and finding statistics, but it's also about writing good answers. So, now I explained that. I showed all of the numbers, but now we got to do is write a really, really good answer in context. So, here is my answer. I wrote, "There is an association between mode of transportation to school and being tardy." So, the first thing I did was I answered the question. Is there an association? I kind of want [snorts] to say yes or no. Here I'm saying yes, but I'm saying it in context. Overall, 34% of students were tardy. I like to start off with a baseline. It allows my brain to really understand did it go up or did it go down? So, 34% of all students were tardy, that's marginal. Now here comes my conditional values. Of those that rode the bus, if you rode the bus, 25.7% were tardy. Oh, it went down. Of those that drive themselves, 45.6% were tardy. Oh my gosh, it went up. Bus riders were less likely to be tardy and self-drivers were more likely to be tardy. So, how you get to school does impact being tardy for students in this sample. So again, I didn't give all the numbers. I left out um being a parent or driving with your parent, but it it's I only need these two numbers to clear it up. So, this makes it very very clear that there is an association. So, hopefully that makes a lot of sense and that's a really big question from this topic, is there an association? And you have to be able to back it up with numbers and answer it. It all starts with that marginal and then use those conditional values to compare to. All right. Now here's another question that does come up very often on the AP multiple-choice questions. If there was no association, how many students would drive themselves to school? Uh uh excuse me. Excuse me. How many students would drive themselves to school and be tardy? So, what they're looking for is what number should be right here, drive themselves to school and be tardy if there was no association. Now now we've already said that there is an association. So, basically we're saying that what number should be right there if there was no association. All right. Now I like to always start with that marginal. What we know from the margins is that 64 out of 108 students are tardy. We already determined this a couple different times in this video, but that's about 34%. So, about 34% of kids are tardy. If how you get to school has nothing to do with being tardy, of the bus drivers, 34% should be tardy. Of those that ride with the parent, 34% should be tardy. Of those that drive themselves, 34% should be tardy. Of those that walk, 34% should be tardy. If we see 34% straight down the board, that shows that there's no association. So, the proportion that are tardy is 34%. If I add on a condition like drive the bus or or not you driving the bus but you ride the bus, and it stays at 34%, that means that adding the condition didn't change the chance of you being tardy, hence no association. And it's the same thing with driving yourself. If I tag on the condition of you drive yourself, and it stays at 34%, that shows there's no association. So, getting to the question, how many kids should be right here if there is no association? Well, 34% of the 90. So, if I take 90 and multiply it by 34%, that would be 30.6. So, 30.6, or now you can't have 30 30.6 students, so maybe roughly 31. So, if 31 students were right here, then I would have no association because I would have 34%. Hey, 34% of all people are tardy. 34% of people that drive themselves are tardy. That would show that adding the condition of driving yourself did not change the proportion that are tardy. So, again, and I could have asked about bus riders as well, but it would still be the same thing. It'd be 34% of 35. So, it'd be 35 * 34%. Same thing with those that are drive with their parent. Take those 29 kids, multiply by 34%. Take the 34 kids that walk to school. 34% should be tardy. Because if there's truly no association, it'd be 34% across the board. All right. Now, let's do some practice problems on your own. A group of 162 adults were put through a fitness test to determine their level of fitness, high, low, or moderate. And it was also recorded whether or not they wore a fitness tracker device of any kind. The results of the survey are in the table below. So, here we see a two-way table. Do you wear a fitness tracker like an Apple Watch or a I don't know, all those different kind of trackers you can wear, whatever. Um and what is your level of fitness? So, first question, what proportion of the adults wear fitness tracker? This is a marginal question because only ask one thing, wearing a fitness tracker. So, all I'm going to do is look in my margins. 108 wear fitness tracker out of 162. Grab a calculator, 108 out of 162, 0.666, kind of a bad number there, 0.667, there we go. About 66.7% of all people surveyed wear a fitness tracker. All right, what proportion of the adults have high level fitness? Another marginal question. All we're asked is high level fitness, one thing only, 84 out of 162. 84 out of 162 is 0.519. 0.519, about 52% of all people surveyed have a high level of fitness. All right, what proportion of adults wear a fitness tracker and oh, I see that word and this is going to be a joint proportion, have high level fitness. Okay, so fitness tracker and have high level. So, we're looking right here. Fitness tracker, yes, and high level, 51 out of 162. Grab a calculator, 51 out of 162 is .315. Pretty simple. All right, couple more. Of those that wear a fitness tracker, what proportion have low fitness? Okay, now I'm sensing condition. Of those that wear a fitness tracker. Okay, so that means I'm only allowed to look at those that wear a fitness tracker. What proportion have low fitness? So we're trying to find the proportion of low fitness, but there was a condition at So I now I need that line. The fitness is or the condition is yes, they wear that fitness tracker. So that condition's going to limit my denominator. I'm only allowed to look at these 108 people that wear a fitness tracker. And of those people, what um proportion have a low fitness? That'd be 21. So 21 of those 108 people. So 21 / 108 is .194. So that's a conditional question. So you're going to get a good sense of sensing that conditional question. All right, next one. What proportion of those with moderate fitness level do not wear a fitness tracker? Okay, so here comes my condition. Of those with moderate fitness. So I'm only allowed to look at those with moderate fitness. And the question is what proportion do not wear a fitness tracker? So we're looking at the proportion of no, but only allowing us to look at those with moderate fitness. And that would be the 51 people with moderate fitness. So that condition's going to limit my denominator. So of the 51 people who have moderate fitness level, what proportion do not wear a fitness tracker? And that would be 15. So 15 out of 51 is .294. So hopefully you're getting these pretty quickly. Not too bad. What proportion of adults have high fitness level given that they wear a fitness tracker? Okay, so here comes my given or my condition or my restriction. Given that you wear a fitness tracker, what proportion have high level fitness? So I'm trying to find the find the proportion of a high level of fitness out of or given that yes you wear a fitness tracker. Okay, so let's see here. 108 [snorts] people wear a fitness tracker. Of those 108 people, high level is going to be 51. 51 out of 108. 51 out of 108 is .472. .472. All right, hopefully that's pretty easy, right? Moving along here. All right, now what proportion of adults wear a fitness tracker? Okay, well that's again going to be a marginal, right? We're only asked about the 108 out of 162. So 108 out of 162 is .667 like we already saw. Sorry about that. Messed it up. Okay, of those with high level fitness, what proportion wear a fitness tracker? Okay, of those with high level fitness, that's going to be my condition. What proportion wear a fitness tracker? So we're trying to find the proportion of yes given that you have a high level of fitness. Okay, so of those that'd be 84 that have a high level of fitness, of those 84, let's see, 51 wear a fitness tracker. So notice how we got to be very careful in the ordering of that. So that's .6 07. About 60%. Of those with low fitness, what proportion wear a fitness tracker? So we're trying to find the proportion wear a fitness tracker given that we have low fitness. So of those that wear a fitness tracker, 108, 21 have low fitness. Okay, so wait a minute. Oh, I messed that up. I'm so sorry. Of those with low fitness. Okay, so that'd be 27. That's my denominator, right? The condition changes my denominator. Of those with low fitness, 27, 21 of them wear a fitness tracker. So of those, let's see, 21 out of 27 is 0.778. And now the question is, is there an association between a wearing a fitness tracker and level of fitness? Well, I have everything I need right here to answer that question. So, we see that about 67% of people wear a fitness tracker. However, if you have a high level fitness, it goes down. Only about 60% wear a fitness tracker. If you have a low level fitness, it goes up. About 78% [snorts] have a fitness tracker. So again, our job is not to explain why this is happening, it's just to explain that we noticed that it is happening. These are not all the same, which means there is an association. If you have a high level fitness, you're less likely to wear a fitness tracker. If you have a low level fitness, you're more likely to wear a fitness tracker. So, there is an association. If it was no association, we'd see about 67% no matter what. 67% of those with high level fitness wear a fitness tracker, 67% of those with low level fitness wear a fitness tracker, and 67% of those with moderate fitness have a fitness tracker. But we don't see that. We see a change, which means there is an association. All right, let's look at one final problem here of that very same kind of thinking. So, a new treatment is being used to get rid of warts on the fingers of patients. Two different clinics, A and B, both used the treatment. Is there an association between successful treatment and clinic? Explain using summary statistics. So, we have a two-way table here with 207 patients, and we said, "What clinic did you go to, A or B?" 139 went to A, 68 went to B. And then, "Did you have successful treatment? Your Your warts went away?" 123 said yes, 84 said no. So, those are our marginal values, right? Those are our marginal frequencies here in in margins. These numbers inside are our joint, right? These would be 33 people who both went to clinic B and did not get rid of their wart. Same thing here, 35 people went to clinic B and did get rid of their wart. Then we have our conditional and our conditionals are what we're going to need to determine if there is an association. So, I like to get a baseline. I'm a big fan of getting a baseline. So, I'm going to use our marginal success. 59.4% of people had success. That's the 123 out of 207. 123 out of 207 is again about 59%. Let's just even just say 60% right we want to round it off. About 60% of people had success in of these patients getting rid of their warts. Now, let's see if we only look at clinic A, does it go up? Does it go down or stays the same? If it stays the same, it means that the clinic doesn't matter. But, guess what? It does. Of those that go to clinic A, 139 people went to clinic A, 88 of them had success. 88 out of 139 is about 63%. So, if you went to clinic A, you had about a 63% chance of finding success. And of the 68 that went to clinic B, 35 of them, 35 out of 68, had success. That's about 51.5%. So, again, I don't know the reason. That's not our job. Our job is just use the statistics, the numbers that from the data. And this tells me that there is an association. If you went to clinic A, you're more likely to have success. If you went to clinic B, you're less likely to have success. But, here is where most kids struggle, writing this out very nicely. So, here's a really good well-written answer. First, answering the question. Yes, there is an association between clinic and successful treatment. Overall, I love starting with that baseline. 59% of patients had success, but of those at clinic A, there's my condition, of those at clinic A, 63% had success, and here comes my other condition, of those at clinic B, 52% had success. And again, I rounded those numbers a little bit for the sake of my paragraph, and that's totally fine. So, something about clinic A raises one's chance of being successful for those in this study. So, if I had to recommend a clinic to go to to get rid of your warts, based on the people in this sample, I'm going to recommend going to clinic A. All right, that's it for the video. I know it was a long one, but hopefully it made a lot of sense in terms of how we could get as much as possible out of a two-way table with marginal distributions, joint distributions, and conditional distributions. Tons of different ways to pull statistics from a two-way table, and you're going to see a lot of two-way tables throughout the year, so make sure you know how to do it now. All right, see you in the next video.
+
+2.3
+Hey statars, welcome to AP Statistics. In this video, we'll be covering topic 2.3 over estimating probabilities using simulation from the AP Statistics course exam description. Before we get started, be sure to download and print the guided notes that accompany this lesson. The guided notes are designed to help you actively follow along, organize the key concepts, and create a valuable study resource you could use throughout the course and when preparing for the AP exam. You can find these guided notes along with study guides, practice worksheets, assessments, and many other AP Statistics resources and the ultimate review packet for AP Statistics. There's a link in the description below. In this video, we will cover the basics of probability and how probabilities can be estimated using simulations, which is pretty much using random numbers to mirror real world scenarios. As we work through today's topic, I'll explain the key concepts, demonstrate the required statistical procedures, and show you how these ideas are applied in AP Statistics. At the end of the lesson, we'll work through several practice problems so you can apply what we've learned and check your understanding. Let's get started with topic 2.3. And remember, one topic at a time, one step closer to a five. So, probability all starts with something called a random process. A random process generates results that are determined by chance. Now, don't overthink this. It's kind of a weird name, but a random process is just any scenario where there's results. There's outcomes and we really don't know what outcome is going to happen because which one happened occurs by chance. So let's talk more about that word outcome. So an outcome is the result of one trial of a random process. So again, a random process, it's an event. It's it's it's a situation where you don't know what could happen, but you know the outcomes, you just don't know which one is going to happen. Now, an event is another word that we use quite often. An event is a collection of outcomes. Now, hopefully this isn't too bad, but let's look at lots of examples to really make sure you understand what I'm talking about here. So, here's an example. A random process is tossing a coin. When you toss a coin, you do not know the outcomes, but you know that it's either going to be a head or a tail. So, we know the outcomes. We just don't know which one is going to happen. An event is a collection of outcomes. So, for example, if I toss three coins and I get two heads, that would be an event because it's a collection of outcomes. I need three tosses of the coin and I need two of them to get heads. Another example is rolling a dieice. When you roll a dieice, we know the outcomes. One, two, three, four, five, six, but we don't know which one's going to happen. So an event would be a situation like getting an odd number. So that's a collection of outcomes because we could get a a one, a three, or a five. If any of those come up, we're going to be happy. So again, the outcomes when we roll that die are 1 2 3 4 5. An event is a collection of those outcomes. Another example, shooting a basketball. When you shoot a basketball, maybe a three-pointer or a free throw, whatever, you don't know if you're going to make or miss it. It's either going to be a make or it's going to be a miss. An event would be like, okay, let's shoot five free throws and we want to figure out that the probability that you make three of them. But again, it's a random process. Any situation where you might know what the outcomes could be, but you don't know which one's going to happen. Let's look at one more example here. And this one's kind of a weird one, but hopefully it makes sense. Selecting a person, right? When I select a person, I do not know what's going to happen. I could get a male. I could get a female. I can get somebody with brown hair. I get somebody with blue eyes. I could get someone who's Hispanic. I get somebody who is over six feet tall. Again, there are lots of outcomes. I mean, the list goes on and on forever. When you select a person, lots of different things can happen. Now, an event would be, okay, getting a female who is above six feet tall. That would be a collection of all people in the world who I could possibly pick from who are both female and over six feet tall. Or maybe another event is selecting 10 people and all of them are female. That would be pretty weird. But again, those are events selections or or you know a a compilation you may say of outcomes. So again, don't overthink it. Random process is any situation you might find yourself in where you know the outcomes but you just don't know which one's actually going to happen. Now, random processes all lead us to probability, right? This entire unit, a big chunk of this unit is all about probability. So, here is our first official definition of probability. The probability of an outcome or event is its long run relative frequency. That is, it's relative frequency over a large number of trials. All right, let's kind of break this down. What does relative frequency mean? That's just a fancy word for proportion or percentage. So a probability is how often something occurs or the proportion of time something occurs or the percentage of time that something occurs in the long run after a large number of trials. So this is where we get the phrase longun relative frequency. Long run relative frequency is simply the proportion or percentage of times the outcome you're looking for or the event you're looking for occurs after a large number of trials. And long run relative frequency is exactly what probability is all about. So if you're trying to find the probability of a a particular outcome occurring, go through that random process time after time after time after time after time and you're going to look at the proportion or percentage of those times that your outcome actually occurred. Now, one way, and we're going to learn so many different ways in this unit, but one way to calculate probability or at least estimate probability is with something called a simulation. A simulation is a way to model random events such that simulated outcomes closely match real world outcomes. All possible outcomes are associated with a value to be determined by chance. And then what you're going to do is you're going to record the uh the counts of submitted outcomes and the count total. So basically a simulation is pretending to do something. We're not actually going to do it. We're going to pretend to do it in hopes that we could simulate as closely as we could to a real world scenario what might happen. Now when we pretend to do something in math class, what we're going to do is we're going to use numbers to pretend to do it. All right. So let's look at this first example here. We want to use a simulation to determine the probability that in five tosses of a coin, at least three are heads. Now, we could literally actually do this. Toss five coins. We're looking for at least three heads. That would be three, four, or five heads. At least three means three or more. So if we toss five coins and three, four, or five of them are heads, that would be deemed a success. And then we're going to do it again and again and again and again because remember probability is the long run relative frequency. So we if we just do it one time and maybe it doesn't happen well then we can't say there's a 0% chance of this happening, right? We want to do it a lot of times and see how often this outcome of getting three or more heads occurs in the long run. But you know maybe I don't have five coins maybe or maybe I just don't want to waste the time to toss five coins repeatedly. So a simulation is a way that I could basically pretend to do this with numbers. All right. So let's break down this example. Okay. So the random process is tossing a coin. I'm going to toss a coin. I don't know what's going to happen. The outcomes are head or tail. But the event that we're specifically looking to happen is five tosses. So not one toss. We need five tosses. And a success is three, four, or five heads. Okay. So, how can I use numbers to pretend to do this? Well, let's walk you through the steps to build a simulation. I always like to go with five steps. Every teacher might be a little bit different, but I kind of think five steps here. So, the first number or the first step is try to figure out what numbers you're going to use to pretend to do your scenario. So, I have two outcomes, head or tail. So, I need numbers. So, I need number one to be head and number two to be tail. Now, I can use zero for head and nine for tail or three for head and four for tail. Really doesn't matter. I just need two numbers and I went with two of the easiest numbers out there, one and two. So, the number one is uh equal to being a head and number two is equal to being a tail. All right. Then, I'm going to use a random number generator because I'm going to use numbers to pretend to do this to randomly select one or two. And I'm going to have it select five numbers. So, I'm going to have a random number generator select five numbers. Each number is either going to be a one or two. So the first number is going to be one or a two. I don't know what's going to happen. Just like tossing a coin, right? Could be a head or a tail. Second number one or two. Third number one or two. Fourth number one or two. Fifth number one or two. Then I'm going to count how many ones there are because remember I'm trying to find the probability of three or more heads. So one is a head. So I'm going to count how many ones there are amongst my five numbers in a successful trial. The fourth step is you know what are you going to deem a successful trial is if there are three four or five ones because that will simulate what I want to happen there being at least three heads and then I'm going to run multiple trials and that's the idea right the true probability of this event will only reveal itself in the long run after I do many many many trials. Now I'm going to use this website right here because it's just really simple to use. It's easy to set up and it's a great way to run simulations. It basically is just going to generate random numbers for you. So, let me pull this website up here so I can show you how it works. All right. Now, at the very top, you could just choose any lower number to any higher number and just generate random numbers in between. But, I like to use the comprehensive version here. So, I'm have the lower limit be one and the upper limit be two. And I want integers only. And I'm going to generate five numbers. So, I'm literally doing exactly what I said. I want uh only numbers. The only numbers that are possible are one or two integers only. And I want to select five random numbers in that range. And it says allow duplicates in your result. Yes, I can allow duplicates because you know you know what happens to one coin is independent of the next. Like the coin's not going to remember, oh, I I was ahead that time. Oh, I can't be ahead again. No, it's it's allowed to repeat. I can get, you know, Utah toss five coins. You can get five heads, right? All right. Then I'm going to um this is just ordering your results. You could order the results just so it's a little bit easier to look at. So I'm just choose ascend here. It's just going to kind of put them in order. All right. So hit generate. Boom. There it is. Oh my gosh. Look at this. This trial had all tails, not a single head. So this would be a unsuccessful trial. So so far I'm 0 for one. Now if I stop right now, I would guess the probability would be 0% chance of getting three or more heads. But we all know that that's not right. So, let's do it again. Okay, this time I had two heads. Uh, that's still technically a failure because remember success is a three, four, or five heads. All right, so so far I'm 0 for two. All right, another one with only two heads. So, I'm 0 for three. Okay, only one. So, I'm 0 for four. And here comes another trial. Oh, I'm 0 for five. So, so far after running five trials, I have yet to have there be three or more heads. So if I stop right now only after five trials I would say well the probability is 0%. But the whole idea of probability is the true probability of an event or outcome will only ever be close to the truth after a large number of trials. So I would need to keep doing this over and oh finally I got a successful one. Right? Three heads there. So that's my first success. So right now I'm one out of six. And let's do one more trial. Here it is. another one with three. So, so far I'm two for seven. So, you get the idea. So, right now, if I stop right now, I would say, well, I guess the probability is two out of seven. And I'm going to take the total number of successes I had, I had two successes, divided by the total number of trials I ran. And I get about very roughly. 286. So, if I stop right now, I'd say, huh, guess there's about a 29% chance of getting three or more heads when you toss five coins. But the idea is this. I'm only ever going to actually get the true probability of that outcome if I do it a whole bunch of times. So to estimate the probability, we count the number of successful trials and then divide by the total number of trials. And that's how I got that two out of seven. But here's what I was getting at. We actually have a name for this. It's called the law of large numbers. The law of large numbers states that for independent trials, as the number of trials increases, the long run relative frequency probability of the outcome or event gets closer and closer to a single value. What this is saying is pretty simple is that the single value is the true probability of that outcome or event. The single value that we're looking for, right? We're looking for the one answer. What is the answer to the probability of tossing five coins and getting three or more heads? Well, the more trials I run, right? It's called the law of large numbers. As the number of trials increases and increases and increases, I will get closer and closer to that one and one only true answer. So, the idea is the true probability of an outcome or an event will only reveal itself in the long run. Now, if you're still a little bit confused, let's break this down a little bit further. Let's just think of a really simplistic thing. What is the probability I toss a coin and get a head? Everybody should know 50%. But that doesn't mean if I toss two coins, I will get one of them to be ahead. That is not true, right? Because only tossing it twice is the short run. That's not the long run. Even if I toss a coin 10 times, there's no guarantee I'm going to get five heads out of the 10. That's the 50%. But no, even if I toss a hundred times, even if I toss a coin a 100 times, there's no guarantee that I will get exactly 50 out of 100. 50%, the 50% that everybody knows is the true probability of getting ahead only reveals itself in the long run. So I'd have to toss a coin a thousand times, 2,000 times, 5,000 times, 10,000 times. As the number of trials increases, as the number of tosses at that coin increases, only then will I get closer and closer to the one and only one answer that we know is true. 50% chance of getting a head. Okay, so let's look at a second example here. Okay, this time we have this situation. A company has 800 stores. 500 of those stores are in the US, 500 different stores and 300 different stores are in Europe. Now they wish to select at random eight stores. Okay, what is the probability all eight stores selected are from the US. Okay, so again, let's break this down. The random process is selecting a store. I'm going to randomly select a store. I don't know. Is it going to be from the US or is it going to be for Europe? Those are my outcomes. Now the event in particular that I'm trying to figure out is okay if I select eight stores a success is all of them are from the US. Okay. So one thing I could do is literally do it right I could you know get the 800 stores select them and and and select eight of them and figure out if they're all in the US or not and then just keep doing that and doing that and doing that. But a simulation likes to use numbers to pretend to do that. So here are my five steps. First, every store is different, right? So, I have 800 stores. So, I'm going to use numbers 001 up to 800. Now, the first 500 numbers 001 to 500 are going to be numbers that represent my US stores. Then, the remaining numbers 501 up to 800. Those are going to be the 300 stores that represent my European stores. Okay. I'm going to use a random number generator to select eight numbers in that range. I'm going to ignore repeats. So, I don't want repeats because once a store is picked, it can't be picked twice. All right, I'm picking eight different stores. Okay, we're going to count how many stores are from the US, which is 001 to 500. So, I need all eight of them to be in that range because I'm looking for the probability a successful trial is all of them. All eight of them are from the US. So the only way I'm happy is if every single number picked is 001 to 500 which means it's from the US. Now I'm of course going to run multiple trials because remember the true probability of this event will only reveal itself in the long run after many many many many trials. All right. So let's go ahead and use this website again to simulate this situation. All right. So this time I'm going to go from one to 800. Those are my different stores. I need to select eight of these numbers. Are duplicates allowed? No. No duplicates. Remember, because every store is individual, right? When you toss a coin, it doesn't matter. Every single time you toss, it's independent of the next. It could be heads, it could be tails. But when you are selecting stores, you need eight different stores. So, no duplicates. And I'm going to choose to go to ascending order. That's just going to make it a little bit easier for me to look and make sure that all of them are one to 500. And of course, I'm going to use integers again. I don't want to use any decimals here. All right. So, here comes my first trial. Okay. Hey, this is a successful trial. Every single store picked was from the US because they were all below 500 or five one to 500. All right. So, if I stop right now, I'm one out of one. 100% would be the probability. But the idea is the true probability only reveals itself in the long run after many, many, many, many trials. So, let's keep going. Okay. Oh my gosh. Another trial where they're all from the US. So, so far we're two for two. Another trial. Three for three. Oh, wait a minute, guys. I just made a mistake. You have to totally understand. I hope you caught this. And maybe you're screaming at your computer right now. I did one to 500. So, that was actually guaranteeing that they were all going to be US stores. I'm so sorry. I have to start over. We're going to make that a 1 to800. Okay. Now, this is going to work. I'm so sorry. Okay, here is our first official trial and it is a failure because only two stores were from the US. All the other ones were well European stores. So, so far I'm 0 for one. All right, here's another one. Another failure. I had two stores in the U in the Europe 539 and 592. All the other ones from the US, but again I need all US. So here's a third trial fail. Another trial fail. Another trial fail. Another trial fail. Another trial fail. Another trial fail. Another trial fail. Another trial fail. Okay, I'm not sure how many times I did that real quick. I should have been keeping count, but I think I did 10 and every single one of them was a fail. So, if I stop right now, I would say, well, I did not have a single success out of my 10 trials, so the probability is 0%. Now, you should be thinking, well, this has to be possible. can't literally be impossible. There has to be a chance that all of them are US stores and yes, you are correct. But again, how am I going to ever get that true single probability if I do it in the long run, which means I got to run a 100 trials. I got to do 200 trials. And the cool thing is that computers, now I know I'm using a very rudimentary program to just start selecting trials, but really good computers could run multiple trials all at a time to give you a really, really good estimate of that probability. All right, let's look at another example here. McKenzie is a 72% free throw shooter. If she shoots 10 free throws, what is the probability she makes at least eight shots? Okay, so what's the situation here? The random process is shooting a free throw. When we shoot a free throw, the outcomes are make or miss. Now, the event is 10 shots and we want to make at least eight, which means we want to make eight, nine, or 10. Now, one way McKenzie could do this is she could just start shooting. shoot 10 shots, record how many she makes. It's a success if it's eight, nine, or 10. Otherwise, it's a failure. And then she could just keep going and going and going and going. But McKenzie might get kind of tired. So, what we're going to do is we're going to pretend to do this with numbers. All right. So, we're going to use numbers 00 to 999. Why? Because this problem is percentage based. There's a 72% chance that she makes the free throw. So, we need 72 numbers and a percentage is all about 100, right? So, that's why we need 100. Now I could have done one to 100 but I wanted to stick with all double digits. So I'm going to do 0 0 to 99. That's 100 numbers. Now 00 to 71 would be the 72 that represent a make. Now again you got to be careful with that. Most kids, you know, I'm just going to do one to 100 make it easy. And that's fine, but I chose to be a little different here. Sorry. But 00 to 71 would be 72 numbers that represent a make. And that's the 72%. Because 72 out of those 100 numbers is 72%. Then here are the misses. So if we get 72 to 99, those would be a miss. Now listen, if you're like, I'm confused, you could easily just do one to 100 and then 1 to 72 would be a make and 73 to 100 would be a miss if that makes a little bit easier in your mind. Doesn't matter. Okay. Then I'm going to use a random number generator to select 10 numbers. Now here repeats are allowed, right? Because every shot is independent of the next. So if one goes in, it doesn't have any impact on the next. So I'm not choosing things like I'm not selecting stores that cannot be picked again. I'm just using a number to pretend if it's a make or miss. So if the same number comes up, who cares? All right. Then I'm going to count how many numbers are 00 to 71 because that's going to be a success. If there's eight, nine, or 10 numbers in that range, I have myself a successful trial. All right, I'm going to run multiple trials. Let's use my computer program again to do this. Okay, so this time I'm going to make sure I get it right this time. We're going to do 0 to 99. Don't want to mess up like I did last time. And then we're going to choose 10 numbers. And are duplicates allowed? Yes. And we're going to choose it to be ascending order. That's just going to make it easier for me to count them. And then we want integers only. So here comes our first trial. Okay. So she has a make, a make, a make, a make, a make, a make, a make. 71's a make. 72 is a miss, 74 is a miss, 86 is a miss. So, she has 1 2 3 4 5 6 7 makes. That is unsuccessful. Okay, cuz remember 00 to 71. Oh, or did I do that wrong? I apologize, man. I'm really messed this up. 0 to 71 are makes. Let's go back and look at that one more time. Okay, so that's 71 would be a makes. So, she had 1, two, three, four, five, six, seven. No, that was right. Seven makes and we need eight or more. Okay, so so far we're 0 for one. Let's do another trial. Okay, this time. Yes. So, we have a whole lot of makes. In fact, nine of them were makes. The only one that was a miss was the 86. So, that so far I'm one for two. Let's do another one here. Okay, this time I only had seven makes. 13 27 1 2 3 4 5 6 7 makes. 76 82 90 are all misses. Let's do another trial here. Another failure. Another failure. I had a lot of misses here. had four misses. I'm only allowed to have two or less misses. Let's do one more here. Another fail. So, so far I've only ran five trials. Okay. So, that means I'm one out of five. So, [snorts] one out of five. I'm getting use that website. One out of five. That's 20%. So, if I stop right now, I'd say I guess the probability that she makes eight, nine, or 10 free throws is 20%. Now, that's only five trials. That is clearly not the long run. So, if I want to really know the answer, I need to repeat this, heck, a thousand, 10,000 trials and then I'd have a really good idea of what that answer is. So, if you took if you take anything away from this video today, it's understand that probability is long run relative frequency, the proportion or percentage of times that something happens in the long run. That's the only way you're going to get to the true probability of an event. And we have that through the law of large numbers. The more times we do the trials, the more times we simulate it, the closer and closer we're going to get. All right. Now, at the end of the day, the whole point of this video is really just to learn about how we could use a simulation to pretend to do uh a real world scenario, right? To pretend to do a random process. So, here are those five steps just in generic terms. The first step is what numbers will you use and what will they represent? The second step is explain how you will use a random number generator. like what do you need that random number generator to do? Can repeats be allowed? Can repeats not be allowed? How many numbers are you selecting? Again, all that's going to come from your problem. What are you looking for in the selected numbers? Like what are we looking for? What are we going to be counting in a trial? And then we have to define a successful trial. So, how do we know at the end of the day if we just had a good trial or a bad trial? And again, that's all going to come from the problem. And then you're going to run n trials to estimate the probability. And again, the only way you're ever going to get the probability is if you do a lot of trials. And most kids will say, "Well, how many do I have to do? Like, is a 100 enough?" No. Is a thousand enough? No. Because the only way you're going to get the true probability is if you run basically an infinite number of trials. Because the more trials you do, you keep doing it, doing it, doing it, and do it. That's the only way you're ever going to get to the true probability of that event. All right, that's it for topic 2.3. Hopefully made a lot of sense and hopefully you learned how you could use a simulation to well pretend to do something. All right, see you in the next video.
+
+2.4
+Hey stats stars, welcome to AP statistics. In this video, we'll be covering topic 2.4 over introduction to probabilities from the AP statistics course exam description. Now, before we get started, be sure to download and print the guided notes that accompany this lesson. The guided notes are designed to help you actively follow along, organize the key concepts, and create a valuable study resource you could use throughout the course and when preparing for the AP exam. You can find these guided notes along with study guides, practice worksheets, assessments, and many other AP statistics resources in the ultimate review packet for AP statistics. There's a link in the description below. In this video, we will cover the ground rules for calculating probabilities of outcomes and events within a random process. Probability can be a tough, so this is where it all starts. As we work through today's topic, I'll explain the key concepts, demonstrate the required statistical procedures, and show you exactly how these ideas can be applied in AP statistics. At the end of the lesson, we'll work through several practice problems so you can apply what we've learned and check your understanding. Let's get started with topic 2.4, and remember, one topic at a time, one step closer to a five. So, if you watched topic 2.3 video over estimating probability with simulation, you learned that if we want to find the true probability of an outcome or an event, well, we have to repeat that outcome or event many, many, many, many times, right? It's called the law of large numbers. The true probability will only reveal itself in the long run. Well, that can't be the only way to calculate probabilities because that means if we want to find the probability of ability of anything, we have to just, well, keep doing the random process and count how many times it happens and divided by how many total trials we ran, and that just doesn't seem fun. Well, there are plenty of other ways to actually find probabilities more theoretically. So, what we're going to do over the next couple topics is figure out ways that we could calculate probability without having to run simulation after simulation after simulation after simulation. And there's a lot of little things that we have to learn to be able to become really, really good at that, and that's where we're going to start in this video. So, it all starts with something called a sample space. The sample space of a random process is the set of all possible non-overlapping outcomes. The probability of the sample space is one or 100%. So basically, remember random process is a situation where we don't know the outcome. Well, the sample space is a list of every single one of the possible outcomes. Now, they're non-overlapping outcomes, right? So we make a list of every outcome, that means we have our sample space. The probability of the sample space is 100%, which as a proportion would be one. Basically, that tells us that something has to happen, right? If the sample space contains everything that could happen, well, if we add all of those together, we better get 100% because well, something has to happen. Now, the most basic formula in the world that most of you are probably familiar with when it comes to basic probability is this. If all outcomes in the sample space are equally likely, then the theoretical probability of event E, which we write P and then in parentheses E, we'll talk about that in 1 second, will occur is taking the number of outcomes in favor of event E and dividing it by the total number of outcomes in the sample space. All right, let's break this down. First, what the heck is this? This is our notation for probability. Now, this P right here could stand for probability, percentage, or proportion because they're all essentially the same thing. And then in the parentheses goes the event or the outcome that we're looking for. This does not mean P * E, right? This is not multiplication, right? We're not algebra class. We're basically saying, "Hey, what's the probability of" and then inside the parentheses is well, what we're trying to find the probability of. Now, this formula is awesome, but it can only be used if the outcomes in the sample space are equally likely. You cannot use this formula if you don't have those equally likely probabilities. So again, all you got to do is take the total number of outcomes that are in favor of what you want and divided by the total number of outcomes in the sample space. We're going to use this formula a lot in many examples here in this video. So, keep paying attention. All right. Now, the probability of an event is a number between 0 and 1 inclusive, or 0 to 100% in terms of a percentage. So, basically, no probability could be negative. You can't have a negative probability. It doesn't make sense. And you cannot have a probability over 100%. So, all probabilities are anywhere from 0 all the way to 1, or if you make those percentages, that'd be 0% to 100%. And literally, any number in here could [snorts] be the probability of an event. Now, could be a whole number like 32% or 64% or 79% or it could be a decimal like, "Hey, the probability could be 32.6743%." That is possible as well. Probabilities closer to 1 are considered more likely. Probabilities closer to 0 considered unlikely. But, you know, a lot of kids have this misconception that 50% is where unlikely and likely start. They think anything above 50% is likely, anything below 50% is unlikely. That's actually not true at all. If something has a 45% chance of occurring, I think that that is still very, very likely. I mean, if I had a 45% chance to win the lottery tonight, I'm buying a lottery ticket. So, most statisticians truly don't start using that word unlikely until we're below 5 or even 1%. So, once we're below 5 or some people will say 1%, that's when things start to become, well, you know, a little bit less likely and not so likely to occur. But, 50% is not the the cutoff for that. So, please keep that in mind um starting off in this kind of beginning here of talking about probability. All right. The next big thing we have before we start diving into a lot of examples is what we call the complement of an event. Now, this is pretty cool because every time know a probability, you actually get another one for free. Let me explain. The complement of an event E is not E. Now, not naughty, like n a u g h t y. Okay, it's a little bit of a joke. It's not E, okay? So, this is the probability that the event does not happen. And now, we symbolize this four different ways. I don't really care which way you use. We could literally say, "Hey, the probability that it's not E." Or we could use this little E with this little like asterisk right there to represent not E. Or we could use a little C right there, like a little superscript C for the complement. Or some people will use this E with the line over it. I I don't really even care. It doesn't really matter, as long as you represent or you understand the idea that, you know, the probability of E is the event happening, and the complement is that the event does not happen. Now, to find the complement of an event, you simply take 1 minus the probability that event E does occur. It's really, really simple formula. You know, I'll give you an easy way to understand this. If there's a 10% chance that it will rain tomorrow, the complement will be that it does not rain, which would be 90%. 1 - 0.10 is 0.9 or 90%. So again, every time you know the probability, you automatically know a second probability for free. So for example, if there's an 85% chance I make a free throw, well, automatically not making a free throw would be the opposite of that or 15%. I could do that math in my head. 1 - 0.85 is 0.15. So, 85% chance I make it, 15% chance I do not make it. But we call that not the not E or the complement. All right. Now, let's take a look at several examples to really kind of understand these basic rules of probability. All right, the first one is going to go across a very simple random process, rolling a fair six-sided die. This is something that most kids, if not all kids, should be very, very familiar with. All All so what is the sample space when you roll a fair six-sided die? What are all of the non-overlapping outcomes? Okay, I can roll a one, I can roll a two, I can roll a three, I can roll a four, I can roll a five, or I can roll a six. There is my sample space, and for some reason we typically put the sample space inside of a squiggly bracket, but it doesn't really matter. You just have to simply list all of the possible outcomes, and these are all equally likely, right? All of these outcomes have a probability of 1/6. Now, the next question is how many total outcomes are there? Well, that's pretty easy. There's six-sided die, six total outcomes. All right, and our first question is what is the probability of rolling a two? So, we would say, "What is the probability of rolling a two?" All right. Well, there are six total outcomes, one of them is in favor of what we want, rolling a two, so my probability is 1/6. Now, we can leave that as a fraction, or we can actually divide that out and get you know, I like to go with three decimals, so 0.167, and then we can even round that to about 16.7%. All of these are the same, whether you leave it as a fraction, a proportion, as a decimal, or a percentage, they're all equal. I don't care which one you give me, but the probability of rolling a two is one out of six, or about 16.7%. Now, what about the probability of not rolling a two? Well, remember, this is what we call the complement, and you could you could put T two with a little C right here, or you could literally say not. That's kind of how I do it. I just say not two. Well, this is going to be 1 minus the probability of rolling a two, which would be 1 minus 1/6, and all of you guys should be good enough with fractions to know that one is 6/6. 6/6 minus 1/6 is 5/6. So, the probability that I don't roll a two would be any of the other five outcomes, so five out of six. You could also give me a decimal of 0.833, and you can even move that decimal place twice to give 83.3%. pretty simple. All right, next example is what is the probability of rolling an odd number? Okay, again, we can write this out probability of rolling an odd number and we think okay, there are six total outcomes. How many of them are odd? Well, a one is odd, a three is odd, a five is odd. So now there are three outcomes that are favorable to what I want. So the answer is three out of six or .5 or 50%. So there's a 50% chance that when you roll a die, you're going to get a three. So the or I'm sorry, you're going to get an odd number one, three, or five. So again, I don't have to do a simulation anymore to figure out this probability. But I really want to make sure you understand is this. If I roll this die 10 times, am I guaranteed to get five trials, 50%, be a odd number and the other five trials will be an even number? Absolutely not. Remember, the definition, the explanation of this probability, the explanation of any probability for that matter, is the long-run relative frequency. So I'm only ever going to truly see 50% chance of getting an odd number when you roll a single die if I do it a large amount of time. So I got to roll the die, roll the die, roll the die, roll the die, roll the die. So don't ever say, "Oh, that means it's going to happen five out of 10 times." No, or 50 out of 100 times. No, it's only going to happen in the long run. So this is how we could calculate probabilities without having to do simulations. We just have to think and use this pretty basic formula. All right, let's move into our second example. Roll two fair six-sided die and add the results. So we're not going to run roll one, we're going to roll two die at the same time and we're going to add the results together. Okay, what is the sample space and how many total outcomes are there? Okay, couple different ways of thinking at this. The first die, there are six outcomes. Second die, there's another six outcomes and we multiply because we rolled multiple die, so we multiply. That means there are 36 total total different outcomes. So, for example, I could get a one on the first die, a one on the second die. There's an outcome. I could get a one on the first die, a two on the second die. That's an outcome. I could get a two on the first die, a one on the second die. Now, those both of those outcomes are one and a two, but those are different outcomes. But remember, we're adding the results together. So, for example, if this happened right here, I got a one on the first and a one on the second, that's a sum of two. Both of these would be a sum of three. They are two distinctly different ways of doing it. One on the first die, two on the second. Two on the first, one on the second. But both of them end with resulting in a three. So, this could be a little bit tricky, so let's kind of do a couple different visual ways to understand this. So, here are all 36 different outcomes. Red is the first die, white is the second die. So, here's this first example where we saw a sum of two. Now, here are these other examples where we get a two and a one or a one or a two. So, now with the red and the white, you can actually see it a little bit easier. So, we see the two on the red versus the one on the red and the two on the white versus the one on the white. Now, those are different outcomes even though they both result in a sum of three. And then we could go along the whole line here. Um for example, I can get a 10. How can I got to get a 10? I can get a six and then a four or a five and a five. Now, you can't switch five and five, right? Five on the red, five on the white. If I switch it, I still have a five on the red and a five on the white. So, that's why we only list that once. But I could get the four on the red instead of the four on the white and then the six on the white instead of the six on the red and that would also give me sum of 10. So, here are those outcomes. So, here we get a sum of two. That's an outcome. We can have a sum of three. We can have the three and the one, the two and the two, and the three and the one. That's a going to be a sum of four. We could get a sum of five. We could get a sum of six. We can get a sum of seven. We could get a sum of eight. We can get a sum of nine. The nines are right here, 6 3, 5 4, 4 5, or 3 6. We can get a sum of 10 as we already showed. We can get a sum of 11, 5 6, 6 5. And we can also get a sum of 12, which happens right here, 6 and 6. All right, so there's my sample space right here. Literally all of the different outcomes that are possible, but when we're talking about the sum, it's 2 3 5 6 7 8 9 10 11 12. Now, the important thing here is that these are actually not equally likely. And my picture is showing that. So, this is where I really want to slow down make sure everybody understands this. Every single one of these outcomes is equally likely. Like this outcome, one on the red, six on the white, is just as likely as this outcome, four on the red, three on the white. So, every one of these scenarios is equally likely. But when you add them together and you're focusing on the sum, they're not equally likely. So, let's start with the 12. There's only one out of 36 ways to get a 12. There it is. There is the one out of 36 outcomes that results in a 12. However, an outcome of 10 has three out of 36. Right? Cuz there's this one right here, this one right here, and this one right here. All of them are different, yet they all add up to 10. So, there's three out of 36 ways of getting a 10. So, hopefully that makes sense. So, what I'm trying to explain is that in terms of the outcomes of the die, there are 36 outcomes, they're all equally likely. But when we add the die together, then we have outcomes of 2 3 4 5 6 7 8 9 10 11 12, and those outcomes are not equally likely. Here's maybe a better way to do it, actually using numbers as opposed to dots. So, right here is the one and the one, which adds to a two. Here is a four and a one, a three and a two, a two and a three, a one and a four. Those all add to an outcome of five. So, it's kind of a nice little visual tool. All right, let's start asking some probability questions. All right, what is the probability of rolling a sum of seven? Okay, how can I get a sum of seven? 6 1, 5 2, 4 3, 3 4, 2 5, 1 6. Now, you might be saying, "Wait a minute, 6 1, 1 6?" Yes, those are different, and that's why maybe viewing it with the colors actually helps, cuz you can see the six on the red versus the six on the white and how those are actually different outcomes. So, at the end of the day, there are 1 2 3 4 5 6 out of 36 outcomes that produces a sum of seven. So, I'm trying to Sorry, it's getting a little messy in there. If I'm trying to find the probability that the sum is seven, that would be six out of 36. You could even reduce that to one out of six, which is again about about 16.7% if you want to make it a decimal or a percentage. But, that's pretty easy, right? But, rolling two dice is a very common question, so I really want to make sure you understand the different outcomes. All right, what is the probability of rolling a sum of 12? Okay, what is the probability that I get a sum of 12? You can even write sum if you want there. All right, well, how many outcomes result in that? Well, only one, right there. That's the only outcome, six on the red, six on the white, and you can't reverse that, cuz if you reverse that, you still have a six on the red and six on the white. So, only one out of 36 outcomes results in a sum of 12. And that would be a probability of .0 278. .0278. And that's about you're pretty close to 3%, but I'll just use this 2.78%. Now, is that unlikely? I would actually say no. I mean, I've had that happen to me. Like, I don't want to say something's unlikely if that's very, very rarely occurs. I've definitely rolled a die before, and I'm not trying to say I'm a gambler or anything, but I've rolled two die before. I'm a stats teacher, come on. I better roll two die. And I have gotten a 12 to come up before, so it's not unlikely, even though the probability is rather low. And would it be really, really low right there like, "Oh my god, I should have a party. This is so crazy." You get my point, I hope. All right. Hopefully, that makes sense. And now, here's another one. What is the probability of rolling a sum of at most five? Okay, this tricks kids because they don't like the language here, so it becomes an English problem. At most five means five or less. So, we need the sum to be five or less. So, let's see here. Here are my fives. 4 1 2 3 3 2 1 4. Here are my fours. 3 1 2 2 1 3. Here are my threes. 2 1 1 2. And here's my two. 1 1. So, those are the only outcomes that are five or less. So, if we add those together, we get 4 5 6 7 8 9 10. So, the probability that the outcome you can even use S for sum, or you can write the word sum. The sum is less than or equal to five. That means at most five, less than or equal to five. Well, there are 10 out of 36 outcomes that meet that qualification. So, 36 total outcomes, 10 of them are going to make me happy because the sum is five or less. So, 10 out of 36 is about 28% if I want to go with three decimals, it'd be 0.278, or 27.8%, which again would be fairly likely. I bet that would happen a lot of times if you kept tossing and tossing and tossing. All right, let's switch gears to a completely different problem this way. Now, we're going to look at a two-way table here. So, we asked uh 850 students what grade they're in, 9th, 10th, 11th, or 12th, and the color of their eyes, blue, brown, green, hazel, other, and we have this beautiful picture here. So, in the margins, we have the totals for each of those outcomes, and then inside, remember those are joint probabilities, where we're looking at specific outcomes like, you know, just for example, this right here would be 25 who were 10th grade and had green eyes. All right, you get the idea. All right, let's start asking some questions. What is the probability the student is in the 10th grade, or is a 10th grader? So, the probability that they are in the 10th grade, or you can even write sophomore there if you want. Okay, so there are 850 total kids. All of them are equally likely, meaning any one of them can be picked. But, how many of them are going to make me happy? Well, 220 because 220 of them are 10th graders. So, there's my probability, 220 out of 850. And again, I love fractions. I don't mind if you leave that, but you could also divide it, and you could get .259, or 25.9% if you would prefer. Any of those are acceptable answers. All right, what is the probability the student is not a 10th grader? Okay, so I'm going to just going to write not 10th grade here. The probability they're not in 10th grade, and remember, this is really easy to do. We're just going to do 1 220 / 850. Because if I simply get rid of all the 10th graders, well, then I'm left with all of the kids that are not 10th graders, the freshman, the juniors, or the seniors. So, if I do 850 - 220, that leaves me with 630 students out of 850 that are not 10th graders. Now, I could have actually added those together 160, 235, and 235 if I wanted to, but it's also just as easy to do one minus the 10th graders and boom, you got yourself the probability that they are not in 10th grade. All right, what is the probability that the student has green eyes? So, P for probability or proportion or percentage, I don't care. And then in here we're going to write green. All right. So, now we're going to go back to my table. 850 total kids, all equally likely, and we have 110 of them have green eyes. So, the probability is 110 out of 850. You could divide that to get the decimal or the percentage, you guys are smart. All right, next question. What is the probability that the student has blue eyes and is a senior? Okay. So, blue eyes. Now, remember you can write the word and, but remember we learned in the previous video that the international mathematical symbol for and is this upside-down U. You could use that as well. Kind of looks like a sad face. Uh probability of blue and senior. Okay, and senior. You do not have to use that symbol, by the way. You could just use the word and. All right, but now I got to look inside the table. Senior and blue eyes. That'd be right here. Seniors are in 12th grade, so blue eyes and seniors. So, 45 out of a total of 850. 850 total kids are all equally likely to be picked. 45 of them are blue and seniors have blue eyes and are seniors. And again, you could divide to get the answer there. Not too bad. All right, final example. A jar contains three yellow, five red, and seven green marbles. Okay, so that is a total of 15 marbles. 15 if you add them all together. Three, five, and seven adds up to 15. If you don't believe me, check my math. All right, so what is the sample space? Like what what are the possible outcomes? Okay, well, we got yellow, yellow could happen. We got red, red could happen, and green could happen. Now, all of these are not equally likely. Like it's more likely to get a green than it is to get a red or a yellow. Less likely to get a yellow than red or green. But, the marbles themselves, the actual 15 marbles, which one of those 15 marbles you get picked, well, every one of the marbles has an equal chance of being picked. But, five of them just so happen to be red, seven green, and three yellow. But, you get the idea that the individual marbles have an equally likely chance of being picked. All right, what are some questions here? What is the probability of selecting a red marble? Okay, this is so easy. Probability of red. Okay. 15 total marbles, right? 15 total equally likely marbles. Of them, five of them are going to make me happy because they'll result in being a red. So, 5 / 15 is .333. You guys know that. 1/3 or .333, 33.3%. All right, what is the probability that it's not red? Well, not red would simply be green or yellow. But, since I already found the probability of red, I just got to do 1 minus a third or 5/15, same thing, and I get 2/3 or .667. So, if there's a 33.3% chance of getting a red marble, then there'd be a 66.7% chance of not getting a red marble. All right, that's it. Hopefully, a couple simple examples, but really just making sure that you understand first notation. Notation is really, really important. So, how I'm using that P in the parentheses to denote what I'm looking for. And then, you could leave your answers a fraction, a decimal, or a percentage. I don't care. But, making sure that you understand equally likely outcomes and then how I can actually think about, okay, on the bottom is my total outcomes, on top is the ones that are in favor of what I'm looking for, divide and conquer to get your answer. But, this is just basic probability, lots more to come, but hopefully it made sense because, listen, I don't want to do a simulation of using numbers to represent colors and then trying to pick out how many of them are red. Like, I don't want to do a simulation because that takes a lot of time. But, the last thing I want to remind you of, if the probability of getting a red marble is 1/3, that does not mean if you pick out three marbles, one of them will be red. No, no, no, no, no. You could pick out three marbles, they're all green for crying out loud. What it means is in the long run, if you select a marble, put it back, select a marble, put it back, select a marble, put it back, in the long run, after a large number of trials of picking out a marble, picking out a marble, picking out a marble, in the long run, 33.3% of those selections will be a red marble. Keep that in mind. Probabilities do not occur in the short run. The true probability of an event, in this case we've deemed it 33.3%, the true probability will only show itself if I select a large number of marbles. If I repeat this random process many, many, many, many times, that's the only time I'll actually see that probability. It does not happen in the short run. So, understand the definition of probability is really, really important, not just now, but also moving forward as we learn more. All right, see you in the next video.
+
+2.5
+Hey statsars, welcome to AP Statistics.
+0:02
+In this video, we'll be covering topic
+0:03
+2.5 over mutually exclusive events from
+0:06
+the AP Statistics course exam
+0:07
+description. Before we get started, be
+0:09
+sure to download and print the guide
+0:11
+notes that accompany this lesson. The
+0:12
+guided notes are designed to help you
+0:14
+actively follow along, organize the key
+0:16
+concepts, and create a valuable study
+0:17
+resource you can use throughout the
+0:19
+course and when preparing for the AP
+0:21
+exam. You can find these guided notes
+0:22
+along with study guides, practice
+0:24
+worksheets, assessments, and many other
+0:26
+AP Statistics resources, and the
+0:27
+ultimate review packet for AP
+0:29
+Statistics. There's a link in the
+0:30
+description below. In this video, we
+0:32
+will cover exactly what it means for two
+0:34
+outcomes of a random process to be
+0:36
+mutually exclusive and how we can use
+0:38
+this concept to help us further
+0:40
+calculate probabilities. As we work
+0:42
+through today's topic, I'll explain the
+0:43
+key concepts, demonstrate the required
+0:45
+statistical procedures, and show you how
+0:47
+these ideas are applied in AP
+0:48
+Statistics. At the end of the lesson,
+0:50
+we'll work through several practice
+0:51
+problems so you can apply what we've
+0:53
+learned in chapter understanding. Let's
+0:55
+get started with topic 2.5. And
+0:57
+remember, one topic at a time, one step
+0:59
+closer to a five. So, understanding
+1:02
+mutually exclusive all starts with
+1:03
+understanding joint probability. Joint
+1:06
+probability is the probability that
+1:07
+events A and B will both occur at the
+1:10
+same time. This is also called joint
+1:12
+probability. It's the probability of A
+1:14
+and B both occurring at the same time.
+1:17
+We also call this the intersection of A
+1:19
+and B. Join probability is defined as
+1:22
+where A intersects B or the probability
+1:25
+of A and B. And again, the mathematical
+1:28
+symbol that we have for and or the
+1:30
+intersection is this upside down U.
+1:32
+Again, you do not have to use that. You
+1:34
+could just write the word and. So if we
+1:36
+think about an event diagram, this other
+1:38
+nice way of thinking about joint
+1:39
+probability. So we have here is the
+1:41
+probability of A. Everything in that is
+1:43
+A. And then we have B right here. Here's
+1:46
+the probability of B. This right here
+1:48
+would be the joint, the intersection,
+1:49
+the probability of both A and B
+1:52
+occurring. So that's joint probability.
+1:55
+Pretty simple to understand. If you are
+1:57
+a boy and you are wearing glasses, well
+2:00
+then you are the joint of those two
+2:01
+events. You wear glasses and you are a
+2:03
+boy. Okay. Now, where are we going with
+2:06
+this? Well, now let's talk about what
+2:08
+mutually exclusive means. Two events are
+2:10
+mutually exclusive also called disjoint
+2:13
+if they cannot occur at the same time.
+2:16
+This means that if two events are
+2:18
+mutually exclusive the probability of A
+2:21
+and B equals zero. There is no
+2:23
+intersection. This would be a ven
+2:25
+diagram where we have event A, we have
+2:28
+event B, absolutely no intersection
+2:31
+between them. So if boys literally were
+2:34
+not allowed to wear glasses like it was
+2:36
+impossible for boys to wear glasses
+2:38
+event A would be boy event B would be
+2:39
+wearing glasses and they were totally
+2:41
+separate and mutually exclusive events
+2:43
+they could not occur at the same time.
+2:45
+So that's why we have to understand what
+2:47
+joint probability is to therefore
+2:48
+understand mutually exclusive. Mutually
+2:50
+exclusive is that the two events you're
+2:52
+talking about cannot occur at the same
+2:55
+time. Let's look at some of examples and
+2:57
+how we can explain this. A high school
+3:00
+teacher has 85 students. Of those
+3:02
+students, 30 are in robotics club and 45
+3:05
+are in drama club. There are 15 students
+3:08
+who are not in robotics club nor in
+3:11
+drama club. Let R be e the event of
+3:13
+selecting a student in robotics club and
+3:16
+D be the event of selecting a student in
+3:17
+drama club. Our events are in D mutually
+3:21
+exclusive. So what we need to figure out
+3:23
+here is are there any students that are
+3:25
+in both robotics and drama club? Because
+3:28
+if there are students in both, we are
+3:30
+not mutually exclusive. But if we find
+3:33
+out that there are no students that are
+3:35
+in both robotics and drama club, well
+3:37
+then we have mutually exclusive events.
+3:39
+Now, I like to use boxes to help
+3:42
+understand this. I just think this is a
+3:43
+really nice way of doing it. So, I have
+3:45
+four boxes set up here. So, I'm going to
+3:47
+label the rows and the columns. This is
+3:49
+going to be robotics club and this would
+3:52
+be not robotics club. And then across
+3:55
+the top we would have drama club and not
+3:59
+drama club. Okay. Now let's remember
+4:01
+everything we were told. All right.
+4:04
+First we were told that we know that 15
+4:08
+students are not in drama club, not in
+4:11
+robotics club. So that would be right
+4:12
+here. That would be the intersection. No
+4:14
+robotics, no drama club. Now we were
+4:17
+also told that 45 total students are in
+4:21
+drama club. So that means that this
+4:24
+total row right or column excuse me this
+4:26
+column right here would be 45. 45 kids
+4:28
+are in drama club. Now remember we were
+4:30
+also told that there were 85 total
+4:32
+students. So we also know the
+4:35
+complement. If there's 45 kids in drama
+4:37
+club well that automatically tells us
+4:39
+that 40 are not because we know that
+4:42
+there's a total of 85 kids. So 45 are in
+4:44
+drama club that means 40 are not. We
+4:47
+also know the same thing for robotics
+4:49
+club. We were told that 30 students are
+4:51
+in robotics club. So this entire row
+4:53
+right here for robotics club is 30.
+4:56
+Which means we automatically know that
+4:57
+55 are not in robotics club just because
+5:00
+85 minus 30 is 55. All right. Now that
+5:03
+we got that made, we could literally use
+5:06
+some pretty basic math to figure
+5:08
+everything else out. Okay. So how many
+5:10
+kids would be right here? Robotics club
+5:13
+but not drama club. Well, we know that
+5:15
+that entire column adds up to 40 and we
+5:18
+already have 15 kids that are not in
+5:20
+drama club and not in robotics club.
+5:22
+That means that the other remaining 25
+5:25
+students would be right here because
+5:27
+that entire column must add up to 40. So
+5:30
+25 and 15 adds up to 40. So that means
+5:33
+we have 25 kids who are in robotics club
+5:35
+but not in drama club. All right. Now
+5:38
+this row right here, this entire row
+5:39
+right here has to add up to 55. That
+5:42
+means that 40 students are right here.
+5:44
+They're in drama club, but they're not
+5:46
+in robotics club. Again, I already knew
+5:48
+that that entire row was 55. But how I
+5:52
+knew that there was 15 right here, not
+5:54
+robotics, not drama. So that means this
+5:56
+other box had been 40. Again, 40 very
+5:58
+specific students in drama club, not in
+6:01
+robotics club. All right. Now, I could
+6:03
+either use the row or the column to
+6:05
+figure out this final missing spot right
+6:07
+here. If I use the row, I already know
+6:10
+there's a total of 45 for that row, but
+6:13
+40 are already right here. So, that's
+6:15
+going to leave five students that are in
+6:16
+both drama and robotics club. And I
+6:19
+could have gotten that exact same answer
+6:20
+if I looked at the row. The entire row
+6:22
+adds up to 30. And I already have 25
+6:24
+students who are in robotics club, but
+6:26
+not in drama club. So, that means this
+6:28
+box right here must be five. So, now I
+6:30
+have my answer. They are not mutually
+6:33
+exclusive because I just proved that
+6:35
+there are five students that are in both
+6:37
+robotics and drama club. So because of
+6:40
+those five students, sorry, they're not
+6:43
+mutually exclusive. There is some
+6:45
+intersection. There is some overlap. The
+6:47
+only way you could be mutually exclusive
+6:48
+if there's a zero there. Zero kids are
+6:51
+in both drama club and robotics club. So
+6:53
+hopefully it made sense in terms of how
+6:55
+I created this very short little table
+6:57
+and I only had to use that was the piece
+6:59
+of information that they gave me. Let's
+7:01
+look at a second example. At an
+7:02
+elementary school, the first 60 students
+7:05
+to walk in the door were asked to choose
+7:07
+from one of two bonuses. The first was
+7:09
+an extra 15 minutes of recess and the
+7:12
+second was an extra library book that
+7:14
+they could check out. Of those students,
+7:16
+43 chose the extra recess and 17
+7:19
+selected the extra book. Let R be the
+7:21
+event of selecting extra recess and B be
+7:24
+the event of selecting extra book. Are
+7:26
+they mutually exclusive? Now, hopefully
+7:28
+you're pretty smart that you could
+7:29
+realize that they are mutually exclusive
+7:32
+just by reading the scenario, but I
+7:33
+actually want to use this table again to
+7:35
+just kind of walk you through it so I
+7:36
+could show you. All right, so let's have
+7:38
+this be the book and this be not
+7:40
+choosing the book. Across the top, we
+7:43
+have recess and then not choosing
+7:46
+recess. Okay, now we were told that
+7:48
+there were 60 total students and we were
+7:51
+also told that 43 of them chose recess.
+7:54
+That's 43 right here. in 17 chose the
+7:58
+book. That's right here. Okay. So, if 43
+8:02
+chose recess, how many did not choose
+8:04
+recess? Well, we know that that entire
+8:06
+row down here at the bottom has to add
+8:08
+up to 60. So, that means 17 kids were
+8:11
+right here not choosing recess. And then
+8:14
+similarly, we know that 60 total kids
+8:16
+were in this survey as well. And 17 of
+8:19
+them chose the extra library book, which
+8:20
+means 43 of them did not. 60 minus 17 is
+8:24
+43. Okay. So now what I know is that you
+8:28
+were only allowed to choose one or the
+8:30
+other. You could not choose both. So
+8:32
+that means I automatically know this is
+8:33
+a zero right here. And same with right
+8:35
+here because you couldn't choose both.
+8:39
+You had to choose one. Which is why I
+8:41
+really didn't need the table for this
+8:42
+problem. But I kind of wanted you to
+8:43
+walk through it so you could see how I
+8:45
+made it. That means of all the kids that
+8:47
+chose recess, well, 43 of them chose
+8:50
+recess and did not choose the book
+8:53
+because you could only choose one. Of
+8:55
+the kids that chose the book, 17
+8:58
+kids chose the extra library book. Well,
+9:00
+that means none of them chose recess
+9:02
+because well, all 17 had to choose that
+9:04
+extra book. So, because there are no
+9:07
+kids that chose both recess and the
+9:09
+extra book, well, because you weren't
+9:11
+allowed, that means we do have mutually
+9:13
+exclusive events. Now, that's kind of a
+9:14
+duh question, a pretty easy one, but I
+9:16
+wanted to make sure you see how this
+9:17
+little table kind of works for that. All
+9:19
+right, let's look at a two-way table and
+9:21
+how we could use a two-way table to
+9:23
+answer this as well. So, we have 150
+9:25
+customers were surveyed. We first
+9:27
+recorded their gender, male or female,
+9:29
+70 males, 80 females, and then we
+9:32
+recorded did they get hot coffee or ice
+9:34
+coffee. Now, it says list two mutually
+9:37
+exclusive events. Okay. Well, one
+9:40
+mutually set of mutually exclusive
+9:42
+events are male and female. You cannot
+9:45
+be both a male and a female at the same
+9:48
+time. So, those are mutually exclusive
+9:50
+events. Another set of mutually
+9:52
+exclusive events are ordering a hot
+9:54
+coffee and an iced coffee. You cannot
+9:57
+order a hot and an iced coffee at the
+9:59
+same time. It's either one or the other.
+10:02
+Okay. List two nonmutually exclusive
+10:05
+events. These means that these are
+10:06
+things that can happen at the same time.
+10:08
+Well, there's lots of different options.
+10:10
+You could be a male and choose iced
+10:13
+coffee. There were, you know, let's see
+10:16
+here. There were 22 males who chose iced
+10:19
+coffee. So, those two events had some
+10:22
+overlap. There were 22 of them. 22
+10:24
+people who were both male and ordered an
+10:27
+iced coffee. Another one would be female
+10:29
+and hot coffee. Female and hot coffee.
+10:34
+Because right here there were 28 females
+10:37
+who ordered a hot coffee. So that's 28
+10:39
+who were both female and ordered a hot
+10:42
+coffee. Those are not mutually exclusive
+10:44
+events. Again, mutually exclusive events
+10:46
+have to be two events that cannot happen
+10:48
+at the same time like male female or
+10:50
+ordering a hot co coffee and an iced
+10:52
+coffee at the same time. All right. Now
+10:54
+for the final question. Find the
+10:55
+probability of hot coffee and female.
+10:58
+Well, now we got to put our probability
+10:59
+skills to use here. Okay. Let's see
+11:02
+here. H. Okay, so across the bottom is
+11:05
+going to be our total, right? Total
+11:07
+outcomes, 150 total people that can be
+11:10
+picked. And we want the total of them
+11:12
+that are going to make us happy because
+11:14
+they're both ordering hot coffee and a
+11:16
+female. Well, that would be these 28
+11:18
+right here. So, there's 28 outcomes that
+11:21
+are in favor of what I'm looking for.
+11:23
+That's that joint probability. So, my
+11:25
+final answer is 28 out of 150. Grab a
+11:28
+calculator if you need to. 2850 is.187
+11:33
+or point uh excuse me 18.7% if you want
+11:37
+to make it a percentage. So about 18.7%
+11:41
+is the probability that I randomly
+11:42
+select a person out of here and they are
+11:44
+both a female and ordering hot coffee.
+11:47
+All right, let's look at another two-way
+11:49
+table here. This time we surveyed 200
+11:51
+students and we asked them their grade
+11:53
+level 9, 10th, 11th or 12th and we asked
+11:55
+them their favorite sport, basketball,
+11:57
+football or soccer. Or maybe this was
+11:59
+like a gym class and they had to pick
+12:00
+one of them. Okay. List two mutually
+12:03
+exclusive events. Two mutually exclusive
+12:05
+events. Little typo there. Mutually
+12:07
+exclusive events, not events. Okay. So,
+12:09
+what would be two things that cannot
+12:11
+happen at the same time? Well, you can't
+12:13
+be in ninth grade and 12th grade at the
+12:17
+same time. Those would be mutually
+12:18
+exclusive events. Um, nobody is both an
+12:21
+11th grader and a 10th grader. Those are
+12:24
+mutually exclusive events. You cannot
+12:26
+say basketball and football are both
+12:28
+your favorite sport. You cannot do it.
+12:30
+It's got to be one or the other. So this
+12:32
+will also be mutually exclusive events.
+12:33
+So lots of options there. Now it says
+12:35
+list two nonmutually exclusive events.
+12:38
+This would be any of these numbers that
+12:40
+are well overlapped. For example, you
+12:42
+could be a 10th grader and you could
+12:44
+choose basketball. Well, we know that
+12:46
+those are not mutually exclusive because
+12:49
+we know there are 16 of those students.
+12:51
+There are 16 students who are both 10th
+12:54
+graders. and like basketball. All right.
+12:56
+So now we asked a probability question
+12:58
+here at the end. Find the probability of
+13:00
+a person being selected who loves
+13:02
+football and is in the 11th grade. Okay.
+13:05
+So there's 200 total students to pick
+13:07
+from. And how many of them are going to
+13:09
+make me happy because they are both
+13:11
+liking football and in the 11th grade?
+13:13
+Well, that would be 23 right there. So
+13:16
+23 out of 200 would be that joint
+13:20
+probability. So 23 divided by 200
+13:23
+is.115.
+13:25
+Squeeze that in here. 0.15. So about
+13:28
+11.5% probability that if I randomly
+13:30
+select one of these students, I'm going
+13:32
+to get a student who both likes football
+13:34
+and is in the 11th grade. All right,
+13:36
+that's it. Pretty short little topic
+13:38
+here. But the big thing coming out of
+13:40
+this topic is understanding what
+13:41
+mutually exclusive means. Two events
+13:43
+that cannot occur at the same time. They
+13:46
+have no overlap. Meaning the probability
+13:48
+of A and B equals zero. All right,
+13:51
+that's it. See you in the next video.

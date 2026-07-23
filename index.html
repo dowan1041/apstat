@@ -127,9 +127,25 @@ a:hover{text-decoration:underline; text-underline-offset:3px;}
 .progress-shell .label{font-family:'JetBrains Mono',monospace; font-size:.78rem; color:var(--ink-muted); white-space:nowrap;}
 
 .unit-block{margin-bottom:2.4rem;}
-.unit-head{display:flex; align-items:baseline; gap:.6rem; margin-bottom:.9rem;}
+.unit-head{
+  display:flex; align-items:center; gap:.6rem; margin-bottom:.9rem;
+  cursor:pointer; user-select:none; padding:.65rem .9rem; border-radius:12px;
+  background:var(--card); border:1px solid var(--line); box-shadow:var(--shadow-sm);
+  transition:background .15s var(--ease-out), border-color .15s var(--ease-out);
+}
+.unit-head:hover{background:var(--population-wash); border-color:var(--population-line);}
+.unit-head:active{transform:translateY(1px);}
 .unit-head .code{font-family:'JetBrains Mono',monospace; color:var(--population); font-weight:500; font-size:.85rem;}
-.unit-head h3{font-size:1.15rem;}
+.unit-head h3{font-size:1.15rem; margin:0;}
+.unit-head .unit-count{font-family:'JetBrains Mono',monospace; font-size:.76rem; color:var(--ink-muted); margin-left:.1rem;}
+.unit-head .unit-chevron{
+  margin-left:auto; flex:none; width:28px; height:28px; padding:6px; box-sizing:border-box; border-radius:50%;
+  color:var(--ink-soft); background:var(--paper-deep);
+  transition:transform .2s var(--ease-out), background .15s var(--ease-out), color .15s var(--ease-out);
+}
+.unit-head.collapsed .unit-chevron{transform:rotate(-90deg);}
+.unit-head:hover .unit-chevron{color:#fff; background:var(--population);}
+.chapter-list.collapsed, .chapter-grid.collapsed{display:none;}
 
 .chapter-grid{display:grid; grid-template-columns:repeat(auto-fill, minmax(260px,1fr)); gap:14px;}
 .chapter-card{
@@ -488,6 +504,65 @@ section.sec{margin-bottom:3.4rem; scroll-margin-top:90px;}
 .flow-outcome strong{display:block; font-size:.88rem; color:var(--ink); margin-bottom:.2rem;}
 .flow-outcome p{font-size:.83rem; color:var(--ink-soft); margin:0;}
 
+/* two-way (contingency) tables — Unit 2 categorical data */
+.twt-list{display:flex; flex-direction:column; gap:18px;}
+.twt-card{background:var(--card); border:1px solid var(--line); border-radius:14px; padding:1.3rem 1.4rem; box-shadow:var(--shadow-sm);}
+.twt-card h4{margin-bottom:.3rem;}
+.twt-sub{font-size:.82rem; color:var(--ink-muted); margin-bottom:.9rem;}
+.twt-controls{display:flex; flex-wrap:wrap; gap:.5rem; margin-bottom:1rem;}
+.twt-toggle-group{display:inline-flex; border:1px solid var(--line); border-radius:99px; padding:2px; background:var(--paper-deep);}
+.twt-toggle-btn{font-family:'JetBrains Mono',monospace; font-size:.72rem; font-weight:600; letter-spacing:.02em; padding:.32rem .8rem; border-radius:99px; color:var(--ink-soft); cursor:pointer; user-select:none; border:none; background:transparent;}
+.twt-toggle-btn.active{background:var(--population); color:#fff;}
+.twt-cond-select{font-family:'Plus Jakarta Sans',sans-serif; font-size:.78rem; padding:.3rem .6rem; border-radius:8px; border:1px solid var(--line); background:var(--card); color:var(--ink);}
+.twt-scroll{overflow-x:auto;}
+.twt-table{border-collapse:collapse; font-family:'Plus Jakarta Sans',sans-serif; font-size:.9rem; margin:0 auto;}
+.twt-table th, .twt-table td{padding:.55rem .85rem; text-align:center; border:1px solid var(--line-soft); white-space:nowrap;}
+.twt-table thead th{font-family:'JetBrains Mono',monospace; font-size:.68rem; text-transform:uppercase; letter-spacing:.05em; color:var(--ink-soft); background:var(--card-soft);}
+.twt-table .twt-corner{background:var(--card-soft);}
+.twt-table .twt-rowhead{font-weight:600; color:var(--ink); text-align:left; background:var(--card-soft);}
+.twt-table td.twt-cell{cursor:pointer; color:var(--ink); transition:background .15s var(--ease-out);}
+.twt-table td.twt-cell:hover{background:var(--population-wash);}
+.twt-table td.twt-cell .twt-pct{display:block; font-family:'JetBrains Mono',monospace; font-size:.72rem; color:var(--ink-muted); margin-top:.1rem;}
+.twt-table .twt-total{font-weight:600; cursor:pointer; background:var(--paper-deep); color:var(--ink);}
+.twt-table .twt-total:hover{background:var(--gold-wash);}
+.twt-table .twt-grand{font-weight:700; background:var(--line-soft);}
+.twt-table td.twt-cell.is-cond{background:var(--sample-wash);}
+.twt-table td.is-blank{cursor:pointer; color:var(--ink-faint); font-family:'JetBrains Mono',monospace;}
+.twt-table td.is-blank:hover{background:var(--sample-wash);}
+.twt-table td.is-revealed{color:var(--sample); font-weight:600;}
+.twt-callout{margin-top:1rem; background:var(--paper-deep); border-radius:10px; padding:.8rem 1rem; font-size:.86rem; color:var(--ink);}
+.twt-callout .notation{font-family:'JetBrains Mono',monospace; color:var(--population); font-weight:600;}
+.twt-caption{font-size:.85rem; color:var(--ink-muted); margin-top:.9rem;}
+
+/* interactive probability simulator — Topic 2.3 */
+.sim-shell{background:var(--card); border:1px solid var(--line); border-radius:14px; padding:1.3rem 1.4rem; box-shadow:var(--shadow-sm);}
+.sim-tabs{display:flex; flex-wrap:wrap; gap:.5rem; margin-bottom:1rem;}
+.sim-tab{font-family:'JetBrains Mono',monospace; font-size:.74rem; font-weight:600; padding:.4rem .9rem; border-radius:99px; border:1px solid var(--line); background:var(--paper-deep); color:var(--ink-soft); cursor:pointer;}
+.sim-tab.active{background:var(--population); border-color:var(--population); color:#fff;}
+.sim-desc{font-size:.9rem; color:var(--ink-soft); margin-bottom:.8rem;}
+.sim-steps{background:var(--paper-deep); border-radius:10px; padding:.9rem 1.1rem .9rem 2rem; margin-bottom:1.1rem; font-size:.85rem; color:var(--ink); display:flex; flex-direction:column; gap:.4rem;}
+.sim-controls{display:flex; flex-wrap:wrap; gap:.6rem; margin-bottom:1.1rem;}
+.sim-btn{font-family:'Plus Jakarta Sans',sans-serif; font-size:.85rem; font-weight:600; padding:.55rem 1.1rem; border-radius:10px; border:1px solid var(--population); background:var(--card); color:var(--population); cursor:pointer; transition:background .15s var(--ease-out), color .15s var(--ease-out);}
+.sim-btn:hover{background:var(--population-wash);}
+.sim-btn.primary{background:var(--population); color:#fff;}
+.sim-btn.primary:hover{opacity:.9;}
+.sim-btn.ghost{border-color:var(--line); color:var(--ink-soft);}
+.sim-stats{display:grid; grid-template-columns:repeat(auto-fit,minmax(120px,1fr)); gap:.8rem; margin-bottom:1.1rem;}
+.sim-stat{background:var(--paper-deep); border-radius:10px; padding:.7rem .9rem; text-align:center;}
+.sim-stat-val{display:block; font-family:'Fraunces',serif; font-size:1.4rem; color:var(--population);}
+.sim-stat.ref .sim-stat-val{color:var(--sample);}
+.sim-stat-label{display:block; font-family:'JetBrains Mono',monospace; font-size:.64rem; text-transform:uppercase; letter-spacing:.04em; color:var(--ink-muted); margin-top:.25rem;}
+.sim-chart-wrap{margin-bottom:1.1rem;}
+.sim-log{max-height:220px; overflow-y:auto; border:1px solid var(--line-soft); border-radius:10px;}
+.sim-log-row{display:flex; align-items:center; gap:.7rem; padding:.4rem .8rem; font-family:'JetBrains Mono',monospace; font-size:.78rem; border-bottom:1px solid var(--line-soft);}
+.sim-log-row:last-child{border-bottom:none;}
+.sim-log-row.success{background:var(--population-wash);}
+.sim-log-num{color:var(--ink-faint); flex:none; width:2.6rem;}
+.sim-log-outcomes{flex:1; color:var(--ink); letter-spacing:.03em; overflow-x:auto; white-space:nowrap;}
+.sim-log-mark{flex:none; font-weight:700; color:var(--ink-faint);}
+.sim-log-row.success .sim-log-mark{color:var(--population);}
+.sim-log-empty{padding:1rem; text-align:center; color:var(--ink-muted); font-size:.85rem;}
+
 /* fill-in-the-blank */
 .fb-shell{background:var(--card); border:1px solid var(--line); border-radius:16px; padding:1.7rem 1.9rem; box-shadow:var(--shadow-sm);}
 .fb-passage{display:flex; flex-direction:column; gap:1.1rem; margin-bottom:1.5rem;}
@@ -831,6 +906,7 @@ function registerChapters(obj){ Object.assign(CHAPTERS, obj); }
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="unit1.js"></script>
+<script src="unit2.js"></script>
 <script src="app.js"></script>
 </body>
 </html>

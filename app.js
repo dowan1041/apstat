@@ -68,6 +68,23 @@ function setHubView(mode){
   try { localStorage.setItem(HUB_VIEW_KEY, mode); } catch(e){}
   renderHub();
 }
+
+/* Which units are expanded in the hub — persisted, and empty (all
+   collapsed) by default so the "All contents" list starts tidy. */
+const HUB_EXPANDED_KEY = 'apstats-hub-expanded-units';
+let expandedUnits = (function(){
+  try { return new Set(JSON.parse(localStorage.getItem(HUB_EXPANDED_KEY)) || []); }
+  catch(e){ return new Set(); }
+})();
+function saveExpandedUnits(){
+  try { localStorage.setItem(HUB_EXPANDED_KEY, JSON.stringify([...expandedUnits])); } catch(e){}
+}
+function toggleUnitCollapse(unitCode){
+  if(expandedUnits.has(unitCode)) expandedUnits.delete(unitCode);
+  else expandedUnits.add(unitCode);
+  saveExpandedUnits();
+  renderHub();
+}
 function chProg(id){
   if(!PROGRESS[id]) PROGRESS[id] = {};
   const p = PROGRESS[id];
@@ -570,7 +587,7 @@ function hubMotifSvg(){
 function goHub(){ location.hash = '#/hub'; }
 function goChapter(id){ location.hash = '#/chapter/' + id; }
 function goHomework(id){ location.hash = '#/homework/' + id; }
-function flatChapterOrder(){ return UNITS.flatMap(u=>u.chapterIds); }
+function flatChapterOrder(){ return UNITS.flatMap(u=>u.chapterIds).filter(cid=>CHAPTERS[cid]); }
 
 function navigate(){
   const hash = location.hash || '#/hub';
@@ -623,12 +640,16 @@ function renderHub(){
   UNITS.forEach(unit=>{
     const block = document.createElement('div');
     block.className = 'unit-block';
+    const chapterCount = unit.chapterIds.filter(cid=>CHAPTERS[cid]).length;
+    const isExpanded = expandedUnits.has(unit.code);
     const head = document.createElement('div');
-    head.className = 'unit-head';
-    head.innerHTML = `<span class="code">${unit.code}</span><h3>${unit.name}</h3>`;
+    head.className = 'unit-head' + (isExpanded ? '' : ' collapsed');
+    head.innerHTML = `<span class="code">${unit.code}</span><h3>${unit.name}</h3><span class="unit-count">${chapterCount} topic${chapterCount===1?'':'s'}</span>
+      <svg class="unit-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>`;
+    head.onclick = ()=>toggleUnitCollapse(unit.code);
     block.appendChild(head);
     const chWrap = document.createElement('div');
-    chWrap.className = hubViewMode === 'list' ? 'chapter-list' : 'chapter-grid';
+    chWrap.className = (hubViewMode === 'list' ? 'chapter-list' : 'chapter-grid') + (isExpanded ? '' : ' collapsed');
     unit.chapterIds.forEach(cid=>{
       const ch = CHAPTERS[cid];
       if(!ch) return;
@@ -903,6 +924,9 @@ function renderSection(sec, mount, chapterId){
     case 'chart': return renderChart(sec, mount);
     case 'compare-table': return renderCompareTable(sec, mount);
     case 'flow': return renderFlow(sec, mount);
+    case 'twowaytable': return renderTwoWayTable(sec, mount);
+    case 'simulator': return renderSimulator(sec, mount);
+    case 'samplingsim': return renderSamplingSim(sec, mount);
   }
 }
 
@@ -1530,6 +1554,515 @@ function renderStemplot(it){
   return `<div class="chart-stemplot-wrap"><div class="chart-stemplot">${header}${rows}</div>${key}</div>`;
 }
 
+/* ---- side-by-side (grouped) bar chart — compare 2 categorical variables ---- */
+function svgSideBySideBar(spec, opts){
+  opts = opts || {};
+  const mode = spec.mode || 'count';
+  const categories = spec.categories;
+  const series = spec.series;
+  const seriesTotals = series.map(s=>s.values.reduce((a,v)=>a+v,0));
+  const barVal = (si, ci) => mode === 'relative' ? series[si].values[ci]/seriesTotals[si]*100 : series[si].values[ci];
+  let max = 0;
+  series.forEach((s,si)=>categories.forEach((c,ci)=>{ max = Math.max(max, barVal(si,ci)); }));
+  if(max <= 0) max = 1;
+
+  const barW = 24, innerGap = 4, groupGap = 30, pad = 16, chartH = 150, padT = 26, padB = 34;
+  const groupW = series.length*barW + (series.length-1)*innerGap;
+  const w = pad*2 + categories.length*groupW + (categories.length-1)*groupGap;
+  const h = padT + chartH + padB;
+
+  const groups = categories.map((cat, ci)=>{
+    const gx = pad + ci*(groupW+groupGap);
+    const bars = series.map((s, si)=>{
+      const val = barVal(si, ci);
+      const barH = Math.max(0, val/max*chartH);
+      const x = gx + si*(barW+innerGap);
+      const y = padT + (chartH - barH);
+      const label = mode === 'relative' ? (Math.round(val*10)/10)+'%' : series[si].values[ci];
+      return `${barH > 0 ? `<text x="${x+barW/2}" y="${y-6}" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="10.5" fill="var(--ink)">${label}</text>` : ''}
+        <rect x="${x}" y="${y}" width="${barW}" height="${barH}" fill="${chartColor(si)}" stroke="var(--card)" stroke-width="1.5"/>`;
+    }).join('');
+    const catLabel = `<text x="${gx+groupW/2}" y="${padT+chartH+18}" text-anchor="middle" font-family="Plus Jakarta Sans, sans-serif" font-size="11" fill="var(--ink-soft)">${cat}</text>`;
+    return bars + catLabel;
+  }).join('');
+
+  const legend = series.map((s,si)=>`<span class="chart-legend-item"><span class="chart-legend-swatch" style="background:${chartColor(si)};"></span>${s.label}</span>`).join('');
+
+  return `<div class="chart-pie-wrap">
+    <svg viewBox="0 0 ${w} ${h}" width="100%" height="${h}" style="max-width:${w}px;display:block;margin:0 auto;">
+      <line x1="${pad-2}" y1="${padT+chartH}" x2="${w-pad+2}" y2="${padT+chartH}" stroke="var(--line)" stroke-width="1.5"/>
+      ${groups}
+    </svg>
+    <div class="chart-legend">${legend}</div>
+  </div>`;
+}
+
+/* ---- segmented bar graph / mosaic plot — 100%-stacked bars, optional variable width for mosaic ---- */
+function svgSegmentedBar(spec, opts){
+  opts = opts || {};
+  const orientation = opts.orientation || 'vertical';
+  const variableWidth = !!opts.variableWidth;
+  const bars = spec.bars.map(b=>Object.assign({}, b, { total: b.total || b.segments.reduce((a,s)=>a+s.value,0) }));
+  const grandTotal = bars.reduce((a,b)=>a+b.total, 0);
+  const nBars = bars.length;
+  const pad = 16, chartLen = 190, padT = 20, padB = 44, padL = 16, thickBase = 70, gap = 18;
+
+  const legendLabels = bars[0].segments.map((s,si)=>`<span class="chart-legend-item"><span class="chart-legend-swatch" style="background:${chartColor(si)};"></span>${s.label}</span>`).join('');
+
+  if(orientation === 'vertical'){
+    const availW = thickBase*nBars;
+    const w = pad*2 + availW + gap*(nBars-1);
+    const h = padT + chartLen + padB;
+    let x = pad;
+    const barEls = bars.map(b=>{
+      const bw = variableWidth ? (b.total/grandTotal)*availW : availW/nBars;
+      let y = padT;
+      const segEls = b.segments.map((s,si)=>{
+        const segH = (s.value/b.total)*chartLen;
+        const pct = Math.round(s.value/b.total*1000)/10;
+        const el = `<rect x="${x}" y="${y}" width="${bw}" height="${segH}" fill="${chartColor(si)}" stroke="var(--card)" stroke-width="1.5"/>` +
+          (segH > 14 ? `<text x="${x+bw/2}" y="${y+segH/2+4}" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="10.5" fill="#fff">${pct}%</text>` : '');
+        y += segH;
+        return el;
+      }).join('');
+      const label = `<text x="${x+bw/2}" y="${padT+chartLen+18}" text-anchor="middle" font-family="Plus Jakarta Sans, sans-serif" font-size="11" fill="var(--ink-soft)">${b.label}</text>` +
+        (variableWidth ? `<text x="${x+bw/2}" y="${padT+chartLen+32}" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="9.5" fill="var(--ink-faint)">n=${b.total}</text>` : '');
+      const out = segEls + label;
+      x += bw + gap;
+      return out;
+    }).join('');
+    return `<div class="chart-pie-wrap">
+      <svg viewBox="0 0 ${w} ${h}" width="100%" height="${h}" style="max-width:${w}px;display:block;margin:0 auto;">${barEls}</svg>
+      <div class="chart-legend">${legendLabels}</div>
+    </div>`;
+  }
+
+  // horizontal: bars are rows; chartLen = width (100%), thickness = row height
+  const availH = thickBase*nBars*0.62;
+  const labelW = Math.max(...bars.map(b=>b.label.length))*6.5 + 20;
+  const w = padL + labelW + chartLen + pad;
+  const h = padT + availH + gap*(nBars-1) + (padB - 20);
+  let y = padT;
+  const barEls = bars.map(b=>{
+    const bh = variableWidth ? (b.total/grandTotal)*availH : availH/nBars;
+    let x = padL + labelW;
+    const segEls = b.segments.map((s,si)=>{
+      const segW = (s.value/b.total)*chartLen;
+      const pct = Math.round(s.value/b.total*1000)/10;
+      const el = `<rect x="${x}" y="${y}" width="${segW}" height="${bh}" fill="${chartColor(si)}" stroke="var(--card)" stroke-width="1.5"/>` +
+        (segW > 24 ? `<text x="${x+segW/2}" y="${y+bh/2+4}" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="10.5" fill="#fff">${pct}%</text>` : '');
+      x += segW;
+      return el;
+    }).join('');
+    const label = `<text x="${padL+labelW-10}" y="${y+bh/2+4}" text-anchor="end" font-family="Plus Jakarta Sans, sans-serif" font-size="11" fill="var(--ink-soft)">${b.label}${variableWidth ? ` (n=${b.total})` : ''}</text>`;
+    const out = segEls + label;
+    y += bh + gap;
+    return out;
+  }).join('');
+  return `<div class="chart-pie-wrap">
+    <svg viewBox="0 0 ${w} ${h}" width="100%" height="${h}" style="max-width:${w}px;display:block;margin:0 auto;">${barEls}</svg>
+    <div class="chart-legend">${legendLabels}</div>
+  </div>`;
+}
+
+/* ---- live convergence line — running success proportion vs. trial number ---- */
+function svgLLNLive(successBools, trueProb){
+  const n = successBools.length;
+  const padL = 40, padR = 14, padT = 14, padB = 28, plotW = 460, plotH = 160;
+  const w = padL + plotW + padR, h = padT + plotH + padB;
+  const xScale = i => padL + (n <= 1 ? plotW : (i/(n-1))*plotW);
+  const yScale = p => padT + (1-p)*plotH;
+
+  const grid = [0, 0.25, 0.5, 0.75, 1].map(p=>{
+    const y = yScale(p);
+    return `<line x1="${padL}" y1="${y}" x2="${padL+plotW}" y2="${y}" stroke="var(--line-soft)" stroke-width="1"/>
+      <text x="${padL-8}" y="${y+4}" text-anchor="end" font-family="JetBrains Mono, monospace" font-size="10" fill="var(--ink-soft)">${p}</text>`;
+  }).join('');
+
+  const refY = yScale(trueProb);
+  const refLine = `<line x1="${padL}" y1="${refY}" x2="${padL+plotW}" y2="${refY}" stroke="var(--sample)" stroke-width="1.5" stroke-dasharray="4 3"/>
+    <text x="${padL+plotW}" y="${refY-4}" text-anchor="end" font-family="JetBrains Mono, monospace" font-size="10" fill="var(--sample)">theoretical ${(trueProb*100).toFixed(1)}%</text>`;
+
+  let pathEl = '';
+  if(n > 0){
+    let successCount = 0;
+    const pts = successBools.map((s,i)=>{
+      if(s) successCount++;
+      return [xScale(i), yScale(successCount/(i+1))];
+    });
+    const d = 'M' + pts.map(([x,y])=>`${x.toFixed(2)},${y.toFixed(2)}`).join(' L');
+    pathEl = `<path d="${d}" fill="none" stroke="var(--population)" stroke-width="2"/>`;
+  }
+
+  return `<svg viewBox="0 0 ${w} ${h}" width="100%" height="${h}" style="max-width:${w}px;display:block;margin:0 auto;">
+    ${grid}
+    ${refLine}
+    ${pathEl}
+    <text x="${padL+plotW/2}" y="${h-4}" text-anchor="middle" font-family="Plus Jakarta Sans, sans-serif" font-size="10.5" fill="var(--ink-soft)">trial number (n=${n})</text>
+  </svg>`;
+}
+
+/* ---- draw one simulated trial for a scenario: independent draws if allowRepeats, without replacement otherwise ---- */
+function simDrawTrial(sc){
+  const [lo, hi] = sc.numberRange;
+  const draws = [];
+  const used = new Set();
+  for(let i=0;i<sc.drawCount;i++){
+    let n;
+    if(sc.allowRepeats){
+      n = lo + Math.floor(Math.random()*(hi-lo+1));
+    } else {
+      do { n = lo + Math.floor(Math.random()*(hi-lo+1)); } while(used.has(n));
+      used.add(n);
+    }
+    draws.push(n);
+  }
+  const outcomes = draws.map(sc.classify);
+  return { draws, outcomes, success: sc.isSuccess(outcomes) };
+}
+
+/* ---- interactive simulation runner — Topic 2.3 ---- */
+function renderSimulator(sec, mount){
+  const wrap = document.createElement('div');
+  wrap.className = 'sim-shell';
+  let activeIdx = 0;
+  const states = sec.scenarios.map(()=>({ trials: [] }));
+
+  function draw(){
+    const sc = sec.scenarios[activeIdx];
+    const state = states[activeIdx];
+    const n = state.trials.length;
+    const successes = state.trials.filter(t=>t.success).length;
+    const runningPct = n ? (Math.round(successes/n*1000)/10)+'%' : '—';
+
+    const tabs = sec.scenarios.map((s,i)=>`<button type="button" class="sim-tab ${i===activeIdx?'active':''}" data-i="${i}">${s.shortLabel}</button>`).join('');
+    const stepsHtml = sc.steps.map(s=>`<li>${s}</li>`).join('');
+    const logRows = state.trials.slice(-15).reverse().map(t=>`
+      <div class="sim-log-row ${t.success?'success':''}">
+        <span class="sim-log-num">#${t.num}</span>
+        <span class="sim-log-outcomes">${t.outcomes.join(' ')}</span>
+        <span class="sim-log-mark">${t.success ? '✓' : '✗'}</span>
+      </div>`).join('');
+    const chart = svgLLNLive(state.trials.map(t=>t.success), sc.trueProb);
+
+    wrap.innerHTML = `
+      <div class="sim-tabs">${tabs}</div>
+      <p class="sim-desc">${sc.description}</p>
+      <ol class="sim-steps">${stepsHtml}</ol>
+      <div class="sim-controls">
+        <button type="button" class="sim-btn primary" data-act="run1">Run 1 trial</button>
+        <button type="button" class="sim-btn" data-act="run10">Run 10 trials</button>
+        <button type="button" class="sim-btn" data-act="run100">Run 100 trials</button>
+        <button type="button" class="sim-btn ghost" data-act="reset">Reset</button>
+      </div>
+      <div class="sim-stats">
+        <div class="sim-stat"><span class="sim-stat-val">${n}</span><span class="sim-stat-label">Trials run</span></div>
+        <div class="sim-stat"><span class="sim-stat-val">${successes}</span><span class="sim-stat-label">Successes</span></div>
+        <div class="sim-stat"><span class="sim-stat-val">${runningPct}</span><span class="sim-stat-label">Estimated probability</span></div>
+        <div class="sim-stat ref"><span class="sim-stat-val">${(sc.trueProb*100).toFixed(2)}%</span><span class="sim-stat-label">True probability</span></div>
+      </div>
+      <div class="sim-chart-wrap">${chart}</div>
+      <div class="sim-log">${logRows || '<p class="sim-log-empty">No trials yet — click "Run 1 trial" to start, or "Run 100 trials" to watch the law of large numbers kick in.</p>'}</div>
+    `;
+
+    wrap.querySelectorAll('.sim-tab').forEach(btn=>{
+      btn.onclick = ()=>{ activeIdx = +btn.dataset.i; draw(); };
+    });
+    wrap.querySelector('[data-act="run1"]').onclick = ()=>runN(1);
+    wrap.querySelector('[data-act="run10"]').onclick = ()=>runN(10);
+    wrap.querySelector('[data-act="run100"]').onclick = ()=>runN(100);
+    wrap.querySelector('[data-act="reset"]').onclick = ()=>{ state.trials = []; draw(); };
+  }
+
+  function runN(count){
+    const sc = sec.scenarios[activeIdx];
+    const state = states[activeIdx];
+    for(let i=0;i<count;i++){
+      const r = simDrawTrial(sc);
+      state.trials.push({ outcomes: r.outcomes, success: r.success, num: state.trials.length+1 });
+    }
+    draw();
+  }
+
+  draw();
+  mount.appendChild(wrap);
+}
+
+/* ---- two-dice sample space grid — highlight the outcomes matching an event ---- */
+function svgDiceGrid(it){
+  const n = 6, cell = 34, labelW = 26, pad = 10, padT = 26;
+  const w = pad*2 + labelW + n*cell;
+  const h = pad + padT + n*cell + pad;
+  let highlightCount = 0;
+  const cells = [];
+  for(let r=1;r<=n;r++){
+    for(let c=1;c<=n;c++){
+      const sum = r+c;
+      const hl = it.highlight(sum);
+      if(hl) highlightCount++;
+      const x = pad+labelW+(c-1)*cell, y = pad+padT+(r-1)*cell;
+      cells.push(`<rect x="${x}" y="${y}" width="${cell}" height="${cell}" fill="${hl?'var(--sample)':'var(--paper-deep)'}" stroke="var(--card)" stroke-width="1.5"/>
+        <text x="${x+cell/2}" y="${y+cell/2+4}" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="13" fill="${hl?'#fff':'var(--ink)'}">${sum}</text>`);
+    }
+  }
+  const colHeaders = Array.from({length:n}, (_,i)=>{
+    const x = pad+labelW+i*cell+cell/2;
+    return `<text x="${x}" y="${pad+padT-10}" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="12" fill="var(--ink-soft)">${i+1}</text>`;
+  }).join('');
+  const rowHeaders = Array.from({length:n}, (_,i)=>{
+    const y = pad+padT+i*cell+cell/2+4;
+    return `<text x="${pad+labelW-10}" y="${y}" text-anchor="end" font-family="JetBrains Mono, monospace" font-size="12" fill="var(--ink-soft)">${i+1}</text>`;
+  }).join('');
+  const pct = Math.round(highlightCount/36*1000)/10;
+  return `<div class="chart-pie-wrap">
+    <svg viewBox="0 0 ${w} ${h}" width="100%" height="${h}" style="max-width:${w}px;display:block;margin:0 auto;">${colHeaders}${rowHeaders}${cells.join('')}</svg>
+    <p class="chart-caption" style="margin-top:.2rem;">${highlightCount} of 36 outcomes highlighted → P ≈ ${highlightCount}/36 = ${pct}%</p>
+  </div>`;
+}
+
+/* ---- Venn diagram — two circles, overlapping (joint) or disjoint (mutually exclusive) ---- */
+function svgVenn(it){
+  const w = 320, h = 190;
+  const disjoint = it.mode === 'disjoint';
+  const r = 62, cy = 95;
+  const cxA = disjoint ? 95 : 130;
+  const cxB = disjoint ? 225 : 190;
+
+  const label = (text, x, y, color) => `<text x="${x}" y="${y}" text-anchor="middle" font-family="Plus Jakarta Sans, sans-serif" font-size="12" font-weight="600" fill="${color}">${text}</text>`;
+  const num = (val, x, y, bold) => val === undefined ? '' : `<text x="${x}" y="${y+5}" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="14" font-weight="${bold?700:400}" fill="var(--ink)">${val}</text>`;
+
+  const onlyAx = disjoint ? cxA : cxA - 26;
+  const onlyBx = disjoint ? cxB : cxB + 26;
+  const outsideEl = it.outside !== undefined
+    ? `<text x="${w/2}" y="${h-8}" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="11" fill="var(--ink-soft)">outside both: ${it.outside}</text>`
+    : '';
+
+  return `<svg viewBox="0 0 ${w} ${h}" width="100%" height="${h}" style="max-width:${w}px;display:block;margin:0 auto;">
+    <circle cx="${cxA}" cy="${cy}" r="${r}" fill="var(--population)" fill-opacity="0.32" stroke="var(--population)" stroke-width="2"/>
+    <circle cx="${cxB}" cy="${cy}" r="${r}" fill="var(--sample)" fill-opacity="0.32" stroke="var(--sample)" stroke-width="2"/>
+    ${label(it.labelA, cxA - (disjoint?0:28), cy-r-10, 'var(--population)')}
+    ${label(it.labelB, cxB + (disjoint?0:28), cy-r-10, 'var(--sample)')}
+    ${num(it.onlyA, onlyAx, cy)}
+    ${num(it.onlyB, onlyBx, cy)}
+    ${(!disjoint) ? num(it.overlapValue, (cxA+cxB)/2, cy, true) : ''}
+    ${outsideEl}
+  </svg>`;
+}
+
+/* ---- two-level probability tree — branch probabilities + computed joint leaf probabilities ---- */
+function svgProbTree(it){
+  const w = 640, h = 260;
+  const rootX = 46, rootY = h/2;
+  const s1X = 250, s1Y = [h*0.26, h*0.74];
+  const s2X = 430, s2Y = [h*0.10, h*0.37, h*0.63, h*0.90];
+
+  const b1 = it.stage1.branches;
+  const b2 = it.stage2.branchesByStage1;
+
+  function edge(x1,y1,x2,y2,label){
+    const mx=(x1+x2)/2, my=(y1+y2)/2;
+    return `<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="var(--ink-faint)" stroke-width="1.5"/>
+      <rect x="${mx-15}" y="${my-10}" width="30" height="15" fill="var(--card)"/>
+      <text x="${mx}" y="${my+2}" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="10.5" fill="var(--population)">${label}</text>`;
+  }
+
+  let inner = `<circle cx="${rootX}" cy="${rootY}" r="4" fill="var(--ink-soft)"/>` +
+    (it.rootLabel ? `<text x="${rootX}" y="${rootY-12}" text-anchor="middle" font-family="Plus Jakarta Sans, sans-serif" font-size="11.5" font-weight="600" fill="var(--ink)">${it.rootLabel}</text>` : '');
+
+  b1.forEach((br,i)=>{
+    inner += edge(rootX, rootY, s1X, s1Y[i], (br.prob*100).toFixed(0)+'%');
+    inner += `<circle cx="${s1X}" cy="${s1Y[i]}" r="4" fill="${chartColor(i)}"/>
+      <text x="${s1X}" y="${s1Y[i]-12}" text-anchor="middle" font-family="Plus Jakarta Sans, sans-serif" font-size="11.5" font-weight="600" fill="var(--ink)">${br.label}</text>`;
+    b2[i].forEach((leaf,j)=>{
+      const idx = i*2+j;
+      inner += edge(s1X, s1Y[i], s2X, s2Y[idx], (leaf.prob*100).toFixed(0)+'%');
+      const joint = br.prob*leaf.prob;
+      inner += `<circle cx="${s2X}" cy="${s2Y[idx]}" r="4" fill="${chartColor(i)}"/>
+        <text x="${s2X+10}" y="${s2Y[idx]-4}" font-family="Plus Jakarta Sans, sans-serif" font-size="11" font-weight="600" fill="var(--ink)">${br.label} ∩ ${leaf.label}</text>
+        <text x="${s2X+10}" y="${s2Y[idx]+11}" font-family="JetBrains Mono, monospace" font-size="10.5" fill="var(--sample)">P = ${(joint*100).toFixed(2)}%</text>`;
+    });
+  });
+
+  return `<div class="chart-svg-wrap"><svg viewBox="0 0 ${w} ${h}" width="100%" height="${h}" style="max-width:${w}px;display:block;margin:0 auto;">${inner}</svg></div>`;
+}
+
+/* ---- normal curve with a shaded region — P(lower < X < upper) ---- */
+function svgNormalCurve(spec){
+  const mean = spec.mean, sd = spec.sd;
+  const decimals = spec.decimals !== undefined ? spec.decimals : 1;
+  const xMin = mean - 3.5*sd, xMax = mean + 3.5*sd;
+  const w = 440, h = 190, padL = 16, padR = 16, padT = 14, padB = 34;
+  const plotW = w - padL - padR, plotH = h - padT - padB;
+  const xScale = x => padL + (x - xMin) / (xMax - xMin) * plotW;
+  function pdf(x){ const z = (x - mean) / sd; return Math.exp(-z*z/2) / (sd * Math.sqrt(2*Math.PI)); }
+  const peak = pdf(mean);
+  const yScale = y => padT + (1 - y/peak) * plotH;
+  const baseline = yScale(0);
+
+  const N = 90;
+  const curvePts = [];
+  for(let i=0;i<=N;i++){ const x = xMin + (xMax-xMin)*i/N; curvePts.push(xScale(x).toFixed(2)+','+yScale(pdf(x)).toFixed(2)); }
+  const curvePath = 'M' + curvePts.join(' L');
+
+  const lo = (spec.lower === undefined || spec.lower === null) ? xMin : Math.max(spec.lower, xMin);
+  const hi = (spec.upper === undefined || spec.upper === null) ? xMax : Math.min(spec.upper, xMax);
+  const M = 60;
+  const shadePts = [];
+  for(let i=0;i<=M;i++){ const x = lo + (hi-lo)*i/M; shadePts.push(xScale(x).toFixed(2)+','+yScale(pdf(x)).toFixed(2)); }
+  const shadePath = `M${xScale(lo).toFixed(2)},${baseline.toFixed(2)} L${shadePts.join(' L')} L${xScale(hi).toFixed(2)},${baseline.toFixed(2)} Z`;
+
+  const boundaryLines = [spec.lower, spec.upper].filter(v => v !== undefined && v !== null).map(v=>{
+    const x = xScale(Math.max(xMin, Math.min(xMax, v)));
+    return `<line x1="${x}" y1="${padT}" x2="${x}" y2="${baseline}" stroke="var(--sample)" stroke-width="1.5" stroke-dasharray="3 3"/>`;
+  }).join('');
+
+  const ticks = [];
+  for(let k=-3;k<=3;k++){
+    const x = mean + k*sd;
+    if(x < xMin-1e-9 || x > xMax+1e-9) continue;
+    const px = xScale(x);
+    const label = spec.useZ ? (k===0?'0':(k>0?'+':'')+k) : x.toFixed(decimals);
+    ticks.push(`<line x1="${px}" y1="${baseline}" x2="${px}" y2="${baseline+5}" stroke="var(--line)" stroke-width="1.5"/>
+      <text x="${px}" y="${baseline+18}" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="10" fill="var(--ink-soft)">${label}</text>`);
+  }
+  const axisLabel = spec.label ? `<text x="${w/2}" y="${h-2}" text-anchor="middle" font-family="Plus Jakarta Sans, sans-serif" font-size="10.5" fill="var(--ink-soft)">${spec.label}</text>` : '';
+
+  return `<svg viewBox="0 0 ${w} ${h}" width="100%" height="${h}" style="max-width:${w}px;display:block;margin:0 auto;">
+    <path d="${shadePath}" fill="var(--sample)" fill-opacity="0.35" stroke="none"/>
+    <path d="${curvePath}" fill="none" stroke="var(--population)" stroke-width="2"/>
+    <line x1="${padL}" y1="${baseline}" x2="${w-padR}" y2="${baseline}" stroke="var(--line)" stroke-width="1.5"/>
+    ${boundaryLines}
+    ${ticks.join('')}
+    ${axisLabel}
+  </svg>`;
+}
+
+/* ---- sampling distribution simulator — draw many samples, watch the statistic's own distribution take shape ---- */
+function randStdNormal(){
+  let u = 0, v = 0;
+  while(u === 0) u = Math.random();
+  while(v === 0) v = Math.random();
+  return Math.sqrt(-2*Math.log(u)) * Math.cos(2*Math.PI*v);
+}
+function drawOneIndividual(sc){
+  if(sc.populationType === 'bernoulli') return Math.random() < sc.populationParam.p ? 1 : 0;
+  if(sc.populationType === 'exponential') return -Math.log(1 - Math.random()) * sc.populationParam.mean;
+  if(sc.populationType === 'normal') return sc.populationParam.mean + sc.populationParam.sd * randStdNormal();
+}
+function drawSampleStatistic(sc){
+  let sum = 0;
+  for(let i=0;i<sc.n;i++) sum += drawOneIndividual(sc);
+  return sum / sc.n;
+}
+
+function svgSamplingHistogram(values, opts){
+  const w = 460, h = 170, padL = 34, padR = 14, padT = 14, padB = 30;
+  const plotW = w - padL - padR, plotH = h - padT - padB;
+  const binWidth = opts.binWidth;
+  const binOf = v => Math.round(v / binWidth) * binWidth;
+  const counts = {};
+  let maxCount = 0;
+  values.forEach(v => {
+    const b = binOf(v);
+    counts[b] = (counts[b] || 0) + 1;
+    if(counts[b] > maxCount) maxCount = counts[b];
+  });
+  const bins = Object.keys(counts).map(Number);
+  const dataMin = bins.length ? Math.min(...bins, opts.trueValue) : opts.trueValue;
+  const dataMax = bins.length ? Math.max(...bins, opts.trueValue) : opts.trueValue;
+  const span = Math.max(dataMax - dataMin, binWidth*4);
+  const xMin = dataMin - span*0.15 - binWidth/2, xMax = dataMax + span*0.15 + binWidth/2;
+  const xScale = v => padL + (v - xMin)/(xMax - xMin) * plotW;
+  const barW = Math.max(2, (binWidth/(xMax-xMin))*plotW - 1);
+  const baseline = padT + plotH;
+  const yMax = Math.max(maxCount, 1);
+
+  const bars = bins.map(b=>{
+    const c = counts[b];
+    const bh = (c/yMax) * plotH;
+    const x = xScale(b) - barW/2;
+    const y = baseline - bh;
+    return `<rect x="${x.toFixed(2)}" y="${y.toFixed(2)}" width="${barW.toFixed(2)}" height="${bh.toFixed(2)}" fill="var(--population)" fill-opacity="0.75"/>`;
+  }).join('');
+
+  const trueX = xScale(opts.trueValue);
+  const refLine = `<line x1="${trueX.toFixed(2)}" y1="${padT}" x2="${trueX.toFixed(2)}" y2="${baseline}" stroke="var(--sample)" stroke-width="1.5" stroke-dasharray="4 3"/>
+    <text x="${trueX.toFixed(2)}" y="${padT-2}" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="10" fill="var(--sample)">true value</text>`;
+
+  const ticks = [];
+  const tickStep = binWidth * Math.max(1, Math.round((xMax-xMin)/binWidth/6));
+  for(let t = Math.ceil(xMin/tickStep)*tickStep; t <= xMax; t += tickStep){
+    const x = xScale(t);
+    ticks.push(`<text x="${x.toFixed(2)}" y="${baseline+14}" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="9.5" fill="var(--ink-soft)">${(opts.decimals!==undefined ? t.toFixed(opts.decimals) : t)}</text>`);
+  }
+
+  return `<svg viewBox="0 0 ${w} ${h}" width="100%" height="${h}" style="max-width:${w}px;display:block;margin:0 auto;">
+    <line x1="${padL}" y1="${baseline}" x2="${w-padR}" y2="${baseline}" stroke="var(--line)" stroke-width="1.5"/>
+    ${bars}
+    ${values.length ? refLine : ''}
+    ${ticks.join('')}
+  </svg>`;
+}
+
+function renderSamplingSim(sec, mount){
+  const wrap = document.createElement('div');
+  wrap.className = 'sim-shell';
+  let activeIdx = 0;
+  const states = sec.scenarios.map(()=>({ values: [] }));
+
+  function draw(){
+    const sc = sec.scenarios[activeIdx];
+    const state = states[activeIdx];
+    const n = state.values.length;
+    const mean = n ? state.values.reduce((a,v)=>a+v,0)/n : null;
+
+    const tabs = sec.scenarios.map((s,i)=>`<button type="button" class="sim-tab ${i===activeIdx?'active':''}" data-i="${i}">${s.shortLabel}</button>`).join('');
+    const fmt = v => v===null ? '—' : v.toFixed(sc.decimals!==undefined?sc.decimals:2) + (sc.unit||'');
+    const recent = state.values.slice(-15).reverse().map((v,ri)=>`
+      <div class="sim-log-row">
+        <span class="sim-log-num">#${n-ri}</span>
+        <span class="sim-log-outcomes">${sc.statLabel} = ${fmt(v)}</span>
+      </div>`).join('');
+    const hist = svgSamplingHistogram(state.values, { binWidth: sc.binWidth, trueValue: sc.trueValue, decimals: sc.decimals });
+
+    wrap.innerHTML = `
+      <div class="sim-tabs">${tabs}</div>
+      <p class="sim-desc">${sc.description}</p>
+      <div class="sim-controls">
+        <button type="button" class="sim-btn primary" data-act="run1">Draw 1 sample</button>
+        <button type="button" class="sim-btn" data-act="run10">Draw 10 samples</button>
+        <button type="button" class="sim-btn" data-act="run100">Draw 100 samples</button>
+        <button type="button" class="sim-btn ghost" data-act="reset">Reset</button>
+      </div>
+      <div class="sim-stats">
+        <div class="sim-stat"><span class="sim-stat-val">${n}</span><span class="sim-stat-label">Samples drawn</span></div>
+        <div class="sim-stat"><span class="sim-stat-val">${fmt(mean)}</span><span class="sim-stat-label">Mean of the dots so far</span></div>
+        <div class="sim-stat ref"><span class="sim-stat-val">${sc.trueValue}${sc.unit||''}</span><span class="sim-stat-label">True population value</span></div>
+      </div>
+      <div class="sim-chart-wrap">${hist}</div>
+      <div class="sim-log">${recent || '<p class="sim-log-empty">No samples drawn yet — click "Draw 1 sample" to take one sample of n='+sc.n+' and plot its '+sc.statLabel.toLowerCase()+'.</p>'}</div>
+    `;
+
+    wrap.querySelectorAll('.sim-tab').forEach(btn=>{
+      btn.onclick = ()=>{ activeIdx = +btn.dataset.i; draw(); };
+    });
+    wrap.querySelector('[data-act="run1"]').onclick = ()=>runN(1);
+    wrap.querySelector('[data-act="run10"]').onclick = ()=>runN(10);
+    wrap.querySelector('[data-act="run100"]').onclick = ()=>runN(100);
+    wrap.querySelector('[data-act="reset"]').onclick = ()=>{ state.values = []; draw(); };
+  }
+
+  function runN(count){
+    const sc = sec.scenarios[activeIdx];
+    const state = states[activeIdx];
+    for(let i=0;i<count;i++) state.values.push(drawSampleStatistic(sc));
+    draw();
+  }
+
+  draw();
+  mount.appendChild(wrap);
+}
+
 function renderChart(sec, mount){
   const grid = document.createElement('div');
   grid.className = 'chart-grid';
@@ -1546,6 +2079,13 @@ function renderChart(sec, mount){
       case 'zscoreline': body = svgZScoreLine(it.spec, it.opts || {}); break;
       case 'populationgrid': body = svgPopulationGrid(it.spec, it.opts || {}); break;
       case 'matchedpairs': body = svgMatchedPairs(it.spec, it.opts || {}); break;
+      case 'sidebysidebar': body = svgSideBySideBar(it, it.opts || {}); break;
+      case 'segmentedbar': body = svgSegmentedBar(it, { variableWidth:false, orientation: it.orientation||'vertical' }); break;
+      case 'mosaic': body = svgSegmentedBar(it, { variableWidth:true, orientation: it.orientation||'vertical' }); break;
+      case 'dicegrid': body = svgDiceGrid(it); break;
+      case 'venn': body = svgVenn(it); break;
+      case 'probtree': body = svgProbTree(it); break;
+      case 'normalcurve': body = svgNormalCurve(it); break;
       default: body = svgBarChart(it.data, { mode: it.mode || 'count' });
     }
     card.innerHTML = `<h4>${it.title}</h4><div class="chart-svg-wrap">${body}</div>` + (it.caption ? `<p class="chart-caption">${it.caption}</p>` : '');
@@ -1587,6 +2127,117 @@ function renderFlow(sec, mount){
       </div>`;
     }).join('');
     card.innerHTML = `<div class="flow-question">${it.question}</div><div class="flow-branch-row">${branches}</div>`;
+    wrap.appendChild(card);
+  });
+  mount.appendChild(wrap);
+}
+
+/* ---- two-way (contingency) table — counts / % of total / conditional highlighting ---- */
+function renderTwoWayTable(sec, mount){
+  const wrap = document.createElement('div');
+  wrap.className = 'twt-list';
+  sec.items.forEach((item, itemIdx)=>{
+    const card = document.createElement('div');
+    card.className = 'twt-card';
+    const state = { mode: 'count', condDir: null, condIndex: null };
+
+    function draw(){
+      const data = item.data;
+      const rows = item.rows, cols = item.cols;
+      const rowTotals = rows.map((_,ri)=>data[ri].reduce((a,v)=>a+v,0));
+      const colTotals = cols.map((_,ci)=>rows.reduce((a,__,ri)=>a+data[ri][ci],0));
+      const grand = rowTotals.reduce((a,v)=>a+v,0);
+
+      const fmtPct = (v,base)=> base ? (Math.round(v/base*1000)/10)+'%' : '—';
+
+      function cellDisplay(ri, ci){
+        const v = data[ri][ci];
+        if(state.condDir === 'row' && state.condIndex === ri) return `${v}<span class="twt-pct">${fmtPct(v, rowTotals[ri])}</span>`;
+        if(state.condDir === 'col' && state.condIndex === ci) return `${v}<span class="twt-pct">${fmtPct(v, colTotals[ci])}</span>`;
+        if(state.mode === 'percent') return `${v}<span class="twt-pct">${fmtPct(v, grand)}</span>`;
+        return `${v}`;
+      }
+      function cellClass(ri, ci){
+        let cls = 'twt-cell';
+        if((state.condDir==='row' && state.condIndex===ri) || (state.condDir==='col' && state.condIndex===ci)) cls += ' is-cond';
+        return cls;
+      }
+
+      const theadCols = cols.map(c=>`<th>${c}</th>`).join('');
+      const bodyRows = rows.map((r, ri)=>{
+        const cells = cols.map((c, ci)=>`<td class="${cellClass(ri,ci)}" data-ri="${ri}" data-ci="${ci}">${cellDisplay(ri,ci)}</td>`).join('');
+        const totalDisp = (state.mode==='percent' && !state.condDir) ? `${rowTotals[ri]}<span class="twt-pct">${fmtPct(rowTotals[ri], grand)}</span>` : rowTotals[ri];
+        return `<tr><th class="twt-rowhead">${r}</th>${cells}<td class="twt-total" data-row="${ri}">${totalDisp}</td></tr>`;
+      }).join('');
+      const colTotalCells = cols.map((c, ci)=>{
+        const totalDisp = (state.mode==='percent' && !state.condDir) ? `${colTotals[ci]}<span class="twt-pct">${fmtPct(colTotals[ci], grand)}</span>` : colTotals[ci];
+        return `<td class="twt-total" data-col="${ci}">${totalDisp}</td>`;
+      }).join('');
+
+      const condOptions = [`<option value="">None</option>`]
+        .concat(rows.map((r,ri)=>`<option value="row:${ri}" ${state.condDir==='row'&&state.condIndex===ri?'selected':''}>Row: ${r}</option>`))
+        .concat(cols.map((c,ci)=>`<option value="col:${ci}" ${state.condDir==='col'&&state.condIndex===ci?'selected':''}>Col: ${c}</option>`))
+        .join('');
+
+      card.innerHTML = `
+        <h4>${item.title}</h4>
+        ${item.sub ? `<p class="twt-sub">${item.sub}</p>` : ''}
+        <div class="twt-controls">
+          <div class="twt-toggle-group">
+            <button type="button" class="twt-toggle-btn ${state.mode==='count'?'active':''}" data-act="mode-count">Counts</button>
+            <button type="button" class="twt-toggle-btn ${state.mode==='percent'?'active':''}" data-act="mode-percent">% of total</button>
+          </div>
+          <select class="twt-cond-select" data-act="cond">${condOptions}</select>
+        </div>
+        <div class="twt-scroll"><table class="twt-table">
+          <thead><tr><th class="twt-corner"></th>${theadCols}<th class="twt-corner">Total</th></tr></thead>
+          <tbody>${bodyRows}
+            <tr><th class="twt-rowhead">Total</th>${colTotalCells}<td class="twt-total twt-grand">${grand}</td></tr>
+          </tbody>
+        </table></div>
+        <div class="twt-callout" hidden></div>
+        ${item.caption ? `<p class="twt-caption">${item.caption}</p>` : ''}
+      `;
+
+      card.querySelector('[data-act="mode-count"]').onclick = ()=>{ state.mode='count'; draw(); };
+      card.querySelector('[data-act="mode-percent"]').onclick = ()=>{ state.mode='percent'; draw(); };
+      card.querySelector('[data-act="cond"]').onchange = (e)=>{
+        const v = e.target.value;
+        if(!v){ state.condDir=null; state.condIndex=null; }
+        else { const [dir, idx] = v.split(':'); state.condDir=dir; state.condIndex=+idx; }
+        draw();
+      };
+
+      const callout = card.querySelector('.twt-callout');
+      function showCallout(html){ callout.hidden = false; callout.innerHTML = html; }
+
+      card.querySelectorAll('td.twt-cell').forEach(td=>{
+        td.onclick = ()=>{
+          const ri = +td.dataset.ri, ci = +td.dataset.ci;
+          const v = data[ri][ci];
+          if(state.condDir === 'row' && state.condIndex === ri){
+            showCallout(`<span class="notation">P(${cols[ci]} | ${rows[ri]})</span> = ${v}/${rowTotals[ri]} ≈ ${fmtPct(v, rowTotals[ri])}`);
+          } else if(state.condDir === 'col' && state.condIndex === ci){
+            showCallout(`<span class="notation">P(${rows[ri]} | ${cols[ci]})</span> = ${v}/${colTotals[ci]} ≈ ${fmtPct(v, colTotals[ci])}`);
+          } else {
+            showCallout(`<span class="notation">P(${rows[ri]} ∩ ${cols[ci]})</span> = ${v}/${grand} ≈ ${fmtPct(v, grand)}`);
+          }
+        };
+      });
+      card.querySelectorAll('td.twt-total[data-row]').forEach(td=>{
+        td.onclick = ()=>{
+          const ri = +td.dataset.row;
+          showCallout(`<span class="notation">P(${rows[ri]})</span> = ${rowTotals[ri]}/${grand} ≈ ${fmtPct(rowTotals[ri], grand)}`);
+        };
+      });
+      card.querySelectorAll('td.twt-total[data-col]').forEach(td=>{
+        td.onclick = ()=>{
+          const ci = +td.dataset.col;
+          showCallout(`<span class="notation">P(${cols[ci]})</span> = ${colTotals[ci]}/${grand} ≈ ${fmtPct(colTotals[ci], grand)}`);
+        };
+      });
+    }
+    draw();
     wrap.appendChild(card);
   });
   mount.appendChild(wrap);
