@@ -126,9 +126,9 @@ a:hover{text-decoration:underline; text-underline-offset:3px;}
 .progress-shell .bar-fill{height:100%; background:linear-gradient(90deg, var(--population), var(--sample)); border-radius:99px; transition:width .5s var(--ease-out);}
 .progress-shell .label{font-family:'JetBrains Mono',monospace; font-size:.78rem; color:var(--ink-muted); white-space:nowrap;}
 
-.unit-block{margin-bottom:2.4rem;}
+.unit-block{margin-bottom:2.4rem; position:relative;}
 .unit-head{
-  display:flex; align-items:center; gap:.6rem; margin-bottom:.9rem;
+  display:flex; align-items:center; gap:.6rem; position:relative; z-index:2;
   cursor:pointer; user-select:none; padding:.65rem .9rem; border-radius:12px;
   background:var(--card); border:1px solid var(--line); box-shadow:var(--shadow-sm);
   transition:background .15s var(--ease-out), border-color .15s var(--ease-out);
@@ -141,11 +141,40 @@ a:hover{text-decoration:underline; text-underline-offset:3px;}
 .unit-head .unit-chevron{
   margin-left:auto; flex:none; width:28px; height:28px; padding:6px; box-sizing:border-box; border-radius:50%;
   color:var(--ink-soft); background:var(--paper-deep);
-  transition:transform .2s var(--ease-out), background .15s var(--ease-out), color .15s var(--ease-out);
+  transition:transform .3s var(--ease-out), background .15s var(--ease-out), color .15s var(--ease-out);
 }
 .unit-head.collapsed .unit-chevron{transform:rotate(-90deg);}
 .unit-head:hover .unit-chevron{color:#fff; background:var(--population);}
-.chapter-list.collapsed, .chapter-grid.collapsed{display:none;}
+
+/* stacked-card "peek" — hints at hidden content while a unit is collapsed */
+.unit-stack-peek{
+  position:relative; height:0; pointer-events:none; z-index:1;
+  opacity:0; transition:height .32s var(--ease-out), opacity .2s var(--ease-out) .05s;
+}
+.unit-stack-peek.show{height:14px; opacity:1;}
+.peek-card{
+  position:absolute; left:0; right:0; height:11px;
+  background:var(--card); border:1px solid var(--line); border-top:none;
+  border-radius:0 0 11px 11px; box-shadow:var(--shadow-sm);
+}
+.peek-card.peek-1{top:-3px; margin:0 16px; opacity:.9; z-index:3;}
+.peek-card.peek-2{top:1px; margin:0 30px; opacity:.55; z-index:2;}
+.peek-card.peek-3{top:5px; margin:0 44px; opacity:.28; z-index:1;}
+
+/* smooth expand/collapse via animatable grid rows, since height:auto can't transition directly */
+.unit-collapse-wrap{
+  display:grid; grid-template-rows:0fr;
+  transition:grid-template-rows .38s var(--ease-out);
+}
+.unit-collapse-wrap.expanded{grid-template-rows:1fr; margin-top:.9rem;}
+.unit-collapse-inner{overflow:hidden; min-height:0;}
+.unit-collapse-wrap .chapter-list, .unit-collapse-wrap .chapter-grid{
+  opacity:0; transform:translateY(-8px);
+  transition:opacity .22s var(--ease-out), transform .22s var(--ease-out);
+}
+.unit-collapse-wrap.expanded .chapter-list, .unit-collapse-wrap.expanded .chapter-grid{
+  opacity:1; transform:translateY(0); transition-delay:.12s;
+}
 
 .chapter-grid{display:grid; grid-template-columns:repeat(auto-fill, minmax(260px,1fr)); gap:14px;}
 .chapter-card{

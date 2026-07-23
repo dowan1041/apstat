@@ -79,11 +79,16 @@ let expandedUnits = (function(){
 function saveExpandedUnits(){
   try { localStorage.setItem(HUB_EXPANDED_KEY, JSON.stringify([...expandedUnits])); } catch(e){}
 }
-function toggleUnitCollapse(unitCode){
-  if(expandedUnits.has(unitCode)) expandedUnits.delete(unitCode);
-  else expandedUnits.add(unitCode);
+/* Toggles a unit's expanded state by mutating the existing DOM nodes in
+   place (never re-rendering the hub) — that's what lets the CSS grid-rows
+   transition actually animate instead of snapping instantly. */
+function toggleUnitCollapse(unitCode, els){
+  const nowExpanded = !expandedUnits.has(unitCode);
+  if(nowExpanded) expandedUnits.add(unitCode); else expandedUnits.delete(unitCode);
   saveExpandedUnits();
-  renderHub();
+  els.head.classList.toggle('collapsed', !nowExpanded);
+  els.wrap.classList.toggle('expanded', nowExpanded);
+  els.peek.classList.toggle('show', !nowExpanded);
 }
 function chProg(id){
   if(!PROGRESS[id]) PROGRESS[id] = {};
@@ -646,10 +651,23 @@ function renderHub(){
     head.className = 'unit-head' + (isExpanded ? '' : ' collapsed');
     head.innerHTML = `<span class="code">${unit.code}</span><h3>${unit.name}</h3><span class="unit-count">${chapterCount} topic${chapterCount===1?'':'s'}</span>
       <svg class="unit-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>`;
-    head.onclick = ()=>toggleUnitCollapse(unit.code);
     block.appendChild(head);
+
+    const peek = document.createElement('div');
+    peek.className = 'unit-stack-peek' + (isExpanded ? '' : ' show');
+    peek.innerHTML = `<div class="peek-card peek-1"></div><div class="peek-card peek-2"></div><div class="peek-card peek-3"></div>`;
+    block.appendChild(peek);
+
+    const collapseWrap = document.createElement('div');
+    collapseWrap.className = 'unit-collapse-wrap' + (isExpanded ? ' expanded' : '');
+    const collapseInner = document.createElement('div');
+    collapseInner.className = 'unit-collapse-inner';
+    collapseWrap.appendChild(collapseInner);
+
+    head.onclick = ()=>toggleUnitCollapse(unit.code, { head, wrap: collapseWrap, peek });
+
     const chWrap = document.createElement('div');
-    chWrap.className = (hubViewMode === 'list' ? 'chapter-list' : 'chapter-grid') + (isExpanded ? '' : ' collapsed');
+    chWrap.className = hubViewMode === 'list' ? 'chapter-list' : 'chapter-grid';
     unit.chapterIds.forEach(cid=>{
       const ch = CHAPTERS[cid];
       if(!ch) return;
@@ -675,7 +693,8 @@ function renderHub(){
         chWrap.appendChild(card);
       }
     });
-    block.appendChild(chWrap);
+    collapseInner.appendChild(chWrap);
+    block.appendChild(collapseWrap);
     container.appendChild(block);
   });
 }
