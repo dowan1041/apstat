@@ -103,6 +103,12 @@ function chProg(id){
   if(p.homeworkScore === undefined) p.homeworkScore = 0;
   if(p.homeworkDone === undefined) p.homeworkDone = false;
   if(p.homeworkFlagged === undefined) p.homeworkFlagged = [];
+  // homeworkSnapshot: frozen copy of hw.questions exactly as shown at
+  // submission time (see hwSubmitBtn handler). Absent on submissions made
+  // before this field existed — those fall back to live hw.questions and
+  // can misgrade/mislabel if the question bank was edited since (e.g.
+  // reordering options to de-cluster which letter holds the answer).
+  if(p.homeworkSnapshot === undefined) p.homeworkSnapshot = null;
   return p;
 }
 function persist(){
@@ -432,7 +438,14 @@ function renderHomeworkGradeDetail(chapterId, progressObj){
   if(!hw || !hw.questions || !hw.questions.length) return '<div class="rp-empty">No homework data.</div>';
   const p = (progressObj && progressObj[chapterId]) || {};
   const answers = p.homeworkAnswers || [];
-  return hw.questions.map((q, qi)=>{
+  // Grade against the submission-time snapshot when one exists, so a
+  // later edit to the question bank (e.g. reordering options) can't
+  // desync stored answer indices from their meaning — see homeworkSnapshot
+  // in hwSubmitBtn's handler (renderHomework, app.js).
+  const questions = (Array.isArray(p.homeworkSnapshot) && p.homeworkSnapshot.length === hw.questions.length)
+    ? p.homeworkSnapshot
+    : hw.questions;
+  return questions.map((q, qi)=>{
     const chosen = answers[qi];
     const hasAnswer = chosen !== null && chosen !== undefined;
     const isCorrect = hasAnswer && chosen === q.correct;
@@ -826,9 +839,19 @@ function renderHomework(id){
     ? `🚩 ${flagged.length} question${flagged.length===1?'':'s'} flagged for review.`
     : '';
 
+  // Once grading is showing, render from the frozen submission-time
+  // snapshot (if one was saved) rather than the live question bank — see
+  // homeworkSnapshot in hwSubmitBtn's handler. Older submissions made
+  // before snapshots existed have none, so they still fall back to live
+  // hw.questions and can misgrade if the question bank changed since.
+  const gradingSrc = (showGrading && Array.isArray(prog.homeworkSnapshot) && prog.homeworkSnapshot.length === hw.questions.length)
+    ? prog.homeworkSnapshot
+    : hw.questions;
+
   const qBox = document.getElementById('hwQuestions');
   qBox.innerHTML = '';
-  hw.questions.forEach((q, qi)=>{
+  hw.questions.forEach((liveQ, qi)=>{
+    const q = gradingSrc[qi];
     const card = document.createElement('div');
     card.className = 'hw-q' + (flagged.includes(qi) ? ' is-flagged' : '');
     card.innerHTML = `
@@ -890,6 +913,13 @@ function renderHomework(id){
     prog.homeworkAnswers = answers.slice();
     prog.homeworkScore = Math.round(correct / hw.questions.length * 100);
     prog.homeworkDone = true;
+    // Freeze exactly what was shown at submission time. Without this, a
+    // later content edit to hw.questions (e.g. reordering options so the
+    // correct answer isn't always "A") reshuffles the indices this
+    // submission's answers[] were recorded against, and the review/grade
+    // views below — which read live hw.questions — end up comparing an
+    // old index to a new meaning and mislabeling already-graded answers.
+    prog.homeworkSnapshot = hw.questions.map(q => ({ q: q.q, opts: q.opts.slice(), correct: q.correct, exp: q.exp || '' }));
     persist();
     // Resubmitting invalidates any earlier teacher confirmation — the
     // new answers need a fresh check before results reach the student.
