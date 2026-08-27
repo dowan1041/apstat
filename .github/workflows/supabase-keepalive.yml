@@ -11,10 +11,15 @@ jobs:
   ping:
     runs-on: ubuntu-latest
     steps:
-      - name: Ping Supabase REST endpoint
+      - name: Ping Supabase auth health endpoint
         run: |
+          # /rest/v1/ (no path) is PostgREST's OpenAPI introspection route,
+          # which only accepts the service_role key — the anon key gets a
+          # 401 there every time. /auth/v1/health is a plain GoTrue health
+          # check that anon can call and returns 200, so it actually
+          # verifies (and generates) API activity instead of failing.
           curl -sf -o /dev/null -w "HTTP %{http_code}\n" \
-            "https://botykekbgjkgnucbjufb.supabase.co/rest/v1/" \
+            "https://botykekbgjkgnucbjufb.supabase.co/auth/v1/health" \
             -H "apikey: ${SUPABASE_ANON_KEY}"
         env:
           SUPABASE_ANON_KEY: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJvdHlrZWtiZ2prZ251Y2JqdWZiIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODQwNzQ4MzIsImV4cCI6MjA5OTY1MDgzMn0.5wWWUaEAgqZ3Xb3ss-bsv6_eRWxVtCHJ23QeLG-rMyw
